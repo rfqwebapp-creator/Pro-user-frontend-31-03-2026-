@@ -4,6 +4,21 @@ import SettingsSidebar from "./SettingsSidebar";
 
 const EmailSubscription = () => {
   const [selectedEntries, setSelectedEntries] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+useEffect(() => {
+  fetch("http://localhost:5000/api/subscriptions")
+    .then(res => res.json())
+    .then(data => {
+      const enabledIds = data
+        .filter(item => item.is_enabled)
+        .map(item => {
+          return Object.keys(eventMap).find(
+            key => eventMap[key] === item.event
+          );
+        });
+
+      setSelectedEntries(enabledIds.map(Number));
+    });
+}, []);
 
   const subscriptionItems = [
     { id: 0, label: "New Message Received" },
@@ -32,6 +47,22 @@ const EmailSubscription = () => {
       prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     );
   };
+const handleSave = async () => {
+  const payload = subscriptionItems.map(item => ({
+    event: eventMap[item.id],
+    is_enabled: selectedEntries.includes(item.id)
+  }));
+
+  await fetch("http://localhost:5000/api/subscriptions/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  alert("Saved!");
+};
 
   return (
     <div className="flex min-h-screen bg-[#F5F2EA]">
@@ -134,7 +165,7 @@ const EmailSubscription = () => {
             </div>
             
             <div className="flex justify-end mt-8">
-              <button className="px-8 py-2.5 bg-[#43624A] text-white font-semibold rounded-md shadow-sm hover:opacity-90 transition-opacity focus:ring-2 focus:ring-offset-2 focus:ring-[#43624A]">
+              <button onClick={handleSave} className="px-8 py-2.5 bg-[#43624A] text-white font-semibold rounded-md shadow-sm hover:opacity-90 transition-opacity focus:ring-2 focus:ring-offset-2 focus:ring-[#43624A]">
                 Save
               </button>
             </div>

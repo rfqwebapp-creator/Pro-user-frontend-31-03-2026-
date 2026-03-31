@@ -1,13 +1,23 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Footer from "./pages/Footer";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+//-----------------------------MAIN HOME PAGE -- START----------------------------------------------------------------
+import MainNavbar from "./pages/MAIN/navbar";
+import ProcurementHeader from "./pages/MAIN/cards";
+import OpportunityFilter from "./pages/MAIN/filter";
+import OpportunityTable from "./pages/MAIN/table";
+import MainFooter from "./pages/MAIN/footer";
+//-----------------------------MAIN HOME PAGE-- END----------------------------------------------------------------
+
 //-----------------------------BUYER-- START----------------------------------------------------------------
 import BuyerSidebar from "./pages/Buyer/sidebar";
 import BuyerDashboard from "./pages/Buyer/Dashboard";
 import BuyerHeader from "./pages/Buyer/Navbar";
 import BuyerViewSupplierResponses from "./pages/Buyer/ViewSupplierResponses";
 import BuyerSpendDashboard from "./pages/Buyer/Analytics-page";
-import BuyerBanner from "./pages/Buyer/Buyerbanner";
+// import BuyerBanner from "./pages/Buyer/Buyerbanner";
 import BuyerReportsDashboard from "./pages/Buyer/report-page";
 import BuyerChatInterface from "./pages/Buyer/message-page";
 import BuyerPurchaseRequestForm from "./pages/Buyer/requisition-create";
@@ -74,11 +84,25 @@ import EmailSubscription from "./pages/Seller/EmailSubscription";
 import ReceivedQuestions from "./pages/Seller/ReceivedQuestions";
 import WalletHome from "./pages/Seller/Wallet-Home";
 import WalletTransactions from "./pages/Seller/WalletTransation";
-import SellerBanner from "./pages/Seller/SellerBanner";
+// import SellerBanner from "./pages/Seller/SellerBanner";
 import SellerHome from "./pages/Seller/Home";  
 import SellerChatInterface from "./pages/Seller/seller-message-page";
 //------------------------------------------------SELLER END------------------------------------------------------------
 
+
+/* ================= MAIN HOME PAGE ================= */
+
+function Home() {
+  return (
+    <>
+      <MainNavbar />
+      <ProcurementHeader />
+      <OpportunityFilter />
+      <OpportunityTable />
+      <MainFooter />
+    </>
+  );
+}
 
 /* ================= BUYER LAYOUT ================= */
 
@@ -91,7 +115,7 @@ function BuyerLayout() {
         <BuyerHeader />
 
         <div className="flex-1 overflow-y-auto">
-          <BuyerBanner />
+          {/* <BuyerBanner /> */}
 
          <Routes>
 
@@ -176,7 +200,8 @@ function SellerLayout() {
         
         <main className="mt-16 ml-20 flex-1 p-4">
           
-           <SellerBanner />
+           {/* <SellerBanner /> */}
+           
           <Routes>
 {/* Redirect /seller to /seller/home */}
             <Route path="/" element={<Navigate to="home" replace />} />
@@ -224,15 +249,34 @@ function SellerLayout() {
 /* ================= MAIN APP ================= */
 
 function App() {
+  const isLoggedIn = localStorage.getItem("token");
+
   return (
     <Router>
       <Routes>
+  <Route path="/login" element={<Login />} />   // ✅ ADD THIS
+  <Route path="/register" element={<Register />} />
+        {!isLoggedIn && (
+          <>
+            <Route path="/" element={<Home />} />
+          </>
+        )}
 
-        <Route path="/buyer/*" element={<BuyerLayout />} />
+        {isLoggedIn && (
+          <>
+            <Route path="/buyer/*" element={<BuyerLayout />} />
+            <Route path="/seller/*" element={<SellerLayout />} />
+          </>
+        )}
 
-        <Route path="/seller/*" element={<SellerLayout />} />
-
-        <Route path="*" element={<Navigate to="/buyer/dashboard" />} />
+        <Route
+          path="*"
+          element={
+            isLoggedIn
+              ? <Navigate to="/buyer/dashboard" />
+              : <Navigate to="/" />
+          }
+        />
 
       </Routes>
     </Router>

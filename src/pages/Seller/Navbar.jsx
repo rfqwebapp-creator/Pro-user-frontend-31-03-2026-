@@ -32,7 +32,7 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
         <div className="flex items-center gap-2 md:gap-4">
           <div className="flex items-center gap-0.5">
             <img src={logo} alt="Procubid Logo" className="h-7 w-auto sm:h-9 md:h-10" />
-            <span className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-[0.05em] hidden xs:block">
+            <span className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-[0.05em]   xs:block">
               <span className="text-[#43624A]">PROCU</span>
               <span className="text-[#7A9C83]">BID</span>
             </span>
