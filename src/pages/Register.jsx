@@ -54,7 +54,7 @@ function Register() {
     }
 
     try {
-      const res = await fetch("http://13.235.51.239/api/auth/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
