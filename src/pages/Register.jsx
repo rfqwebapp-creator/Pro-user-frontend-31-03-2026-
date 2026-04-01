@@ -4,6 +4,7 @@ function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+
   const [form, setForm] = useState({
     country: "",
     email: "",
@@ -54,13 +55,13 @@ function Register() {
     }
 
     try {
-      const res = await fetch("http://13.201.63.42:5001/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form), // ✅ ADD THIS LINE
-      });
+      const res = await fetch("/api/auth/register", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(form)
+})
 
       const data = await res.text();
 
