@@ -23,7 +23,7 @@ const handleLogin = async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data);
+      alert(data.message || JSON.stringify(data));
     } else {
       // ✅ store login
       localStorage.setItem("token", "true");
@@ -35,7 +35,7 @@ const handleLogin = async (e) => {
     }
   } catch (error) {
     console.error(error);
-    alert("Server error ❌");
+     alert(error.message || "Server error ❌");
   }
 };
 
