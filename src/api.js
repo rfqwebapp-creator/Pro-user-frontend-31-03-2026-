@@ -5,11 +5,20 @@
 // });
 
 // export default API;
+// import axios from "axios";
+
+// const API = axios.create({
+//   // baseURL: "http://13.201.63.42:5001/api"
+//  baseURL: "http://13.232.250.5:5001/api"
+// });
+
+// export default API;
+
+
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: "http://13.201.63.42:5001/api"
- baseURL: "http://13.232.250.5:5001/api"
+  baseURL: "https://explicitly-societies-handle-competent.trycloudflare.com/api"
 });
 
 export default API;
