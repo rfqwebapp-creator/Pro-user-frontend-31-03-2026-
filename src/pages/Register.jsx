@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../api";
 
 function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
 
   const [form, setForm] = useState({
@@ -55,27 +59,32 @@ function Register() {
     }
 
     try {
-      // const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
-  // const res = await fetch("http://13.201.63.42:5001/api/auth/register", {
-  const res = await API.post("/auth/register", form, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(form)
-})
+      setLoading(true);
+      const res = await API.post("/auth/register", form);
 
-      const data = await res.text();
-
-      if (!res.ok) {
-        setError(data);
-      } else {
-        setSuccess("Registered Successfully ✅");
+      if (res.status === 200 || res.status === 201) {
+        setSuccess("Registered Successfully ✅ Redirecting to login...");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       }
     } catch (error) {
-      console.error(error);
-      setError("Server error ❌");
+      setLoading(false);
+      console.error("Registration Error:", error);
+
+      if (error.code === 'ERR_NETWORK') {
+        setError("Cannot connect to backend. Please check backend URL.");
+      } else if (error.response?.status === 400) {
+        setError(error.response?.data?.message || "Email already registered or validation failed");
+      } else if (error.response?.status === 404) {
+        setError("Backend API not found. Contact support.");
+      } else if (error.response?.data) {
+        setError(error.response.data.message || error.response.data);
+      } else {
+        setError("Registration failed ❌. " + (error.message || "Unknown error"));
+      }
     }
+    setLoading(false);
   };
 
   // Custom Earthy Styles
@@ -202,8 +211,8 @@ function Register() {
               </span>
             </div>
 
-            <button type="submit" className={styles.button}>
-              Complete Registration
+            <button type="submit" disabled={loading} className={styles.button + (loading ? ' opacity-50 cursor-not-allowed' : '')}>
+              {loading ? 'Registering...' : 'Complete Registration'}
             </button>
           </div>
         </form>

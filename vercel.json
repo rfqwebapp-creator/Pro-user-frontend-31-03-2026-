@@ -4,7 +4,10 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://13.201.63.42:5001/api/:path*"
+      "destination": "http://13.232.250.5:5001/api/:path*"
     }
-  ]
+  ],
+  "env": {
+    "VITE_API_BASE_URL": "http://13.232.250.5:5001/api"
+  }
 }
