@@ -17,11 +17,11 @@
 
 import axios from "axios";
 
-// Get API URL from environment variable or use AWS backend
+// Use relative path for Vercel proxy, or direct URL for local development
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
   (typeof window !== 'undefined' && window.location.hostname === 'localhost'
     ? 'http://localhost:5001/api'
-    : 'http://13.232.250.5:5001/api');
+    : '/api');  // Use Vercel proxy - routes to backend via vercel.json rewrites
 
 const API = axios.create({
   baseURL: API_BASE_URL,
