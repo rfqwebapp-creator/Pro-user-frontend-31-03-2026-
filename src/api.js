@@ -17,15 +17,28 @@
 
 import axios from "axios";
 
-// Use relative path for Vercel proxy, or direct URL for local development
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (typeof window !== 'undefined' && window.location.hostname === 'localhost'
-    ? 'http://localhost:5001/api'
-    : '/api');  // Use Vercel proxy - routes to backend via vercel.json rewrites
+// Determine API URL based on environment
+let API_BASE_URL;
+
+if (typeof window !== 'undefined') {
+  const hostname = window.location.hostname;
+  
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    // Local development
+    API_BASE_URL = 'http://localhost:5001/api';
+  } else {
+    // Production - Use Cloudflare Tunnel for HTTPS support
+    API_BASE_URL = 'https://explicitly-societies-handle-competent.trycloudflare.com/api';
+  }
+} else {
+  API_BASE_URL = 'https://explicitly-societies-handle-competent.trycloudflare.com/api';
+}
+
+console.log('🔗 API Base URL:', API_BASE_URL);
 
 const API = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json'
   }
