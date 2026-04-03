@@ -1,6 +1,4 @@
- 
-
-import axios from "axios";
+ import axios from "axios";
 
 // Determine API URL based on environment
 let API_BASE_URL;
@@ -13,10 +11,10 @@ if (typeof window !== 'undefined') {
     API_BASE_URL = 'http://localhost:5001/api';
   } else {
     // Production - Use procubid.com domain
-    API_BASE_URL = 'https://www.procubid.com/api';
+    API_BASE_URL = 'https://www.procubid.com/user/api';
   }
 } else {
-  API_BASE_URL = 'https://www.procubid.com/api';
+  API_BASE_URL = 'https://www.procubid.com/user/api';
 }
 
 console.log('🔗 API Base URL:', API_BASE_URL);
