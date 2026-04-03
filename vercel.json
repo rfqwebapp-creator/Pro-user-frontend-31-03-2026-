@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://13.232.250.5:5001/api/:path*"
+      "destination": "https://www.procubid.com/api/:path*"
     }
   ]
 }
