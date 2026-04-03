@@ -11,10 +11,10 @@ if (typeof window !== 'undefined') {
     API_BASE_URL = 'http://localhost:5001/api';
   } else {
     // Production - Use procubid.com domain
-    API_BASE_URL = 'https://www.procubid.com/user/api';
+    API_BASE_URL = 'https://www.procubid.com/api';
   }
 } else {
-  API_BASE_URL = 'https://www.procubid.com/user/api';
+  API_BASE_URL = 'https://www.procubid.com/api';
 }
 
 console.log('🔗 API Base URL:', API_BASE_URL);
