@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api"; // adjust path if needed
+import API from "../api";  
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
