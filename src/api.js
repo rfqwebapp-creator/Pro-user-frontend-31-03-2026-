@@ -1,6 +1,5 @@
- import axios from "axios";
+import axios from "axios";
 
-// Determine API URL based on environment
 let API_BASE_URL;
 
 if (typeof window !== 'undefined') {
@@ -10,11 +9,11 @@ if (typeof window !== 'undefined') {
     // Local development
     API_BASE_URL = 'http://localhost:5001/api';
   } else {
-    // Production - Use procubid.com domain
-    API_BASE_URL = 'https://www.procubid.com/user/api';
+    // ✅ Production (UPDATED)
+    API_BASE_URL = 'https://api.procubid.com/api';
   }
 } else {
-  API_BASE_URL = 'https://www.procubid.com/user/api';
+  API_BASE_URL = 'https://api.procubid.com/api';
 }
 
 console.log('🔗 API Base URL:', API_BASE_URL);
@@ -27,7 +26,7 @@ const API = axios.create({
   }
 });
 
-// Add token to requests if it exists
+// Token attach
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -36,7 +35,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle response errors
+// Error handling
 API.interceptors.response.use(
   (response) => response,
   (error) => {
