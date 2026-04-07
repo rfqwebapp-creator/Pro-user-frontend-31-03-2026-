@@ -24,6 +24,12 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
     }
   };
 
+  const signOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
   return (
     <>
       <nav className="h-16 bg-[#F5F2EA] border-b border-gray-200 flex items-center justify-between px-4 md:px-6 fixed top-0 right-0 left-0 lg:left-20 z-50">
@@ -248,7 +254,7 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
 
                 {/* Sign Out */}
                 <div className="pt-4 border-t">
-                  <MobileNavLink icon={<LogOut size={20}/>} label="Sign Out" className="text-red-500" />
+                  <MobileNavLink icon={<LogOut size={20}/>} label="Sign Out" onClick={signOut} className="text-red-500" />
                 </div>
               </div>
             </div>

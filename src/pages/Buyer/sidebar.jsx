@@ -31,7 +31,7 @@ export default function Sidebar() {
   const menuItems = [
     { icon: Home, label: 'Home' },
     // { icon: LayoutGrid, label: 'Purchase Request' },
-    { icon: FileText, label: 'RFQ/RFP', active: true },
+    { icon: FileText, label: 'RFQ/RFP',  },
     { icon: Users, label: 'Status' },
     { icon: Gavel, label: 'Reverse Auction' },
     { icon: CheckSquare, label: 'Internal Approval' },

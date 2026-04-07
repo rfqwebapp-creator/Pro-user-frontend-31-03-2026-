@@ -47,6 +47,12 @@ const isHome = location.pathname === "/buyer/home";
     }
   };
 
+  const signOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
   // Handle navigation
   const handleNavigation = (path) => {
     navigate(path);
@@ -213,6 +219,40 @@ const isHome = location.pathname === "/buyer/home";
         YATEEM AIRCONDITIONING C...
       </div>
 
+      {/* Mode Switch Buttons for Mobile */}
+      <div className="flex gap-2 mb-4">
+        <button
+          onClick={() => {
+            navigate("/buyer/dashboard");
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex-1 px-3 py-2 rounded-md text-xs font-semibold transition-all
+            ${isBuyer ? "bg-[#43624A] text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+        >
+          Buyer
+        </button>
+        <button
+          onClick={() => {
+            navigate("/buyer/home");
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex-1 px-3 py-2 rounded-md text-xs font-semibold transition-all
+            ${isHome ? "bg-[#43624A] text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+        >
+          Home
+        </button>
+        <button
+          onClick={() => {
+            navigate("/seller/dashboard");
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex-1 px-3 py-2 rounded-md text-xs font-semibold transition-all
+            ${isSeller ? "bg-[#43624A] text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+        >
+          Seller
+        </button>
+      </div>
+
       {/* Navigation items scrollable area */}
       <div className="flex-1 overflow-y-auto space-y-2">
         
@@ -276,7 +316,7 @@ const isHome = location.pathname === "/buyer/home";
             My Account
           </button>
           
-          <button className="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+          <button onClick={signOut} className="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
             <LogOut size={18} className="mr-3 text-gray-400" />
             Sign Out
           </button>
@@ -349,7 +389,14 @@ const isHome = location.pathname === "/buyer/home";
       {/* 3. Desktop Navigation Icons Section */}
       {renderDesktopNav()}
 
-     
+      {/* Hamburger Menu Button for Mobile */}
+      <button
+        className="lg:hidden ml-4 p-2 rounded-md hover:bg-gray-100 transition-colors"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
       {/* 4. Profile Section with HOVER menu */}
 <div className="hidden lg:flex group relative items-center border-l border-gray-300 pl-6 ml-4 h-full cursor-pointer">        <div className="mr-3 text-right">
           <div className="text-sm font-bold leading-tight text-gray-900 uppercase">ROSITA EVORA</div>
@@ -371,7 +418,7 @@ const isHome = location.pathname === "/buyer/home";
           
           <div className="border-t border-gray-100"></div>
 
-          <button className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
+          <button onClick={signOut} className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
             <LogOut size={18} className="mr-3 text-red-400" />
             Sign Out
           </button>
