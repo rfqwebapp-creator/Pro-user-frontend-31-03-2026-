@@ -114,6 +114,15 @@ export default function MainNavbar() {
               )}
             </div>
           ))}
+          <button 
+            onClick={() => {
+              navigate("/login");
+              setIsOpen(false);
+            }} 
+            className="w-full bg-[#43624A] text-white px-5 py-2 rounded-full hover:bg-black transition-all mt-4 font-medium"
+          >
+            Sign in
+          </button>
         </div>
       </div>
     </nav>

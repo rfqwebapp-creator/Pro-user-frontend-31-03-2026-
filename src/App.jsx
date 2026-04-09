@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Footer from "./pages/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -93,6 +93,17 @@ import SellerChatInterface from "./pages/Seller/seller-message-page";
 /* ================= MAIN HOME PAGE ================= */
 
 function Home() {
+  const isLoggedIn = !!localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/buyer/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
+
+  if (isLoggedIn) return null;
+
   return (
     <>
       <MainNavbar />
@@ -107,6 +118,17 @@ function Home() {
 /* ================= BUYER LAYOUT ================= */
 
 function BuyerLayout() {
+  const isLoggedIn = !!localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
+
+  if (!isLoggedIn) return null;
+
   return (
     <div className="flex h-screen overflow-hidden bg-[#f8f9fa] font-sans text-gray-900">
       <BuyerSidebar />
@@ -187,9 +209,18 @@ function BuyerLayout() {
 
 /* ================= SELLER LAYOUT ================= */
 
-/* ================= SELLER LAYOUT ================= */
-
 function SellerLayout() {
+  const isLoggedIn = !!localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
+
+  if (!isLoggedIn) return null;
+
   return (
     <div className="min-h-screen bg-[#F5F2EA] font-sans antialiased flex">
       <Sidebar />
@@ -249,35 +280,18 @@ function SellerLayout() {
 /* ================= MAIN APP ================= */
 
 function App() {
-  const isLoggedIn = localStorage.getItem("token");
-
   return (
     <Router>
       <Routes>
-  <Route path="/login" element={<Login />} />   // ✅ ADD THIS
-  <Route path="/register" element={<Register />} />
-        {!isLoggedIn && (
-          <>
-            <Route path="/" element={<Home />} />
-          </>
-        )}
-
-        {isLoggedIn && (
-          <>
-            <Route path="/buyer/*" element={<BuyerLayout />} />
-            <Route path="/seller/*" element={<SellerLayout />} />
-          </>
-        )}
-
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/buyer/*" element={<BuyerLayout />} />
+        <Route path="/seller/*" element={<SellerLayout />} />
         <Route
           path="*"
-          element={
-            isLoggedIn
-              ? <Navigate to="/buyer/dashboard" />
-              : <Navigate to="/" />
-          }
+          element={<Navigate to="/" />}
         />
-
       </Routes>
     </Router>
   );
