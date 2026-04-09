@@ -161,6 +161,24 @@ const isHome = location.pathname === "/seller/home" || location.pathname === "/b
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#43624A] text-white">
               <User size={20} />
             </div>
+
+            {/* Hover Menu Box */}
+            <div className="absolute top-full right-0 w-48 bg-white shadow-xl rounded-b-xl border border-gray-100 py-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 z-[60]">
+              <button
+                onClick={() => navigate("/profile-basic")}
+                className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <User size={18} className="mr-3 text-gray-400" />
+                My Account
+              </button>
+              
+              <div className="border-t border-gray-100"></div>
+
+              <button onClick={signOut} className="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                <LogOut size={18} className="mr-3 text-red-400" />
+                Sign Out
+              </button>
+            </div>
           </div>
 
           {/* MOBILE TOGGLE - FAR RIGHT */}
