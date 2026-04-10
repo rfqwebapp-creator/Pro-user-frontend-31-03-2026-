@@ -123,7 +123,7 @@ const res = await API.post("/auth/register", payload);
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-8">
+        <form onSubmit={handleSubmit} noValidate className="p-8">
           {/* Status Messages */}
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
