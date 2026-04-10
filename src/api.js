@@ -10,8 +10,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (() => {
     return 'http://localhost:5001/api';
   }
 
-  // Production fallback - use the correct backend domain
-  return 'https://api.procubid.com/api';
+  // Production fallback - use the deployed backend root
+  return 'https://api.procubid.com';
 })();
 
 console.log('🔗 API Base URL:', API_BASE_URL);

@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.procubid.com/api/:path*"
+      "destination": "https://api.procubid.com/:path*"
     }
   ]
 }
