@@ -11,7 +11,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (() => {
   }
 
   // Production fallback - use the deployed backend root
-  return 'https://api.procubid.com';
+ return 'https://api.procubid.com/api';
 })();
 
 console.log('🔗 API Base URL:', API_BASE_URL);

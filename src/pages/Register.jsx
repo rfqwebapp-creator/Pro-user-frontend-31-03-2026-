@@ -190,16 +190,29 @@ function Register() {
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <label className={styles.label}>Work Number</label>
-                  <input type="text" name="workNumber" placeholder="Ext..." onChange={handleChange} className={styles.input} />
-                </div>
-                <div className={styles.w - 1 / 2}>
-                   <label className={styles.label}>Referral Code</label>
-                   <input type="text" name="referralCode" placeholder="Optional" onChange={handleChange} className={styles.input} />
-                </div>
-              </div>
+          <div className="flex gap-4">
+  <div className="w-1/2">
+    <label className={styles.label}>Work Number</label>
+    <input
+      type="text"
+      name="workNumber"
+      placeholder="Ext..."
+      onChange={handleChange}
+      className={styles.input}
+    />
+  </div>
+
+  <div className="w-1/2">
+    <label className={styles.label}>Referral Code</label>
+    <input
+      type="text"
+      name="referralCode"
+      placeholder="Optional"
+      onChange={handleChange}
+      className={styles.input}
+    />
+  </div>
+</div>
             </div>
           </div>
 
