@@ -60,15 +60,21 @@ function Register() {
 
     try {
       setLoading(true);
-      const res = await API.post(
-  "/auth/register",
-  JSON.stringify(form),
-  {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }
-);
+     const payload = {
+  country: form.country,
+  email: form.email,
+  password: form.password,
+  firstName: form.firstName,
+  lastName: form.lastName,
+  phone: form.phone,
+  industry: form.industry,
+  workNumber: form.workNumber,
+  gst: form.gst,
+  companyName: form.companyName,
+  referralCode: form.referralCode,
+};
+
+const res = await API.post("/auth/register", payload);
 
       if (res.status === 200 || res.status === 201) {
         setSuccess("Registered Successfully ✅ Redirecting to login...");
