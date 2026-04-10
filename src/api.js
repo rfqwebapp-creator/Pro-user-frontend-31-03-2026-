@@ -1,20 +1,17 @@
 import axios from "axios";
 
-let API_BASE_URL;
-
-if (typeof window !== 'undefined') {
-  const hostname = window.location.hostname;
-  
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    // Local development
-    API_BASE_URL = 'http://localhost:5001/api';
-  } else {
-    // ✅ Production (UPDATED)
-    API_BASE_URL = 'https://api.procubid.com/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (() => {
+  if (typeof window === 'undefined') {
+    return 'https://api.procubid.com/api';
   }
-} else {
-  API_BASE_URL = 'https://api.procubid.com/api';
-}
+
+  const hostname = window.location.hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:5001/api';
+  }
+
+  return `${window.location.protocol}//${hostname}/api`;
+})();
 
 console.log('🔗 API Base URL:', API_BASE_URL);
 
