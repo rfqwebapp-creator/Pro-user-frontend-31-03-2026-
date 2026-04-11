@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CreditCard, Landmark } from "lucide-react";
 import MainNavbar from "./navbar";
+import MainFooter from "./pages/MAIN/footer";
 
 const WalletHome = () => {
   const [paymentMethod, setPaymentMethod] = useState("debit");
@@ -175,6 +176,9 @@ const WalletHome = () => {
           </div>
         </div>
       </div>
+      {/* ✅ ADD FOOTER HERE */}
+<MainFooter />
+
     </>
   );
 };

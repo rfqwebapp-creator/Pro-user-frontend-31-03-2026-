@@ -130,7 +130,7 @@ const AboutUs = () => {
       </main>
 
       {/* Footer */}
-    <Footer />
+    <MainFooter />
     </div>
   );
 };
