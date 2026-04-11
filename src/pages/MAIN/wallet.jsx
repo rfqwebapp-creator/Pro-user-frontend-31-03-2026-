@@ -77,7 +77,7 @@ const WalletHome = () => {
                     Wallet Overview
                   </h2>
                   <p className="text-gray-500 text-sm md:text-base">
-                    Manage your credits and purchase new RFX packs easily.
+                  Be an early adopter of Procubid. We are waiving all platform fees for our first 1000 enterprise clients. Get full access to AI-powered bidding, vendor verification, and smart contracts at Rs. 0 /month for your first 3 Month
                   </p>
                 </div>
 
