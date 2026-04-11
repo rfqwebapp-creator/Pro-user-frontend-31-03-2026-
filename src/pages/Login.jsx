@@ -27,16 +27,21 @@ function Login() {
       setLoading(false);
       navigate("/buyer/dashboard");
     } catch (error) {
-      setLoading(false);
-      console.error("Login Error:", error);
-      if (error.code === 'ERR_NETWORK') {
-        setError("Cannot connect to backend. Please check backend URL.");
-      } else if (error.response?.status === 401) {
-        setError("Invalid email or password ❌");
-      } else {
-        setError(error.response?.data?.message || "Login failed ❌");
-      }
+  setLoading(false);
+  console.error("Login Error:", error);
+
+  if (error.response) {
+    if (error.response.status === 401) {
+      setError("Invalid email or password ❌");
+    } else {
+      setError(error.response.data?.message || "Login failed ❌");
     }
+  } else if (error.request) {
+    setError("Server not responding properly ❌");
+  } else {
+    setError(error.message || "Something went wrong ❌");
+  }
+}
   };
 
   return (
