@@ -10,6 +10,7 @@ import OpportunityFilter from "./pages/MAIN/filter";
 import OpportunityTable from "./pages/MAIN/table";
 import MainFooter from "./pages/MAIN/footer";
 import Pricing from "./pages/MAIN/wallet";
+import AboutUs from "./pages/MAIN/AboutUs";
 //-----------------------------MAIN HOME PAGE-- END----------------------------------------------------------------
 
 //-----------------------------BUYER-- START----------------------------------------------------------------
@@ -288,6 +289,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/buyer/*" element={<BuyerLayout />} />
         <Route path="/seller/*" element={<SellerLayout />} />
         <Route path="*" element={<Navigate to="/" />} />
