@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { CreditCard, Landmark } from "lucide-react";
 import MainNavbar from "./navbar";
 import MainFooter from "./footer";
-
+import { useNavigate } from "react-router-dom";
 const WalletHome = () => {
   const [paymentMethod, setPaymentMethod] = useState("debit");
-
+const navigate = useNavigate();
 const packs = [
   {
     name: "Starter",
@@ -162,11 +162,12 @@ const packs = [
                   {/* Footer Button */}
                   <div className="p-4 bg-[#F5F2EA] flex justify-center">
                     <button
-                      type="button"
-                      className="w-full sm:w-2/3 py-3 bg-[#43624A] hover:bg-[#2A2A2A] text-white font-bold rounded-lg shadow-md transition-colors uppercase text-sm tracking-wider"
-                    >
-                      Select
-                    </button>
+  type="button"
+  onClick={() => navigate("/login")}
+  className="w-full sm:w-2/3 py-3 bg-[#43624A] hover:bg-[#2A2A2A] text-white font-bold rounded-lg shadow-md transition-colors uppercase text-sm tracking-wider"
+>
+  Select
+</button>
                   </div>
                 </div>
               ))}
