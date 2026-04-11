@@ -57,7 +57,10 @@ const Footer = () => {
                 
                 <a href="tel:+97317000000" className="hover:text-white transition-colors">Privacy Policy</a>
               </li>
-              
+              <li className="flex items-center gap-3">
+                
+                <a href="tel:+97317000000" className="hover:text-white transition-colors">Cookie Policy</a>
+              </li>
             </ul>
           </div>
         </div>

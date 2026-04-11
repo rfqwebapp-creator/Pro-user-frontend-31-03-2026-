@@ -12,7 +12,7 @@ export default function MainNavbar() {
   };
 
   const navLinks = [
-    { name: 'Explore Features', type: 'dropdown', items: ['About Us', 'Our Team', 'Culture'] },
+    { name: 'Explore Features', type: 'dropdown', items: ['About Us'] },
     { name: 'About Us', type: 'dropdown', items: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'] },
     { name: 'Pricing', type: 'link', href: '/pricing'},
     { name: 'Set Country', type: 'link', href: '#' },
