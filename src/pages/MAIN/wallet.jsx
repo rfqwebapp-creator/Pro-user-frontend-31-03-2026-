@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CreditCard, Landmark } from "lucide-react";
 import MainNavbar from "./navbar";
-import MainFooter from "./pages/MAIN/footer";
+import MainFooter from "./footer";
 
 const WalletHome = () => {
   const [paymentMethod, setPaymentMethod] = useState("debit");

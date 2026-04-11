@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Zap, BarChart3, Users, Eye, Link } from 'lucide-react';
 import MainNavbar from "./navbar";
-import MainFooter from "./pages/MAIN/footer";
+import MainFooter from "./footer";
 
 const AboutUs = () => {
   // Hex Map for reference:
