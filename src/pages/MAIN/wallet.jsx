@@ -85,7 +85,7 @@ const packs = [
                 </div>
 
                 {/* Payment Buttons */}
-                <div className="flex flex-wrap items-center justify-center gap-4">
+                {/* <div className="flex flex-wrap items-center justify-center gap-4">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("debit")}
@@ -111,7 +111,7 @@ const packs = [
                     <Landmark size={18} />
                     Bank
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
 
