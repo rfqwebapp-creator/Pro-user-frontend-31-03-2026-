@@ -6,60 +6,40 @@ import MainFooter from "./footer";
 const WalletHome = () => {
   const [paymentMethod, setPaymentMethod] = useState("debit");
 
-  const packs = [
-    {
-      name: "Starter Pack",
-      credits: 10,
-      usd: 10,
-      bhd: "3.700",
-      total: "4.070",
-      ribbon: "bg-gray-400",
-    },
-    {
-      name: "Starter Plus",
-      credits: 30,
-      usd: 24,
-      bhd: "9.000",
-      total: "9.900",
-      ribbon: "bg-gray-500",
-    },
-    {
-      name: "Most Popular",
-      credits: 110,
-      usd: 50,
-      bhd: "18.800",
-      total: "20.680",
-      bonus: "GET 1 FREE",
-      ribbon: "bg-[#43624A]",
-    },
-    {
-      name: "Best Value",
-      credits: 270,
-      usd: 119,
-      bhd: "45.000",
-      total: "49.500",
-      bonus: "GET 2 FREE",
-      ribbon: "bg-[#7A9C83]",
-    },
-    {
-      name: "Power Pack",
-      credits: 530,
-      usd: 225,
-      bhd: "84.900",
-      total: "93.390",
-      bonus: "GET 3 FREE",
-      ribbon: "bg-[#43624A]",
-    },
-    {
-      name: "Enterprise",
-      credits: 640,
-      usd: 265,
-      bhd: "100.000",
-      total: "110.000",
-      bonus: "GET 4 FREE",
-      ribbon: "bg-[#2A2A2A]",
-    },
-  ];
+ const packs = [
+  {
+    name: "Starter",
+    price: 450,
+    original: 900,
+    rfq: "10 RFQ",
+    validity: "90 Days",
+    ribbon: "bg-gray-400",
+  },
+  {
+    name: "Popular",
+    price: 900,
+    original: 1800,
+    rfq: "25 RFQ",
+    validity: "90 Days",
+    ribbon: "bg-[#43624A]",
+  },
+  {
+    name: "Unlimited",
+    price: 1300,
+    original: 2700,
+    rfq: "Unlimited RFQ",
+    validity: "90 Days",
+    ribbon: "bg-[#7A9C83]",
+  },
+  {
+    name: "Unlimited Plus",
+    price: 4500,
+    original: 9000,
+    rfq: "Unlimited RFQ",
+    validity: "1 Year",
+    ribbon: "bg-[#2A2A2A]",
+  },
+];
 
   return (
     <>
@@ -135,31 +115,31 @@ const WalletHome = () => {
                   </div>
 
                   {/* Card Body */}
-                  <div className="p-6 pt-14 flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <div className="text-center sm:text-left">
-                      <div className="text-5xl font-bold text-[#43624A] mb-1">
-                        {pack.credits}
-                      </div>
-                      <div className="text-sm font-bold text-[#7A9C83] tracking-widest">
-                        CREDITS
-                      </div>
-                    </div>
+                <div className="p-6 pt-14 flex flex-col sm:flex-row items-center justify-between gap-6">
+  <div className="text-center sm:text-left">
+    <div className="text-5xl font-bold text-[#43624A] mb-1">
+      {pack.credits}
+    </div>
+    <div className="text-sm font-bold text-[#7A9C83] tracking-widest">
+      CREDITS
+    </div>
+  </div>
 
-                    <div className="text-center sm:text-right text-sm text-gray-500 space-y-1">
-                      <p>
-                        Buy {pack.credits} RFX for {pack.usd} USD
-                      </p>
-                      <p>/ {pack.bhd} BHD + VAT =</p>
-                      <p className="font-bold text-[#2A2A2A]">
-                        ({pack.total} BHD)
-                      </p>
-                      {pack.bonus && (
-                        <p className="text-[#43624A] font-bold mt-2">
-                          &amp; {pack.bonus}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+  <div className="text-center sm:text-right text-sm text-gray-500 space-y-1">
+    <p>
+      Buy {pack.credits} RFX for {pack.usd} USD
+    </p>
+    <p>/ {pack.bhd} BHD + VAT =</p>
+    <p className="font-bold text-[#2A2A2A]">
+      ({pack.total} BHD)
+    </p>
+    {pack.bonus && (
+      <p className="text-[#43624A] font-bold mt-2">
+        &amp; {pack.bonus}
+      </p>
+    )}
+  </div>
+</div>
 
                   {/* Footer Button */}
                   <div className="p-4 bg-[#F5F2EA] flex justify-center">
