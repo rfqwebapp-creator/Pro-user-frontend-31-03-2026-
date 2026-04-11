@@ -105,7 +105,15 @@ function Login() {
             />
           </div>
         </div>
-
+<div className="flex justify-end mt-2">
+  <span
+    onClick={() => navigate("/forgot-password")}
+    className="text-sm cursor-pointer hover:underline"
+    style={{ color: "#7A9C83" }}
+  >
+    Forgot Password?
+  </span>
+</div>
         <button
           type="submit"
           disabled={loading}
