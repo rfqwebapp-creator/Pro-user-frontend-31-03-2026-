@@ -51,7 +51,7 @@ function Login() {
             className="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold"
             style={{ backgroundColor: "#43624A" }}
           >
-            G
+            P
           </div>
         </div>
 
