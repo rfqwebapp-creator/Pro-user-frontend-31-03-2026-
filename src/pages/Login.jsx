@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api";  
+import API from "../api";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,95 +9,122 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  
-  if (!email || !password) {
-    setError("Please enter both email and password");
-    return;
-  }
-
-  setLoading(true);
-  setError("");
-
-  try {
-    const res = await API.post("/auth/login", { email, password });
-    const data = res.data;
-
-    localStorage.setItem("token", data.token || "true");
-    localStorage.setItem("user", JSON.stringify(data.user || data));
-
-    setLoading(false);
-    navigate("/buyer/dashboard");
-
-  } catch (error) {
-    setLoading(false);
-    console.error("Login Error:", error);
-    
-    if (error.code === 'ERR_NETWORK') {
-      setError("Cannot connect to backend. Please check backend URL.");
-    } else if (error.response?.status === 401) {
-      setError("Invalid email or password ❌");
-    } else if (error.response?.status === 404) {
-      setError("Backend API not found. Contact support.");
-    } else if (error.response?.data?.message) {
-      setError(error.response.data.message);
-    } else {
-      setError("Login failed ❌. " + (error.message || "Unknown error"));
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Please enter both email and password");
+      return;
     }
-  }
-};
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await API.post("/auth/login", { email, password });
+      const data = res.data;
+      localStorage.setItem("token", data.token || "true");
+      localStorage.setItem("user", JSON.stringify(data.user || data));
+      setLoading(false);
+      navigate("/buyer/dashboard");
+    } catch (error) {
+      setLoading(false);
+      console.error("Login Error:", error);
+      if (error.code === 'ERR_NETWORK') {
+        setError("Cannot connect to backend. Please check backend URL.");
+      } else if (error.response?.status === 401) {
+        setError("Invalid email or password ❌");
+      } else {
+        setError(error.response?.data?.message || "Login failed ❌");
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#F5F2EA" }}>
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded-lg shadow-md w-96"
+        className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-opacity-10"
+        style={{ borderColor: "#43624A" }}
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <div className="flex justify-center mb-6">
+          <div 
+            className="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold"
+            style={{ backgroundColor: "#43624A" }}
+          >
+            G
+          </div>
+        </div>
+
+        <h2 className="text-3xl font-extrabold mb-2 text-center" style={{ color: "#2A2A2A" }}>
+          Welcome Back
+        </h2>
+        <p className="text-center mb-8 text-sm opacity-70" style={{ color: "#2A2A2A" }}>
+          Please enter your details to sign in
+        </p>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r shadow-sm">
             {error}
           </div>
         )}
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-4 p-2 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <div className="space-y-5">
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider mb-1 ml-1" style={{ color: "#43624A" }}>
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="name@company.com"
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 transition-all"
+              style={{ 
+                borderColor: "#7A9C83", 
+                "--tw-ring-color": "#43624A" 
+              }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-4 p-2 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider mb-1 ml-1" style={{ color: "#43624A" }}>
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 transition-all"
+              style={{ 
+                borderColor: "#7A9C83", 
+                "--tw-ring-color": "#43624A" 
+              }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+        </div>
 
-      <button
-  type="submit"
-  disabled={loading}
-  className={`w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
->
-  {loading ? 'Logging in...' : 'Login'}
-</button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full mt-8 text-white py-3 rounded-xl font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ backgroundColor: "#43624A" }}
+        >
+          {loading ? 'Authenticating...' : 'Sign In'}
+        </button>
 
-{/* ✅ REGISTER LINK */}
-<p className="text-center mt-4 text-sm">
-  Don’t have an account?{" "}
-  <span
-    onClick={() => navigate("/register")}
-    className="text-blue-600 cursor-pointer font-semibold hover:underline"
-  >
-    Register
-  </span>
-</p>
+        <p className="text-center mt-8 text-sm" style={{ color: "#2A2A2A" }}>
+          Don’t have an account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="cursor-pointer font-bold transition-colors hover:opacity-70"
+            style={{ color: "#7A9C83" }}
+          >
+            Create account
+          </span>
+        </p>
       </form>
     </div>
   );
