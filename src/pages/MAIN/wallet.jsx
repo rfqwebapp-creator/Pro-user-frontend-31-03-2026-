@@ -80,7 +80,7 @@ const packs = [
                 <div className="bg-[#F5F2EA] border border-[#7A9C83]/20 rounded-xl px-6 py-4 min-w-[220px]">
                   <p className="text-sm text-gray-500">Available Balance</p>
                   <h3 className="text-3xl font-bold text-[#43624A] mt-1">
-                    0 Credits
+                    0 RFX
                   </h3>
                 </div>
 
