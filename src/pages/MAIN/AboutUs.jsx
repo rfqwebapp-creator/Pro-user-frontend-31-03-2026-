@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Zap, BarChart3, Users, Eye, Link } from 'lucide-react';
 import MainNavbar from "./navbar";
+import MainFooter from "./pages/MAIN/footer";
 
 const AboutUs = () => {
   // Hex Map for reference:
@@ -129,16 +130,7 @@ const AboutUs = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#2A2A2A] text-white/60 py-10 px-8 border-t border-white/10">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex space-x-8 text-xs font-bold uppercase tracking-widest">
-            <a href="#" className="hover:text-[#7A9C83] transition">Contact</a>
-            <a href="#" className="hover:text-[#7A9C83] transition">Services</a>
-            <a href="#" className="hover:text-[#7A9C83] transition">Pricing</a>
-          </div>
-          <p className="text-[10px] tracking-widest uppercase">Copyright © PROCUBID 2024 — All Rights Reserved</p>
-        </div>
-      </footer>
+    <Footer />
     </div>
   );
 };
