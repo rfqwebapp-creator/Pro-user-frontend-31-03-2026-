@@ -291,10 +291,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/buyer/*" element={<BuyerLayout />} />
         <Route path="/seller/*" element={<SellerLayout />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </Router>
   );
