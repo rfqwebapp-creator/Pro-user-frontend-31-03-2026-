@@ -9,6 +9,7 @@ import ProcurementHeader from "./pages/MAIN/cards";
 import OpportunityFilter from "./pages/MAIN/filter";
 import OpportunityTable from "./pages/MAIN/table";
 import MainFooter from "./pages/MAIN/footer";
+import Pricing from "./pages/MAIN/wallet";
 //-----------------------------MAIN HOME PAGE-- END----------------------------------------------------------------
 
 //-----------------------------BUYER-- START----------------------------------------------------------------
@@ -111,7 +112,7 @@ function Home() {
       <OpportunityFilter />
       <OpportunityTable />
       <MainFooter />
-    </>
+     </>
   );
 }
 
@@ -286,12 +287,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/buyer/*" element={<BuyerLayout />} />
         <Route path="/seller/*" element={<SellerLayout />} />
-        <Route
-          path="*"
-          element={<Navigate to="/" />}
-        />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

@@ -29,12 +29,12 @@ export default function MainNavbar() {
       className="h-10 w-auto mr-[5px] block"
     />
 
-  <a href="/" className="flex items-center space-x-1 m-0 p-0">
+ <Link to="/" className="flex items-center space-x-1 m-0 p-0"> 
     <span className="text-4xl font-black text-[#264E36]">PROCU</span>
     <span className="text-4xl font-black text-[#7A9C83] tracking-wide">
       BID
     </span>
-  </a>
+  </Link>
 </div>
 
           {/* Desktop Menu */}
@@ -108,9 +108,12 @@ export default function MainNavbar() {
                   )}
                 </>
               ) : (
-                <a href={link.href} className="block px-3 py-3 text-base font-medium text-gray-600 hover:bg-[#F5F2EA] rounded-lg">
-                  {link.name}
-                </a>
+<Link
+  to={link.href}
+  className="block px-3 py-3 text-base font-medium text-gray-600 hover:bg-[#F5F2EA] rounded-lg"
+>
+  {link.name}
+</Link>
               )}
             </div>
           ))}
