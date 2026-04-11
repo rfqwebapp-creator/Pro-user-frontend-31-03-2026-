@@ -6,41 +6,56 @@ import MainFooter from "./footer";
 const WalletHome = () => {
   const [paymentMethod, setPaymentMethod] = useState("debit");
 
- const packs = [
+const packs = [
   {
     name: "Starter",
+    credits: 10,
     price: 450,
     original: 900,
     rfq: "10 RFQ",
     validity: "90 Days",
+    usd: 5,          // optional (adjust if needed)
+    bhd: "1.900",
+    total: "2.090",
     ribbon: "bg-gray-400",
   },
   {
     name: "Popular",
+    credits: 25,
     price: 900,
     original: 1800,
     rfq: "25 RFQ",
     validity: "90 Days",
+    usd: 10,
+    bhd: "3.800",
+    total: "4.180",
     ribbon: "bg-[#43624A]",
   },
   {
     name: "Unlimited",
+    credits: "∞",
     price: 1300,
     original: 2700,
     rfq: "Unlimited RFQ",
     validity: "90 Days",
+    usd: 15,
+    bhd: "5.500",
+    total: "6.050",
     ribbon: "bg-[#7A9C83]",
   },
   {
     name: "Unlimited Plus",
+    credits: "∞",
     price: 4500,
     original: 9000,
     rfq: "Unlimited RFQ",
     validity: "1 Year",
+    usd: 50,
+    bhd: "18.800",
+    total: "20.680",
     ribbon: "bg-[#2A2A2A]",
   },
 ];
-
   return (
     <>
       <MainNavbar />
@@ -115,30 +130,33 @@ const WalletHome = () => {
                   </div>
 
                   {/* Card Body */}
-                <div className="p-6 pt-14 flex flex-col sm:flex-row items-center justify-between gap-6">
-  <div className="text-center sm:text-left">
-    <div className="text-5xl font-bold text-[#43624A] mb-1">
-      {pack.credits}
-    </div>
-    <div className="text-sm font-bold text-[#7A9C83] tracking-widest">
-      CREDITS
-    </div>
+<div className="p-6 pt-14 text-center space-y-4">
+
+  {/* Plan Name */}
+  <h3 className="text-xl font-bold text-[#2A2A2A]">
+    {pack.name}
+  </h3>
+
+  {/* Price */}
+  <div>
+    <span className="text-gray-400 line-through mr-2">
+      ₹{pack.original}
+    </span>
+    <span className="text-3xl font-bold text-[#43624A]">
+      ₹{pack.price}
+    </span>
   </div>
 
-  <div className="text-center sm:text-right text-sm text-gray-500 space-y-1">
-    <p>
-      Buy {pack.credits} RFX for {pack.usd} USD
-    </p>
-    <p>/ {pack.bhd} BHD + VAT =</p>
-    <p className="font-bold text-[#2A2A2A]">
-      ({pack.total} BHD)
-    </p>
-    {pack.bonus && (
-      <p className="text-[#43624A] font-bold mt-2">
-        &amp; {pack.bonus}
-      </p>
-    )}
-  </div>
+  {/* RFQ Details */}
+  <p className="text-sm text-gray-600 font-medium">
+    {pack.rfq}
+  </p>
+
+  {/* Validity */}
+  <p className="text-sm text-gray-500">
+    {pack.validity} Validity
+  </p>
+
 </div>
 
                   {/* Footer Button */}
