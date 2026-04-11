@@ -11,6 +11,7 @@ import OpportunityTable from "./pages/MAIN/table";
 import MainFooter from "./pages/MAIN/footer";
 import Pricing from "./pages/MAIN/wallet";
 import AboutUs from "./pages/MAIN/AboutUs";
+import ForgotPassword from "./pages/MAIN/ForgotPassword";
 //-----------------------------MAIN HOME PAGE-- END----------------------------------------------------------------
 
 //-----------------------------BUYER-- START----------------------------------------------------------------
@@ -293,6 +294,7 @@ function App() {
         <Route path="/buyer/*" element={<BuyerLayout />} />
         <Route path="/seller/*" element={<SellerLayout />} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </Router>
   );
