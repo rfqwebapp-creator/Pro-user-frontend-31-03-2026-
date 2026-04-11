@@ -14,6 +14,7 @@ export default function MainNavbar() {
   };
 
   const navLinks = [
+    { name: 'Home', type: 'link', href: '/' },
     { name: 'Explore Features', type: 'dropdown', items: ['About Us'] },
     { name: 'About Us', type: 'link', href: '/about' },
     { name: 'Pricing', type: 'link', href: '/pricing' },
