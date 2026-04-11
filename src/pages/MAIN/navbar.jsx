@@ -56,20 +56,17 @@ export default function MainNavbar() {
             {navLinks.map((link) => (
               <div key={link.name} className="relative group">
                 {link.type === 'country-dropdown' ? (
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm text-gray-600 font-semibold mb-1">Set Country</span>
-                    <button
-                      onClick={() => toggleDropdown(link.name)}
-                      className="flex items-center text-gray-700 hover:text-[#43624A] font-medium transition-colors border border-gray-300 rounded px-3 py-1"
-                    >
-                      {selectedCountry}
-                      <ChevronDownIcon
-                        className={`ml-1 w-4 h-4 transition-transform ${
-                          activeDropdown === link.name ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => toggleDropdown(link.name)}
+                    className="flex items-center text-gray-600 hover:text-[#43624A] font-medium transition-colors"
+                  >
+                    Set Country
+                    <ChevronDownIcon
+                      className={`ml-1 w-4 h-4 transition-transform ${
+                        activeDropdown === link.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
                 ) : link.type === 'dropdown' ? (
                   <button
                     onClick={() => toggleDropdown(link.name)}
@@ -148,16 +145,13 @@ export default function MainNavbar() {
             <div key={link.name}>
               {link.type === 'country-dropdown' ? (
                 <>
-                  <div className="px-3 py-3">
-                    <h3 className="text-sm text-gray-600 font-semibold mb-2">Set Country</h3>
-                    <button
-                      onClick={() => toggleDropdown(link.name)}
-                      className="w-full flex justify-between items-center px-3 py-2 text-base font-medium text-gray-600 hover:bg-[#F5F2EA] rounded-lg border border-gray-300"
-                    >
-                      {selectedCountry}
-                      <ChevronDownIcon className={`w-4 h-4 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => toggleDropdown(link.name)}
+                    className="w-full flex justify-between items-center px-3 py-3 text-base font-medium text-gray-600 hover:bg-[#F5F2EA] rounded-lg"
+                  >
+                    Set Country
+                    <ChevronDownIcon className={`w-4 h-4 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
+                  </button>
 
                   {activeDropdown === link.name && (
                     <div className="pl-6 space-y-1">
