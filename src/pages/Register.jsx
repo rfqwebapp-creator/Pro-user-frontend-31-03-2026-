@@ -355,7 +355,7 @@ const res = await API.post("/auth/register", payload);
         <input
           type="text"
           name="workNumber"
-          placeholder="Ext..."
+          
           onChange={handleChange}
           className={styles.input}
         />
