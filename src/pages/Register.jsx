@@ -175,146 +175,186 @@ const res = await API.post("/auth/register", payload);
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            {/* Personal Details Section */}
-            <div className="space-y-4">
-              <h3 className="text-[#43624A] font-bold border-b border-[#7A9C83] pb-2 uppercase text-xs tracking-wider">Personal Information</h3>
-              
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <label className={styles.label}>First Name</label>
-                  <input type="text" name="firstName" placeholder="John" onChange={handleChange} className={styles.input} />
-                </div>
-                <div className="w-1/2">
-                  <label className={styles.label}>Last Name</label>
-                  <input type="text" name="lastName" placeholder="Doe" onChange={handleChange} className={styles.input} />
-                </div>
-              </div>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Personal Details Section */}
+  <div className="space-y-4">
+    <h3 className="text-[#43624A] font-bold border-b border-[#7A9C83] pb-2 uppercase text-xs tracking-wider">
+      Personal Information
+    </h3>
 
-              <div>
-                <label className={styles.label}>Work Email</label>
-                <input type="email" name="email" placeholder="email@company.com" onChange={handleChange} className={styles.input} />
-              </div>
+    <div className="flex gap-4">
+      <div className="w-1/2">
+        <label className={styles.label}>First Name</label>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="John"
+          onChange={handleChange}
+          className={styles.input}
+        />
+      </div>
 
-<div className="flex gap-4">
-  {/* Password */}
-  <div className="w-1/2">
-    <label className={styles.label}>Password</label>
-    <div className="relative">
+      <div className="w-1/2">
+        <label className={styles.label}>Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Doe"
+          onChange={handleChange}
+          className={styles.input}
+        />
+      </div>
+    </div>
+
+    <div>
+      <label className={styles.label}>Work Email</label>
       <input
-        type={showPassword ? "text" : "password"}
-        name="password"
-        placeholder="••••••••"
+        type="email"
+        name="email"
+        placeholder="email@company.com"
         onChange={handleChange}
         className={styles.input}
       />
-      <span
-        className="absolute right-3 top-3 cursor-pointer"
-        onClick={() => setShowPassword(!showPassword)}
-      >
-        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-      </span>
+    </div>
+
+    <div className="flex gap-4">
+      <div className="w-1/2">
+        <label className={styles.label}>Password</label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="••••••••"
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <span
+            className="absolute right-3 top-3 cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </span>
+        </div>
+      </div>
+
+      <div className="w-1/2">
+        <label className={styles.label}>Confirm Password</label>
+        <div className="relative">
+          <input
+            type={showConfirm ? "text" : "password"}
+            name="confirmPassword"
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <span
+            className="absolute right-3 top-3 cursor-pointer"
+            onClick={() => setShowConfirm(!showConfirm)}
+          >
+            {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label className={styles.label}>Phone Number</label>
+      <input
+        type="text"
+        name="phone"
+        value={form.phone}
+        onChange={handleChange}
+        className={styles.input}
+        placeholder="Phone Number"
+      />
     </div>
   </div>
 
-  {/* Confirm Password */}
-  <div className="w-1/2">
-    <label className={styles.label}>Confirm Password</label>
-    <div className="relative">
+  {/* Business Details Section */}
+  <div className="space-y-4">
+    <h3 className="text-[#43624A] font-bold border-b border-[#7A9C83] pb-2 uppercase text-xs tracking-wider">
+      Business Information
+    </h3>
+
+    <div>
+      <label className={styles.label}>Country</label>
+      <select
+        name="country"
+        value={form.country}
+        onChange={handleChange}
+        className={styles.input}
+      >
+        <option value="">Select Country</option>
+        <option value="India">India</option>
+        <option value="UAE">UAE</option>
+        <option value="Qatar">Qatar</option>
+        <option value="Bahrain">Bahrain</option>
+        <option value="Saudi Arabia">Saudi Arabia</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+      </select>
+    </div>
+
+    <div>
+      <label className={styles.label}>Company Name</label>
       <input
-        type={showConfirm ? "text" : "password"}
-        name="confirmPassword"
+        type="text"
+        name="companyName"
+        placeholder="Acme Corp"
         onChange={handleChange}
         className={styles.input}
       />
-      <span
-        className="absolute right-3 top-3 cursor-pointer"
-        onClick={() => setShowConfirm(!showConfirm)}
-      >
-        {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-      </span>
+    </div>
+
+    <div className="flex gap-4">
+      <div className="w-1/2">
+        <label className={styles.label}>{getBusinessLabel()}</label>
+        <input
+          type="text"
+          name="gst"
+          value={form.gst}
+          placeholder={getBusinessLabel()}
+          onChange={handleChange}
+          className={styles.input}
+        />
+      </div>
+
+      <div className="w-1/2">
+        <label className={styles.label}>Industry</label>
+        <input
+          type="text"
+          name="industry"
+          placeholder="Logistics"
+          onChange={handleChange}
+          className={styles.input}
+        />
+      </div>
+    </div>
+
+    <div className="flex gap-4">
+      <div className="w-1/2">
+        <label className={styles.label}>Work Number</label>
+        <input
+          type="text"
+          name="workNumber"
+          placeholder="Ext..."
+          onChange={handleChange}
+          className={styles.input}
+        />
+      </div>
+
+      <div className="w-1/2">
+        <label className={styles.label}>Referral Code</label>
+        <input
+          type="text"
+          name="referralCode"
+          placeholder="Optional"
+          onChange={handleChange}
+          className={styles.input}
+        />
+      </div>
     </div>
   </div>
 </div>
-</div>
-       <div>
-  <label className={styles.label}>Phone Number</label>
-  <input
-    type="text"
-    name="phone"
-    value={form.phone}
-    onChange={handleChange}
-    className={styles.input}
-    placeholder="Phone Number"
-  />
-</div>
-     {/* Business Details Section */}
-            <div className="space-y-4">
-              <h3 className="text-[#43624A] font-bold border-b border-[#7A9C83] pb-2 uppercase text-xs tracking-wider">Business Information</h3>
-              
-              <div>
-                <label className={styles.label}>Country</label>
-                <select name="country" value={form.country} onChange={handleChange} className={styles.input}>
-  <option value="">Select Country</option>
-  <option value="India">India</option>
-  <option value="UAE">UAE</option>
-  <option value="Qatar">Qatar</option>
-  <option value="Bahrain">Bahrain</option>
-  <option value="Saudi Arabia">Saudi Arabia</option>
-  <option value="USA">USA</option>
-  <option value="UK">UK</option>
-</select>
-              </div>
-
-              <div>
-                <label className={styles.label}>Company Name</label>
-                <input type="text" name="companyName" placeholder="Acme Corp" onChange={handleChange} className={styles.input} />
-              </div>
-
-              <div className="flex gap-4">
-                <div className="w-1/2">
-   <label className={styles.label}>{getBusinessLabel()}</label>
-  <input
-    type="text"
-    name="gst"
-    value={form.gst}
-    placeholder={getBusinessLabel()}
-    onChange={handleChange}
-    className={styles.input}
-  />
-</div> 
-                <div className="w-1/2">
-                  <label className={styles.label}>Industry</label>
-                  <input type="text" name="industry" placeholder="Logistics" onChange={handleChange} className={styles.input} />
-                </div>
-              </div>
-
-          <div className="flex gap-4">
-  <div className="w-1/2">
-    <label className={styles.label}>Work Number</label>
-    <input
-      type="text"
-      name="workNumber"
-      placeholder="Ext..."
-      onChange={handleChange}
-      className={styles.input}
-    />
-  </div>
-
-  <div className="w-1/2">
-    <label className={styles.label}>Referral Code</label>
-    <input
-      type="text"
-      name="referralCode"
-      placeholder="Optional"
-      onChange={handleChange}
-      className={styles.input}
-    />
-  </div>
-</div>
-            </div>
-          </div>
 
           <div className="mt-8 pt-6 border-t border-gray-100">
             <div className="flex items-center mb-6">
