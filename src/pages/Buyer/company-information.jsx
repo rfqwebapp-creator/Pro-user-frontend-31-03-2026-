@@ -156,6 +156,13 @@ Object.keys(formData).forEach((key) => {
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Country</label>
                 <select className="w-full p-3 border border-gray-200 rounded-lg outline-none">
                   <option>Bahrain</option>
+                  <option>India</option>
+                  <option>UAE</option>
+                  <option>Qatar </option>
+                  <option>Bahrain </option>
+                  <option>Saudhi Arabia </option>
+                  <option>USA</option>
+                  <option>UK</option>
                 </select>
               </div>
               <div>
