@@ -178,7 +178,7 @@ Object.keys(formData).forEach((key) => {
                 </div>
               </div>
 
-              {/* Requirement Checkboxes */}
+              {/* Requirement Checkboxes
               <div className="md:col-span-2 space-y-3 mt-4">
                 <label className="flex items-center gap-3 cursor-pointer group">
                 <input
@@ -208,10 +208,10 @@ Object.keys(formData).forEach((key) => {
  className="w-5 h-5 rounded border-gray-300 text-[#43624A] focus:ring-[#7A9C83]" />
                   <span className="text-sm font-medium text-gray-700 group-hover:text-black transition">Is Vendor Onboarding Form Required?</span>
                 </label>
-              </div>
+              </div>*/}
             </div>
           </div>
-        </div>
+        </div> 
 
         {/* SECTION 2: Branding */}
         <div className="flex flex-col md:flex-row border-b border-gray-100">
