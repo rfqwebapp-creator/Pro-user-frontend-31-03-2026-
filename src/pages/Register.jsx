@@ -1,13 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api";
-
+import { Eye, EyeOff } from "lucide-react";
 function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+const [showPassword, setShowPassword] = useState(false);
+const [showConfirm, setShowConfirm] = useState(false);
+const getBusinessLabel = () => {
+  switch (form.country) {
+    case "India":
+      return "GST Number";
+    case "Bahrain":
+    case "Saudi Arabia":
+    case "Qatar":
+      return "CR Number";
+    case "UAE":
+      return "Trade License Number (CRN)";
+    case "USA":
+      return "EIN / State ID";
+    case "UK":
+      return "CRN (Company Registration Number)";
+    default:
+      return "Business ID";
+  }
+};
 
   const [form, setForm] = useState({
     country: "",
@@ -24,9 +43,28 @@ function Register() {
     referralCode: "",
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  let updatedForm = { ...form, [name]: value };
+
+  // 👉 Auto phone code based on country
+  if (name === "country") {
+    const codes = {
+      India: "+91",
+      UAE: "+971",
+      Qatar: "+974",
+      Bahrain: "+973",
+      "Saudi Arabia": "+966",
+      USA: "+1",
+      UK: "+44",
+    };
+
+    updatedForm.phone = codes[value] || "";
+  }
+
+  setForm(updatedForm);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +112,7 @@ function Register() {
   referralCode: form.referralCode,
 };
 
+
 const res = await API.post("/auth/register", payload);
 
       if (res.status === 200 || res.status === 201) {
@@ -117,7 +156,7 @@ const res = await API.post("/auth/register", payload);
         
         {/* Header Section */}
         <div className={styles.header}>
-          <h2 className="text-3xl font-bold">Create your account</h2>
+          <h2 className="text-3xl font-bold">Create your PROCUBID account and digitize your procurement/Tender workflow</h2>
           <p className="opacity-90 mt-2">
             Join the Procural network and streamline your supply chain.
           </p>
@@ -158,34 +197,63 @@ const res = await API.post("/auth/register", payload);
                 <input type="email" name="email" placeholder="email@company.com" onChange={handleChange} className={styles.input} />
               </div>
 
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <label className={styles.label}>Password</label>
-                  <input type="password" name="password" placeholder="••••••••" onChange={handleChange} className={styles.input} />
-                </div>
-                <div className="w-1/2">
-                  <label className={styles.label}>Confirm Password</label>
-                  <input type="password" name="confirmPassword" placeholder="••••••••" onChange={handleChange} className={styles.input} />
-                </div>
-              </div>
+<div className="flex gap-4">
+  {/* Password */}
+  <div className="w-1/2">
+    <label className={styles.label}>Password</label>
+    <div className="relative">
+      <input
+        type={showPassword ? "text" : "password"}
+        name="password"
+        placeholder="••••••••"
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <span
+        className="absolute right-3 top-3 cursor-pointer"
+        onClick={() => setShowPassword(!showPassword)}
+      >
+        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+      </span>
+    </div>
+  </div>
 
-              <div>
-                <label className={styles.label}>Phone Number</label>
-                <input type="text" name="phone" placeholder="+1..." onChange={handleChange} className={styles.input} />
-              </div>
-            </div>
-
+  {/* Confirm Password */}
+  <div className="w-1/2">
+    <label className={styles.label}>Confirm Password</label>
+    <div className="relative">
+      <input
+        type={showConfirm ? "text" : "password"}
+        name="confirmPassword"
+        onChange={handleChange}
+        className={styles.input}
+      />
+      <span
+        className="absolute right-3 top-3 cursor-pointer"
+        onClick={() => setShowConfirm(!showConfirm)}
+      >
+        {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+      </span>
+    </div>
+  </div>
+</div>
+</div>
             {/* Business Details Section */}
             <div className="space-y-4">
               <h3 className="text-[#43624A] font-bold border-b border-[#7A9C83] pb-2 uppercase text-xs tracking-wider">Business Information</h3>
               
               <div>
                 <label className={styles.label}>Country</label>
-                <select name="country" onChange={handleChange} className={styles.input}>
-                  <option value="">Select Country</option>
-                  <option>India</option>
-                  <option>UAE</option>
-                </select>
+                <select name="country" value={form.country} onChange={handleChange} className={styles.input}>
+  <option value="">Select Country</option>
+  <option value="India">India</option>
+  <option value="UAE">UAE</option>
+  <option value="Qatar">Qatar</option>
+  <option value="Bahrain">Bahrain</option>
+  <option value="Saudi Arabia">Saudi Arabia</option>
+  <option value="USA">USA</option>
+  <option value="UK">UK</option>
+</select>
               </div>
 
               <div>
@@ -195,9 +263,14 @@ const res = await API.post("/auth/register", payload);
 
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <label className={styles.label}>GST Number</label>
-                  <input type="text" name="gst" placeholder="GSTIN..." onChange={handleChange} className={styles.input} />
-                </div>
+                 <label className={styles.label}>{getBusinessLabel()}</label>
+<input
+  type="text"
+  name="gst"
+  placeholder={getBusinessLabel()}
+  onChange={handleChange}
+  className={styles.input}
+/> </div>
                 <div className="w-1/2">
                   <label className={styles.label}>Industry</label>
                   <input type="text" name="industry" placeholder="Logistics" onChange={handleChange} className={styles.input} />
