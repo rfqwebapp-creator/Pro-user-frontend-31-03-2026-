@@ -30,6 +30,41 @@ const handleCoverUpload = (e) => {
     about: 'yateem airconditioning was established 75 years ago and is a Premier Airconditioning supplies and contracting company.',
     socials: { linkedin: '', twitter: '', facebook: '', instagram: '', youtube: '' }
   });
+
+
+  const industryOptions = [
+  "Construction & General Consumables",
+  "Mechanical & HVAC",
+  "Plumbing & Firefighting",
+  "Electrical & Power",
+  "Smart Building & Home Automation",
+  "Renewable Energy & Solar",
+  "Green & Sustainable Building Materials",
+  "Interior Fit-Out & Facades",
+  "Tools & Hardware",
+  "Project Work",
+  "Others"
+];
+// Add industry
+const addIndustry = (value) => {
+  if (!value) return; // 👈 important
+  if (!formData.industry.includes(value)) {
+    setFormData({
+      ...formData,
+      industry: [...formData.industry, value],
+    });
+  }
+};
+
+// Remove industry
+const removeIndustry = (value) => {
+  setFormData({
+    ...formData,
+    industry: formData.industry.filter((item) => item !== value),
+  });
+};
+
+
 const handleChange = (e) => {
   const { name, value } = e.target;
   setFormData({
@@ -129,15 +164,40 @@ Object.keys(formData).forEach((key) => {
   className="w-full p-3 border border-gray-200 rounded-lg" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-600 mb-1.5">Industry Sector</label>
-                <div className="flex flex-wrap items-center gap-2 p-2 border border-gray-200 rounded-lg min-h-[50px] bg-white">
-                  {formData.industry.map((tag, i) => (
-                    <span key={i} className="flex items-center gap-2 bg-[#43624A] text-white px-3 py-1.5 rounded text-sm">
-                      <X size={14} className="cursor-pointer" /> {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+  <label className="block text-sm font-medium text-gray-600 mb-1.5">
+    Industry Sector
+  </label>
+
+  {/* Dropdown */}
+  <select
+    onChange={(e) => addIndustry(e.target.value)}
+    className="w-full p-3 mb-2 border border-gray-200 rounded-lg"
+  >
+    <option value="">Select Industry</option>
+    {industryOptions.map((item, index) => (
+      <option key={index} value={item}>
+        {item}
+      </option>
+    ))}
+  </select>
+
+  {/* Selected Tags */}
+  <div className="flex flex-wrap items-center gap-2 p-2 border border-gray-200 rounded-lg min-h-[50px] bg-white">
+    {formData.industry.map((tag, i) => (
+      <span
+        key={i}
+        className="flex items-center gap-2 bg-[#43624A] text-white px-3 py-1.5 rounded text-sm"
+      >
+        {tag}
+        <X
+          size={14}
+          className="cursor-pointer"
+          onClick={() => removeIndustry(tag)}
+        />
+      </span>
+    ))}
+  </div>
+</div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">VAT/GST</label>
                 <input type="text"   onChange={handleChange}
