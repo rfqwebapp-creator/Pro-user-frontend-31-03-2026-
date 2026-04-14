@@ -65,7 +65,19 @@ const handleChange = (e) => {
 
   setForm(updatedForm);
 };
-
+const industries = [
+  "Construction & General Consumables",
+  "Mechanical & HVAC",
+  "Plumbing & Firefighting",
+  "Electrical & Power",
+  "Smart Building & Home Automation",
+  "Renewable Energy & Solar",
+  "Green & Sustainable Building Materials",
+  "Interior Fit-Out & Facades",
+  "Tools & Hardware",
+  "Project Work",
+  "Others",
+];
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -320,13 +332,20 @@ const res = await API.post("/auth/register", payload);
 
       <div className="w-1/2">
         <label className={styles.label}>Industry</label>
-        <input
-          type="text"
-          name="industry"
-          placeholder="Logistics"
-          onChange={handleChange}
-          className={styles.input}
-        />
+        <select
+  name="industry"
+  value={form.industry}
+  onChange={handleChange}
+  className={styles.input}
+>
+  <option value="">Select Industry</option>
+
+  {industries.map((item, index) => (
+    <option key={index} value={item}>
+      {item}
+    </option>
+  ))}
+</select>
       </div>
     </div>
 
