@@ -48,7 +48,6 @@ const handleChange = (e) => {
 
   let updatedForm = { ...form, [name]: value };
 
-  // 👉 Auto phone code based on country
   if (name === "country") {
     const codes = {
       India: "+91",
@@ -61,6 +60,7 @@ const handleChange = (e) => {
     };
 
     updatedForm.phone = codes[value] || "";
+    updatedForm.gst = ""; // optional: clear old gst/business id when country changes
   }
 
   setForm(updatedForm);
@@ -238,7 +238,18 @@ const res = await API.post("/auth/register", payload);
   </div>
 </div>
 </div>
-            {/* Business Details Section */}
+       <div>
+  <label className={styles.label}>Phone Number</label>
+  <input
+    type="text"
+    name="phone"
+    value={form.phone}
+    onChange={handleChange}
+    className={styles.input}
+    placeholder="Phone Number"
+  />
+</div>
+     {/* Business Details Section */}
             <div className="space-y-4">
               <h3 className="text-[#43624A] font-bold border-b border-[#7A9C83] pb-2 uppercase text-xs tracking-wider">Business Information</h3>
               
@@ -263,14 +274,16 @@ const res = await API.post("/auth/register", payload);
 
               <div className="flex gap-4">
                 <div className="w-1/2">
-                 <label className={styles.label}>{getBusinessLabel()}</label>
-<input
-  type="text"
-  name="gst"
-  placeholder={getBusinessLabel()}
-  onChange={handleChange}
-  className={styles.input}
-/> </div>
+   <label className={styles.label}>{getBusinessLabel()}</label>
+  <input
+    type="text"
+    name="gst"
+    value={form.gst}
+    placeholder={getBusinessLabel()}
+    onChange={handleChange}
+    className={styles.input}
+  />
+</div> 
                 <div className="w-1/2">
                   <label className={styles.label}>Industry</label>
                   <input type="text" name="industry" placeholder="Logistics" onChange={handleChange} className={styles.input} />
