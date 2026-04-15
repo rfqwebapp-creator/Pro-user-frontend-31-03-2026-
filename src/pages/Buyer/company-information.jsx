@@ -239,17 +239,28 @@ const handleSocialChange = (e) => {
  className="w-full p-3 border border-gray-200 rounded-lg" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1.5">Incorporated On</label>
-                <div className="relative">
-                <input
-  type="date"
-  name="incDate"
-  value={formData.incDate}
-  onChange={handleChange}
- placeholder="dd/mm/yyyy" className="w-full p-3 border border-gray-200 rounded-lg" />
-                  <Calendar size={18} className="absolute right-3 top-3.5 text-gray-400" />
-                </div>
-              </div>
+  <label className="block text-sm font-medium text-gray-600 mb-1.5">
+    Incorporated On
+  </label>
+  <div className="relative">
+    <input
+      type="date"
+      name="incDate"
+      value={formData.incDate || ""}
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          incDate: e.target.value,
+        })
+      }
+      className="w-full p-3 border border-gray-200 rounded-lg"
+    />
+    <Calendar
+      size={18}
+      className="absolute right-3 top-3.5 text-gray-400 pointer-events-none"
+    />
+  </div>
+</div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">About Company</label>
               <textarea
