@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Camera, Upload, Globe, Phone, Mail, Search, X, Calendar, Linkedin, Twitter, Facebook, Instagram, Youtube } from 'lucide-react';
+import React, { useState,useEffect } from 'react';
+ import { Camera, Upload, Globe, Phone, Mail, Search, X, Calendar, Linkedin, Twitter, Facebook, Instagram, Youtube } from 'lucide-react';
 import BuyerSettingsSidebar from "./sidebar-settings";
 
 const BuyerCompanyProfile = () => {
@@ -75,7 +75,8 @@ const handleChange = (e) => {
 const handleSubmit = async () => {
   try {
     const form = new FormData();
-
+const user = JSON.parse(localStorage.getItem("user"));
+    form.append("user_id", user.id);
     // append text fields
 Object.keys(formData).forEach((key) => {
   if (!key) return; // ✅ skip empty keys
@@ -132,6 +133,38 @@ const handleSocialChange = (e) => {
     },
   }));
 };
+
+
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  fetch(`https://api.procubid.com/api/company/me?user_id=${user.id}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const d = data.data;
+
+        setFormData({
+          legalName: d.legal_name || "",
+          address: d.address || "",
+          country: d.country || "",
+          phone: d.phone || "",
+          email: d.email || "",
+          type: d.company_type || "",
+          size: d.company_size || "",
+          industry: d.industry ? JSON.parse(d.industry) : [],
+          regNumber: d.reg_number || "",
+          vat: d.vat || "",
+          incDate: d.inc_date || "",
+          procurementCount: d.procurement_count || 0,
+          about: d.about || "",
+          socials: d.socials ? JSON.parse(d.socials) : {},
+        });
+      }
+    });
+}, []); 
+
+
   return (
      <div className="flex min-h-screen bg-[#F5F2EA]">
           {/* Sidebar - Your existing component */}
