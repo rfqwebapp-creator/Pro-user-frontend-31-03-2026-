@@ -311,13 +311,16 @@ const handleSocialChange = (e) => {
     },
   }));
 };
-
 useEffect(() => {
   const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log("USER:", user);
 
   fetch(`https://api.procubid.com/api/company/me?user_id=${user.id}`)
     .then(res => res.json())
     .then(data => {
+      console.log("API RESPONSE:", data); // 🔥 IMPORTANT
+
       if (data.success) {
         const d = data.data;
 
@@ -337,7 +340,12 @@ useEffect(() => {
           about: d.about || "",
           socials: d.socials ? JSON.parse(d.socials) : {},
         });
+      } else {
+        console.log("NO DATA FOUND ❌");
       }
+    })
+    .catch(err => {
+      console.error("FETCH ERROR:", err);
     });
 }, []);
   return (
