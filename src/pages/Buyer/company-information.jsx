@@ -108,7 +108,7 @@ Object.keys(formData).forEach((key) => {
     console.log("=====================");
 
     // 👉 THEN FETCH
-    const response = await fetch("http://YOUR_EC2_IP:5001/api/company-info", {
+    const response = await fetch("http://13.126.39.50:5001/api/company-info", {
       method: "POST",
       body: form,
     });
