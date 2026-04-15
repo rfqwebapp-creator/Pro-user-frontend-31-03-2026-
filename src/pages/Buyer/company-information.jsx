@@ -108,7 +108,7 @@ Object.keys(formData).forEach((key) => {
     console.log("=====================");
 
     // 👉 THEN FETCH
-    const response = await fetch("http://localhost:5000/api/company", {
+    const response = await fetch("http://YOUR_EC2_IP:5001/api/company-info", {
       method: "POST",
       body: form,
     });
@@ -122,7 +122,16 @@ Object.keys(formData).forEach((key) => {
     alert("Error saving data");
   }
 };
-
+const handleSocialChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    socials: {
+      ...prev.socials,
+      [name]: value,
+    },
+  }));
+};
   return (
      <div className="flex min-h-screen bg-[#F5F2EA]">
           {/* Sidebar - Your existing component */}
@@ -144,17 +153,28 @@ Object.keys(formData).forEach((key) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Company Legal Name</label>
-                <input type="text"    onChange={handleChange}
+               <input
+  type="text"
+  name="legalName"
+  value={formData.legalName}
+  onChange={handleChange}
    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 cursor-not-allowed" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Registered Address</label>
-                <input type="text"   onChange={handleChange}
+            <input
+  type="text"
+  name="address"
+  value={formData.address}
+  onChange={handleChange}
  className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#7A9C83] outline-none" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Country</label>
-                <select className="w-full p-3 border border-gray-200 rounded-lg outline-none">
+              <select
+  name="country"
+  value={formData.country}
+  onChange={handleChange} className="w-full p-3 border border-gray-200 rounded-lg outline-none">
                   <option>Bahrain</option>
                   <option>India</option>
                   <option>UAE</option>
@@ -167,7 +187,11 @@ Object.keys(formData).forEach((key) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Company Phone</label>
-                <input type="text"   onChange={handleChange}
+               <input
+  type="text"
+  name="phone"
+  value={formData.phone}
+  onChange={handleChange}
   className="w-full p-3 border border-gray-200 rounded-lg" />
               </div>
               <div className="md:col-span-2">
@@ -207,20 +231,31 @@ Object.keys(formData).forEach((key) => {
 </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">VAT/GST</label>
-                <input type="text"   onChange={handleChange}
+             <input
+  type="text"
+  name="vat"
+  value={formData.vat}
+  onChange={handleChange}
  className="w-full p-3 border border-gray-200 rounded-lg" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">Incorporated On</label>
                 <div className="relative">
-                  <input type="text"   onChange={handleChange}
+                <input
+  type="date"
+  name="incDate"
+  value={formData.incDate}
+  onChange={handleChange}
  placeholder="dd/mm/yyyy" className="w-full p-3 border border-gray-200 rounded-lg" />
                   <Calendar size={18} className="absolute right-3 top-3.5 text-gray-400" />
                 </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-600 mb-1.5">About Company</label>
-                <textarea rows="3"  className="w-full p-3 border border-gray-200 rounded-lg resize-none" />
+              <textarea
+  name="about"
+  value={formData.about}
+  onChange={handleChange} rows="3"  className="w-full p-3 border border-gray-200 rounded-lg resize-none" />
               </div>
 
               {/* Social Media Links Sub-section */}
@@ -238,9 +273,14 @@ Object.keys(formData).forEach((key) => {
                       <div className="bg-gray-50 px-4 flex items-center justify-center border-r border-gray-200 text-gray-500">
                         {social.icon}
                       </div>
-                      <input type="text"   onChange={handleChange}
- className="w-full p-2.5 outline-none focus:bg-gray-50 transition" placeholder={`${social.label} link`} />
-                    </div>
+                      <input
+  type="text"
+  name={social.label}
+  value={formData.socials[social.label]}
+  onChange={handleSocialChange}
+  className="w-full p-2.5 outline-none focus:bg-gray-50 transition"
+  placeholder={`${social.label} link`}/>
+                     </div>
                   ))}
                 </div>
               </div>
