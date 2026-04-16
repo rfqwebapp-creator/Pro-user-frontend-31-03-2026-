@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "r
 import Footer from "./pages/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import TermsAndConditions from "./pages/Terms";
+
+
 //-----------------------------MAIN HOME PAGE -- START----------------------------------------------------------------
 import MainNavbar from "./pages/MAIN/navbar";
 import ProcurementHeader from "./pages/MAIN/cards";
@@ -295,6 +298,7 @@ function App() {
         <Route path="/buyer/*" element={<BuyerLayout />} />
         <Route path="/seller/*" element={<SellerLayout />} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
       </Routes>
     </Router>
   );

@@ -377,7 +377,10 @@ const res = await API.post("/auth/register", payload);
             <div className="flex items-center mb-6">
               <input type="checkbox" required className="w-4 h-4 text-[#43624A] border-gray-300 rounded focus:ring-[#7A9C83]" />
               <span className="ml-3 text-sm text-gray-600">
-                I accept the <a href="#" className="text-[#43624A] underline font-medium">Terms and Conditions</a> and Privacy Policy.
+                I accept the <a href="/terms" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="text-[#43624A] underline font-medium">Terms and Conditions</a> and Privacy Policy.
               </span>
             </div>
 
