@@ -291,6 +291,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/about" element={<AboutUs />} />
@@ -298,7 +299,6 @@ function App() {
         <Route path="/buyer/*" element={<BuyerLayout />} />
         <Route path="/seller/*" element={<SellerLayout />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/terms" element={<TermsAndConditions />} />
       </Routes>
     </Router>
   );
