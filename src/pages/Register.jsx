@@ -169,7 +169,7 @@ const res = await API.post("/auth/register", payload);
         
         {/* Header Section */}
         <div className={styles.header}>
-          <h2 className="text-2xl font-bold">Create your PROCUBID account and digitize your procurement/Tender workflow</h2>
+          <h2 className="text-xl font-bold">Create your PROCUBID account and digitize your procurement/Tender workflow</h2>
           
         </div>
 
