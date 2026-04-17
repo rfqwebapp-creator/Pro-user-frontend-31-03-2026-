@@ -40,6 +40,7 @@ const BuyerRFXcreate = () => {
       itemId: "",
       itemName: "",
       quantity: "",
+      description: "",
       deliveryTime: "",
       paymentTerms: "",
     },
@@ -58,11 +59,7 @@ const BuyerRFXcreate = () => {
     offWhite: "#F5F2EA",
   };
 
-  const steps = [
-    "RFQ Information",
-    "RFQ Details",
-    "Review & Submit",
-  ];
+  const steps = ["RFQ Information", "RFQ Details", "Review & Submit"];
 
   const industryData = {
     "Construction & General Consumables": [
@@ -162,6 +159,7 @@ const BuyerRFXcreate = () => {
         itemId: "",
         itemName: "",
         quantity: "",
+        description: "",
         deliveryTime: "",
         paymentTerms: "",
       },
@@ -309,7 +307,6 @@ const BuyerRFXcreate = () => {
         <div className="p-10 space-y-12">
           {activeInfoTab === "general" && (
             <>
-              {/* SAME OLD GENERAL INFO */}
               <section className="grid grid-cols-3 gap-8">
                 <div className="col-span-2 space-y-8">
                   <div>
@@ -519,7 +516,6 @@ const BuyerRFXcreate = () => {
 
           {activeInfoTab === "main" && (
             <>
-              {/* YOUR NEW MAIN INFO TAB */}
               <section className="space-y-8">
                 <div>
                   <label className="block text-2xl font-bold text-black mb-2">
@@ -658,6 +654,19 @@ const BuyerRFXcreate = () => {
                   className="w-full border border-gray-300 rounded px-4 py-3"
                 />
               </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="block text-sm font-bold mb-2">Description</label>
+              <textarea
+                rows="4"
+                placeholder="Enter item description"
+                value={item.description}
+                onChange={(e) =>
+                  handleItemChange(index, "description", e.target.value)
+                }
+                className="w-full border border-gray-300 rounded px-4 py-3"
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
