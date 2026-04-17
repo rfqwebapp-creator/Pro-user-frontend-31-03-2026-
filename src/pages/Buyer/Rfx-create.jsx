@@ -37,8 +37,8 @@ const BuyerRFXcreate = () => {
 
   const [items, setItems] = useState([
     {
-      itemId: "",
-      itemName: "",
+      slNo: 1,
+      itemDescription: "",
       quantity: "",
       description: "",
       deliveryTime: "",
@@ -153,11 +153,11 @@ const BuyerRFXcreate = () => {
   };
 
   const handleAddItem = () => {
-    setItems([
-      ...items,
+    setItems((prevItems) => [
+      ...prevItems,
       {
-        itemId: "",
-        itemName: "",
+        slNo: prevItems.length + 1,
+        itemDescription: "",
         quantity: "",
         description: "",
         deliveryTime: "",
@@ -168,7 +168,14 @@ const BuyerRFXcreate = () => {
 
   const handleRemoveItem = (index) => {
     if (items.length === 1) return;
-    const updatedItems = items.filter((_, i) => i !== index);
+
+    const updatedItems = items
+      .filter((_, i) => i !== index)
+      .map((item, idx) => ({
+        ...item,
+        slNo: idx + 1,
+      }));
+
     setItems(updatedItems);
   };
 
@@ -231,6 +238,7 @@ const BuyerRFXcreate = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
         <button
+          type="button"
           onClick={handleBack}
           className="flex items-center gap-1 font-bold text-sm uppercase tracking-wide"
           style={{ color: colors.deepGreen }}
@@ -283,6 +291,7 @@ const BuyerRFXcreate = () => {
       <>
         <div className="flex bg-gray-50 p-2 gap-2 border-b border-gray-100">
           <button
+            type="button"
             onClick={() => setActiveInfoTab("general")}
             className={`flex-1 py-3 rounded text-sm font-bold text-center ${
               activeInfoTab === "general"
@@ -293,6 +302,7 @@ const BuyerRFXcreate = () => {
             General Info
           </button>
           <button
+            type="button"
             onClick={() => setActiveInfoTab("main")}
             className={`flex-1 py-3 rounded text-sm font-bold text-center ${
               activeInfoTab === "main"
@@ -421,7 +431,10 @@ const BuyerRFXcreate = () => {
                   </div>
 
                   <div className="mt-4">
-                    <button className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <button
+                      type="button"
+                      className="flex items-center gap-2 text-sm font-semibold text-gray-700"
+                    >
                       Cost Center(s)
                       <Plus size={16} />
                     </button>
@@ -598,10 +611,20 @@ const BuyerRFXcreate = () => {
   const renderRFQDetails = () => {
     return (
       <div className="p-10 space-y-8">
+        <div>
+          <h1
+            className="text-2xl font-bold"
+            style={{ color: colors.deepGreen }}
+          >
+            RFQ Details
+          </h1>
+        </div>
+
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-black">Items</h2>
 
           <button
+            type="button"
             onClick={handleAddItem}
             className="flex items-center gap-2 px-4 py-2 text-white rounded"
             style={{ backgroundColor: colors.deepGreen }}
@@ -615,28 +638,25 @@ const BuyerRFXcreate = () => {
           <div key={index} className="border border-gray-200 rounded-lg p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-bold mb-2">Item ID</label>
+                <label className="block text-sm font-bold mb-2">SL No</label>
                 <input
                   type="text"
-                  placeholder="Enter item ID"
-                  value={item.itemId}
-                  onChange={(e) =>
-                    handleItemChange(index, "itemId", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded px-4 py-3"
+                  value={item.slNo}
+                  readOnly
+                  className="w-full border border-gray-300 rounded px-4 py-3 bg-gray-100"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-bold mb-2">
-                  Item Name
+                  Item Description
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter item name"
-                  value={item.itemName}
+                  placeholder="Enter item description"
+                  value={item.itemDescription}
                   onChange={(e) =>
-                    handleItemChange(index, "itemName", e.target.value)
+                    handleItemChange(index, "itemDescription", e.target.value)
                   }
                   className="w-full border border-gray-300 rounded px-4 py-3"
                 />
@@ -704,6 +724,7 @@ const BuyerRFXcreate = () => {
             {items.length > 1 && (
               <div className="mt-4 flex justify-end">
                 <button
+                  type="button"
                   onClick={() => handleRemoveItem(index)}
                   className="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 rounded"
                 >
@@ -848,6 +869,7 @@ const BuyerRFXcreate = () => {
                   />
 
                   <button
+                    type="button"
                     onClick={() => handleRemoveInviteEmail(index)}
                     className="px-4 py-3 border border-red-300 text-red-600 rounded"
                   >
@@ -857,6 +879,7 @@ const BuyerRFXcreate = () => {
               ))}
 
               <button
+                type="button"
                 onClick={handleAddInviteEmail}
                 className="flex items-center gap-2 px-4 py-2 text-white rounded"
                 style={{ backgroundColor: colors.deepGreen }}
@@ -925,6 +948,7 @@ const BuyerRFXcreate = () => {
 
           <div className="p-6 flex justify-end gap-3 border-t flex-wrap">
             <button
+              type="button"
               className="px-6 py-2 border rounded"
               style={{
                 color: colors.deepGreen,
@@ -935,6 +959,7 @@ const BuyerRFXcreate = () => {
             </button>
 
             <button
+              type="button"
               className="px-6 py-2 border rounded"
               style={{
                 color: colors.deepGreen,
@@ -946,6 +971,7 @@ const BuyerRFXcreate = () => {
 
             {currentStep < 2 ? (
               <button
+                type="button"
                 onClick={handleSaveNext}
                 className="px-6 py-2 text-white rounded flex items-center gap-2"
                 style={{ backgroundColor: colors.deepGreen }}
@@ -955,6 +981,7 @@ const BuyerRFXcreate = () => {
               </button>
             ) : (
               <button
+                type="button"
                 onClick={handleSubmitRFX}
                 className="px-6 py-2 text-white rounded flex items-center gap-2"
                 style={{ backgroundColor: colors.deepGreen }}
