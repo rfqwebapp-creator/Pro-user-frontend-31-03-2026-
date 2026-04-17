@@ -1287,8 +1287,7 @@ const BuyerRFXcreate = () => {
   const renderRFQInformation = () => {
     return (
       <div className="p-10 space-y-12">
-        <section className="space-y-8">
-          <div>
+           <div>
             <label className="block text-2xl font-bold text-black mb-2">
               RFX/RFQ Heading
             </label>
@@ -1301,7 +1300,7 @@ const BuyerRFXcreate = () => {
             />
           </div>
 
-          <div>
+          {/* <div>
             <label className="block text-2xl font-bold text-black mb-2">
               Description
             </label>
@@ -1360,7 +1359,7 @@ const BuyerRFXcreate = () => {
           )}
         </section>
 
-        <hr />
+        <hr /> */}
 
         <section className="grid grid-cols-3 gap-8">
           <div className="col-span-2 space-y-8">
