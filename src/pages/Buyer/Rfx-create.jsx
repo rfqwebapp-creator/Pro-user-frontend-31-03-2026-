@@ -232,8 +232,8 @@ const [items, setItems] = useState([
   console.log("FINAL RFX PAYLOAD:", payload);
   alert("RFX Submitted successfully");
 };
-    const [documents, setDocuments] = useState([
-  { name: "", url: "" },
+   const [documents, setDocuments] = useState([
+  { name: "", url: "", file: null },
 ]);
 const handleDocChange = (index, field, value) => {
   const updated = [...documents];
@@ -242,9 +242,8 @@ const handleDocChange = (index, field, value) => {
 };
 
 const handleAddDoc = () => {
-  setDocuments([...documents, { name: "", url: "" }]);
+  setDocuments([...documents, { name: "", url: "", file: null }]);
 };
-
 const handleRemoveDoc = (index) => {
   if (documents.length === 1) return;
   setDocuments(documents.filter((_, i) => i !== index));
@@ -313,6 +312,16 @@ const districtOptions =
   selectedCountry && selectedState
     ? locationData[selectedCountry]?.states?.[selectedState] || []
     : [];
+const handleDocFileChange = (index, file) => {
+  if (file && file.size > 10 * 1024 * 1024) {
+    alert("File size should be less than 10MB");
+    return;
+  }
+
+  const updated = [...documents];
+  updated[index].file = file;
+  setDocuments(updated);
+};
   const renderStepHeader = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -795,37 +804,58 @@ const districtOptions =
           </button>
         </div>
 
-        {documents.map((doc, index) => (
-          <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
-            <input
-              type="text"
-              placeholder="Attachment Name"
-              value={doc.name}
-              onChange={(e) =>
-                handleDocChange(index, "name", e.target.value)
-              }
-              className="border border-gray-300 rounded px-4 py-2"
-            />
+       {documents.map((doc, index) => (
+  <div key={index} className="space-y-4 mb-4 border border-gray-200 rounded-lg p-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <input
+        type="text"
+        placeholder="Attachment Name"
+        value={doc.name}
+        onChange={(e) =>
+          handleDocChange(index, "name", e.target.value)
+        }
+        className="border border-gray-300 rounded px-4 py-2"
+      />
 
-            <input
-              type="text"
-              placeholder="URL"
-              value={doc.url}
-              onChange={(e) =>
-                handleDocChange(index, "url", e.target.value)
-              }
-              className="border border-gray-300 rounded px-4 py-2"
-            />
+      <input
+        type="text"
+        placeholder="URL"
+        value={doc.url}
+        onChange={(e) =>
+          handleDocChange(index, "url", e.target.value)
+        }
+        className="border border-gray-300 rounded px-4 py-2"
+      />
 
-            <button
-              type="button"
-              onClick={() => handleRemoveDoc(index)}
-              className="border border-red-300 text-red-600 rounded px-3"
-            >
-              Remove
-            </button>
-          </div>
-        ))}
+      <button
+        type="button"
+        onClick={() => handleRemoveDoc(index)}
+        className="border border-red-300 text-red-600 rounded px-3"
+      >
+        Remove
+      </button>
+    </div>
+
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-2">
+        Attach File
+      </label>
+
+     <input
+  type="file"
+  accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg"
+  onChange={(e) => handleDocFileChange(index, e.target.files[0])}
+  className="w-full border border-gray-300 rounded px-4 py-2 bg-white"
+/>
+
+      {doc.file && (
+        <p className="mt-2 text-sm text-gray-600">
+          Selected File: {doc.file.name}
+        </p>
+      )}
+    </div>
+  </div>
+))}
       </div>
 
       {/* One-time Delivery & Payment */}
