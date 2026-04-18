@@ -1790,7 +1790,7 @@ const BuyerRFXcreate = () => {
                   Search Supplier
                 </div>
                 <p className="text-sm text-gray-600 mt-1">
-                  Search suppliers from directory
+                  Search  Sellers from directory
                 </p>
               </div>
             </label>
@@ -1849,7 +1849,7 @@ const BuyerRFXcreate = () => {
 
           {supplierOption === "favourite" && (
             <div className="mt-6 p-4 border border-gray-200 rounded bg-gray-50 text-sm text-gray-600">
-              Favourite suppliers list can be connected here.
+              Favourite  Sellers list can be connected here.
             </div>
           )}
 
@@ -1929,7 +1929,7 @@ const BuyerRFXcreate = () => {
                   Invited Suppliers
                 </div>
                 <p className="text-sm text-gray-600 mt-1">
-                  Only invited suppliers can view this RFX
+                  Only invited  Sellers can view this RFX
                 </p>
               </div>
             </label>
