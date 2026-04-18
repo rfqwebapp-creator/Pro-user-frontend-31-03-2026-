@@ -1582,18 +1582,7 @@ const districtOptions =
             </div>
           )}
           </section>
-           
-
-            <div className="mt-4">
-              <button
-                type="button"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700"
-              >
-                Cost Center(s)
-                <Plus size={16} />
-              </button>
-            </div>
-
+          
             <div className="mt-6">
               <label className="block text-sm font-semibold text-gray-700 mb-3">
                 Award Type
