@@ -1233,7 +1233,23 @@ const [items, setItems] = useState([
     console.log("FINAL RFX PAYLOAD:", payload);
     alert("RFX Submitted successfully");
   };
+    const [documents, setDocuments] = useState([
+  { name: "", url: "" },
+]);
+const handleDocChange = (index, field, value) => {
+  const updated = [...documents];
+  updated[index][field] = value;
+  setDocuments(updated);
+};
 
+const handleAddDoc = () => {
+  setDocuments([...documents, { name: "", url: "" }]);
+};
+
+const handleRemoveDoc = (index) => {
+  if (documents.length === 1) return;
+  setDocuments(documents.filter((_, i) => i !== index));
+};
   const renderStepHeader = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -1569,23 +1585,7 @@ const [items, setItems] = useState([
   };
 
   const renderRFQDetails = () => {
-    const [documents, setDocuments] = useState([
-  { name: "", url: "" },
-]);
-const handleDocChange = (index, field, value) => {
-  const updated = [...documents];
-  updated[index][field] = value;
-  setDocuments(updated);
-};
 
-const handleAddDoc = () => {
-  setDocuments([...documents, { name: "", url: "" }]);
-};
-
-const handleRemoveDoc = (index) => {
-  if (documents.length === 1) return;
-  setDocuments(documents.filter((_, i) => i !== index));
-};
     return (
       <div className="p-10 space-y-8">
         <div>
