@@ -1251,6 +1251,67 @@ const handleRemoveDoc = (index) => {
 const [itemDescriptionNote, setItemDescriptionNote] = useState("");
 const [deliveryTime, setDeliveryTime] = useState("");
 const [paymentTerms, setPaymentTerms] = useState("");
+const [selectedCountry, setSelectedCountry] = useState("");
+const [selectedState, setSelectedState] = useState("");
+const [selectedDistrict, setSelectedDistrict] = useState("");
+const locationData = {
+  India: {
+    states: {
+      Kerala: ["Ernakulam", "Kottayam", "Thrissur", "Kozhikode"],
+      Tamil Nadu: ["Chennai", "Coimbatore", "Madurai"],
+      Karnataka: ["Bengaluru", "Mysuru", "Mangaluru"],
+      Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+    },
+  },
+  Bahrain: {
+    states: {
+      Capital: ["Manama"],
+      Muharraq: ["Muharraq"],
+      Northern: ["Aali", "Budaiya"],
+      Southern: ["Riffa", "Hamad Town"],
+    },
+  },
+  Saudi: {
+    states: {
+      Riyadh: ["Riyadh City", "Al Kharj"],
+      Makkah: ["Jeddah", "Makkah", "Taif"],
+      Eastern: ["Dammam", "Khobar", "Jubail"],
+    },
+  },
+  Qatar: {
+    states: {
+      Doha: ["Doha"],
+      Al Rayyan: ["Al Rayyan"],
+      Al Wakrah: ["Al Wakrah"],
+      Umm Salal: ["Umm Salal"],
+    },
+  },
+  UAE: {
+    states: {
+      Dubai: ["Dubai"],
+      Abu Dhabi: ["Abu Dhabi", "Al Ain"],
+      Sharjah: ["Sharjah", "Khor Fakkan"],
+      Ajman: ["Ajman"],
+    },
+  },
+  USA: {
+    states: {
+      California: ["Los Angeles", "San Diego", "San Francisco"],
+      Texas: ["Houston", "Dallas", "Austin"],
+      Florida: ["Miami", "Orlando", "Tampa"],
+      New York: ["New York City", "Buffalo", "Albany"],
+    },
+  },
+};
+const countryOptions = Object.keys(locationData);
+const stateOptions = selectedCountry
+  ? Object.keys(locationData[selectedCountry]?.states || {})
+  : [];
+
+const districtOptions =
+  selectedCountry && selectedState
+    ? locationData[selectedCountry]?.states?.[selectedState] || []
+    : [];
   const renderStepHeader = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -1521,16 +1582,7 @@ const [paymentTerms, setPaymentTerms] = useState("");
             </div>
           )}
           </section>
-            <div className="mt-8 max-w-md">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                Classification
-                <Search size={14} className="text-gray-400" />
-              </label>
-
-              <div className="w-full p-3 border border-gray-300 rounded text-sm text-gray-400">
-                No option(s) selected
-              </div>
-            </div>
+           
 
             <div className="mt-4">
               <button
@@ -1903,21 +1955,87 @@ const [paymentTerms, setPaymentTerms] = useState("");
             </label>
           </div>
 
-          {supplierOption === "search" && (
-            <div className="mt-6">
-              <label className="block text-sm font-bold mb-2">
-                Search Supplier
-              </label>
-              <input
-                type="text"
-                placeholder="Search suppliers..."
-                value={searchSupplierText}
-                onChange={(e) => setSearchSupplierText(e.target.value)}
-                className="w-full border border-gray-300 rounded px-4 py-3"
-              />
-            </div>
-          )}
+{supplierOption === "search" && (
+  <div className="mt-6 space-y-6">
+    <div>
+      <label className="block text-sm font-bold mb-2">
+        Search Supplier
+      </label>
+      <input
+        type="text"
+        placeholder="Search suppliers..."
+        value={searchSupplierText}
+        onChange={(e) => setSearchSupplierText(e.target.value)}
+        className="w-full border border-gray-300 rounded px-4 py-3"
+      />
+    </div>
 
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label className="block text-xs font-bold text-gray-500 uppercase mb-2">
+          Country
+        </label>
+        <select
+          value={selectedCountry}
+          onChange={(e) => {
+            setSelectedCountry(e.target.value);
+            setSelectedState("");
+            setSelectedDistrict("");
+          }}
+          className="w-full border border-gray-300 rounded px-4 py-3 bg-white"
+        >
+          <option value="">All Countries</option>
+          {countryOptions.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-xs font-bold text-gray-500 uppercase mb-2">
+          State
+        </label>
+        <select
+          value={selectedState}
+          onChange={(e) => {
+            setSelectedState(e.target.value);
+            setSelectedDistrict("");
+          }}
+          className="w-full border border-gray-300 rounded px-4 py-3 bg-white"
+          disabled={!selectedCountry}
+        >
+          <option value="">All States</option>
+          {stateOptions.map((state) => (
+            <option key={state} value={state}>
+              {state}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-xs font-bold text-gray-500 uppercase mb-2">
+          District
+        </label>
+        <select
+          value={selectedDistrict}
+          onChange={(e) => setSelectedDistrict(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-3 bg-white"
+          disabled={!selectedState}
+        >
+          <option value="">All Districts</option>
+          {districtOptions.map((district) => (
+            <option key={district} value={district}>
+              {district}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  </div>
+)}
           {supplierOption === "favourite" && (
             <div className="mt-6 p-4 border border-gray-200 rounded bg-gray-50 text-sm text-gray-600">
               Favourite  Sellers list can be connected here.
