@@ -1727,7 +1727,52 @@ const BuyerRFXcreate = () => {
             </p>
           </div>
         </section> */}
+         <section className="border border-gray-200 rounded-lg p-6">
+<div>
+            <label className="block text-sm font-bold text-gray-700 mb-3">
+              Industry
+            </label>
+            <select
+              value={selectedIndustry}
+              onChange={(e) => {
+                setSelectedIndustry(e.target.value);
+                setSelectedSubItems([]);
+              }}
+              className="w-full max-w-md border border-gray-300 rounded px-4 py-3"
+            >
+              <option value="">Select Industry</option>
+              {Object.keys(industryData).map((industry) => (
+                <option key={industry} value={industry}>
+                  {industry}
+                </option>
+              ))}
+            </select>
+          </div>
 
+          {selectedIndustry && (
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-3">
+                Sub Items
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {industryData[selectedIndustry].map((subItem) => (
+                  <label
+                    key={subItem}
+                    className="flex items-start gap-2 border border-gray-200 rounded p-3 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedSubItems.includes(subItem)}
+                      onChange={() => handleToggleSubItem(subItem)}
+                      className="mt-1"
+                    />
+                    <span className="text-sm">{subItem}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+          </section>
         <section className="border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Search Suppliers</h2>
 
