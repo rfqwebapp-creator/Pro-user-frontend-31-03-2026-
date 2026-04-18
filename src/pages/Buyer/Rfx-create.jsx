@@ -1038,10 +1038,7 @@ const [items, setItems] = useState([
     slNo: 1,
     itemDescription: "",
     quantity: "",
-    unit: "",    
-    description: "",
-    deliveryTime: "",
-    paymentTerms: "",
+    unit: "",
   },
 ]);
 
@@ -1152,19 +1149,16 @@ const [items, setItems] = useState([
   };
 
   const handleAddItem = () => {
-    setItems((prevItems) => [
-      ...prevItems,
-      {
-        slNo: prevItems.length + 1,
-        itemDescription: "",
-        quantity: "",
-          unit: "",
-        description: "",
-        deliveryTime: "",
-        paymentTerms: "",
-      },
-    ]);
-  };
+  setItems((prevItems) => [
+    ...prevItems,
+    {
+      slNo: prevItems.length + 1,
+      itemDescription: "",
+      quantity: "",
+      unit: "",
+    },
+  ]);
+};
 
   const handleRemoveItem = (index) => {
     if (items.length === 1) return;
@@ -1208,31 +1202,35 @@ const [items, setItems] = useState([
   };
 
   const handleSubmitRFX = () => {
-    const payload = {
-      procurementType,
-      requisitionType,
-      bidType,
-      purpose,
-      evaluationMethod,
-      classification,
-      costCenters,
-      publishDate,
-      closingDate,
-      heading,
-      description,
-      selectedIndustry,
-      selectedSubItems,
-      items,
-      supplierOption,
-      searchSupplierText,
-      favouriteSuppliers,
-      inviteEmails,
-      rfxVisibility,
-    };
-
-    console.log("FINAL RFX PAYLOAD:", payload);
-    alert("RFX Submitted successfully");
+  const payload = {
+    procurementType,
+    requisitionType,
+    bidType,
+    purpose,
+    evaluationMethod,
+    classification,
+    costCenters,
+    publishDate,
+    closingDate,
+    heading,
+    description,
+    selectedIndustry,
+    selectedSubItems,
+    items,
+    itemDescriptionNote,
+    documents,
+    deliveryTime,
+    paymentTerms,
+    supplierOption,
+    searchSupplierText,
+    favouriteSuppliers,
+    inviteEmails,
+    rfxVisibility,
   };
+
+  console.log("FINAL RFX PAYLOAD:", payload);
+  alert("RFX Submitted successfully");
+};
     const [documents, setDocuments] = useState([
   { name: "", url: "" },
 ]);
@@ -1250,6 +1248,9 @@ const handleRemoveDoc = (index) => {
   if (documents.length === 1) return;
   setDocuments(documents.filter((_, i) => i !== index));
 };
+const [itemDescriptionNote, setItemDescriptionNote] = useState("");
+const [deliveryTime, setDeliveryTime] = useState("");
+const [paymentTerms, setPaymentTerms] = useState("");
   const renderStepHeader = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -1585,197 +1586,188 @@ const handleRemoveDoc = (index) => {
   };
 
   const renderRFQDetails = () => {
+  return (
+    <div className="p-10 space-y-8">
+      <div>
+        <h1
+          className="text-2xl font-bold"
+          style={{ color: colors.deepGreen }}
+        >
+          RFQ Details
+        </h1>
+      </div>
 
-    return (
-      <div className="p-10 space-y-8">
-        <div>
-          <h1
-            className="text-2xl font-bold"
-            style={{ color: colors.deepGreen }}
-          >
-            RFQ Details
-          </h1>
-        </div>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-black">Items</h2>
 
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-black">Items</h2>
+        <button
+          type="button"
+          onClick={handleAddItem}
+          className="flex items-center gap-2 px-4 py-2 text-white rounded"
+          style={{ backgroundColor: colors.deepGreen }}
+        >
+          <Plus size={16} />
+          Add
+        </button>
+      </div>
 
-          <button
-            type="button"
-            onClick={handleAddItem}
-            className="flex items-center gap-2 px-4 py-2 text-white rounded"
-            style={{ backgroundColor: colors.deepGreen }}
-          >
-            <Plus size={16} />
-            Add
-          </button>
-        </div>
-
-        {items.map((item, index) => (
-          <div key={index} className="border border-gray-200 rounded-lg p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-              <div>
-                <label className="block text-sm font-bold mb-2">SL No</label>
-                <input
-                  type="text"
-                  value={item.slNo}
-                  readOnly
-                  className="w-full border border-gray-300 rounded px-4 py-3 bg-gray-100"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold mb-2">
-                  Item Description
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter item description"
-                  value={item.itemDescription}
-                  onChange={(e) =>
-                    handleItemChange(index, "itemDescription", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded px-4 py-3"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold mb-2">Quantity</label>
-                <input
-                  type="text"
-                  placeholder="Enter quantity"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleItemChange(index, "quantity", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded px-4 py-3"
-                />
-              </div>
-              <div>
-  <label className="block text-sm font-bold mb-2">Unit</label>
-  <input
-    type="text"
-    placeholder="e.g. Nos, Kg, Meter"
-    value={item.unit}
-    onChange={(e) =>
-      handleItemChange(index, "unit", e.target.value)
-    }
-    className="w-full border border-gray-300 rounded px-4 py-3"
-  />
-</div>
+      {items.map((item, index) => (
+        <div key={index} className="border border-gray-200 rounded-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-bold mb-2">SL No</label>
+              <input
+                type="text"
+                value={item.slNo}
+                readOnly
+                className="w-full border border-gray-300 rounded px-4 py-3 bg-gray-100"
+              />
             </div>
 
-            <div className="mt-4">
-              <label className="block text-sm font-bold mb-2">Description</label>
-              <textarea
-                rows="4"
+            <div>
+              <label className="block text-sm font-bold mb-2">
+                Item Description
+              </label>
+              <input
+                type="text"
                 placeholder="Enter item description"
-                value={item.description}
+                value={item.itemDescription}
                 onChange={(e) =>
-                  handleItemChange(index, "description", e.target.value)
+                  handleItemChange(index, "itemDescription", e.target.value)
                 }
                 className="w-full border border-gray-300 rounded px-4 py-3"
               />
             </div>
-{/* ATTACH DOCUMENT SECTION */}
-<div className="border border-gray-200 rounded-lg p-6 mt-6">
-  <div className="flex justify-between items-center mb-4">
-    <h2 className="text-xl font-bold">Attach Document</h2>
 
-    <button
-      type="button"
-      onClick={handleAddDoc}
-      className="flex items-center gap-2 px-3 py-2 text-white rounded"
-      style={{ backgroundColor: colors.deepGreen }}
-    >
-      <Plus size={16} /> Add
-    </button>
-  </div>
-
-  {documents.map((doc, index) => (
-    <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
-      
-      <input
-        type="text"
-        placeholder="Attachment Name"
-        value={doc.name}
-        onChange={(e) =>
-          handleDocChange(index, "name", e.target.value)
-        }
-        className="border border-gray-300 rounded px-4 py-2"
-      />
-
-      <input
-        type="text"
-        placeholder="URL"
-        value={doc.url}
-        onChange={(e) =>
-          handleDocChange(index, "url", e.target.value)
-        }
-        className="border border-gray-300 rounded px-4 py-2"
-      />
-
-      <button
-        type="button"
-        onClick={() => handleRemoveDoc(index)}
-        className="border border-red-300 text-red-600 rounded px-3"
-      >
-        Remove
-      </button>
-    </div>
-  ))}
-</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <div>
-                <label className="block text-sm font-bold mb-2">
-                  Delivery Time
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. 2 Weeks"
-                  value={item.deliveryTime}
-                  onChange={(e) =>
-                    handleItemChange(index, "deliveryTime", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded px-4 py-3"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold mb-2">
-                  Payment Terms
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. 30% Advance, 70% After Delivery"
-                  value={item.paymentTerms}
-                  onChange={(e) =>
-                    handleItemChange(index, "paymentTerms", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded px-4 py-3"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-bold mb-2">Quantity</label>
+              <input
+                type="text"
+                placeholder="Enter quantity"
+                value={item.quantity}
+                onChange={(e) =>
+                  handleItemChange(index, "quantity", e.target.value)
+                }
+                className="w-full border border-gray-300 rounded px-4 py-3"
+              />
             </div>
 
-            {items.length > 1 && (
-              <div className="mt-4 flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => handleRemoveItem(index)}
-                  className="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 rounded"
-                >
-                  <Trash2 size={16} />
-                  Remove
-                </button>
-              </div>
-            )}
+            <div>
+              <label className="block text-sm font-bold mb-2">Unit</label>
+              <input
+                type="text"
+                placeholder="e.g. Nos, Kg, Meter"
+                value={item.unit}
+                onChange={(e) =>
+                  handleItemChange(index, "unit", e.target.value)
+                }
+                className="w-full border border-gray-300 rounded px-4 py-3"
+              />
+            </div>
+          </div>
+
+          {items.length > 1 && (
+            <div className="mt-4 flex justify-end">
+              <button
+                type="button"
+                onClick={() => handleRemoveItem(index)}
+                className="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 rounded"
+              >
+                <Trash2 size={16} />
+                Remove
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* One-time Description */}
+      <div className="mt-4">
+        <label className="block text-sm font-bold mb-2">Description</label>
+        <textarea
+          rows="4"
+          placeholder="Enter item description"
+          value={itemDescriptionNote}
+          onChange={(e) => setItemDescriptionNote(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-3"
+        />
+      </div>
+
+      {/* One-time Attach Document */}
+      <div className="border border-gray-200 rounded-lg p-6 mt-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Attach Document</h2>
+
+          <button
+            type="button"
+            onClick={handleAddDoc}
+            className="flex items-center gap-2 px-3 py-2 text-white rounded"
+            style={{ backgroundColor: colors.deepGreen }}
+          >
+            <Plus size={16} /> Add
+          </button>
+        </div>
+
+        {documents.map((doc, index) => (
+          <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+            <input
+              type="text"
+              placeholder="Attachment Name"
+              value={doc.name}
+              onChange={(e) =>
+                handleDocChange(index, "name", e.target.value)
+              }
+              className="border border-gray-300 rounded px-4 py-2"
+            />
+
+            <input
+              type="text"
+              placeholder="URL"
+              value={doc.url}
+              onChange={(e) =>
+                handleDocChange(index, "url", e.target.value)
+              }
+              className="border border-gray-300 rounded px-4 py-2"
+            />
+
+            <button
+              type="button"
+              onClick={() => handleRemoveDoc(index)}
+              className="border border-red-300 text-red-600 rounded px-3"
+            >
+              Remove
+            </button>
           </div>
         ))}
       </div>
-    );
-  };
 
+      {/* One-time Delivery & Payment */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label className="block text-sm font-bold mb-2">Delivery Time</label>
+          <input
+            type="text"
+            placeholder="e.g. 2 Weeks"
+            value={deliveryTime}
+            onChange={(e) => setDeliveryTime(e.target.value)}
+            className="w-full border border-gray-300 rounded px-4 py-3"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-bold mb-2">Payment Terms</label>
+          <input
+            type="text"
+            placeholder="e.g. 30% Advance, 70% After Delivery"
+            value={paymentTerms}
+            onChange={(e) => setPaymentTerms(e.target.value)}
+            className="w-full border border-gray-300 rounded px-4 py-3"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
   const renderReviewAndSubmit = () => {
     return (
       <div className="p-10 space-y-10">
