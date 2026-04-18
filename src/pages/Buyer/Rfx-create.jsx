@@ -313,7 +313,9 @@ const districtOptions =
     ? locationData[selectedCountry]?.states?.[selectedState] || []
     : [];
 const handleDocFileChange = (index, file) => {
-  if (file && file.size > 10 * 1024 * 1024) {
+  if (!file) return; // ✅ add this
+
+  if (file.size > 10 * 1024 * 1024) {
     alert("File size should be less than 10MB");
     return;
   }
@@ -546,8 +548,7 @@ const handleDocFileChange = (index, file) => {
                 </p>
               </div>
             </div>
- <section className="border border-gray-200 rounded-lg p-6">
-<div>
+<section className="border border-gray-200 rounded-lg p-6"><div>
             <label className="block text-sm font-bold text-gray-700 mb-3">
               Industry
             </label>
@@ -848,11 +849,11 @@ const handleDocFileChange = (index, file) => {
   className="w-full border border-gray-300 rounded px-4 py-2 bg-white"
 />
 
-      {doc.file && (
-        <p className="mt-2 text-sm text-gray-600">
-          Selected File: {doc.file.name}
-        </p>
-      )}
+     {doc.file && (
+  <p className="mt-2 text-sm text-gray-600">
+    {doc.file.name} ({(doc.file.size / 1024 / 1024).toFixed(2)} MB)
+  </p>
+)}
     </div>
   </div>
 ))}
