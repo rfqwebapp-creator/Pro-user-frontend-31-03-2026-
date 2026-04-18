@@ -15,7 +15,7 @@ const handleCoverUpload = (e) => {
   setCover(file);
 };
   const [formData, setFormData] = useState({
-    legalName: 'YATEEM AIRCONDITIONING COMPANY W.L.L',
+    legalName: '',
     address: 'SHK ISA AVENUE PO BOX 60',
     country: 'Bahrain',
     phone: '17253177',

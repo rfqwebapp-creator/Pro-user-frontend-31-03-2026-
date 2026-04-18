@@ -1700,7 +1700,7 @@ const BuyerRFXcreate = () => {
   const renderReviewAndSubmit = () => {
     return (
       <div className="p-10 space-y-10">
-        <section className="border border-gray-200 rounded-lg p-6">
+        {/* <section className="border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Summary</h2>
 
           <div className="space-y-2 text-sm">
@@ -1726,7 +1726,7 @@ const BuyerRFXcreate = () => {
                 : "-"}
             </p>
           </div>
-        </section>
+        </section> */}
 
         <section className="border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Search Suppliers</h2>
