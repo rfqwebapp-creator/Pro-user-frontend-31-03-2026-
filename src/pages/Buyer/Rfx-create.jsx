@@ -708,75 +708,78 @@ const handleDocFileChange = (index, file) => {
         </button>
       </div>
 
+<div className="border border-gray-200 rounded-lg overflow-hidden">
+  <table className="w-full border-collapse">
+    
+    <thead className="bg-gray-100">
+      <tr>
+        <th className="border p-3 text-left">SL No</th>
+        <th className="border p-3 text-left">Item Description</th>
+        <th className="border p-3 text-left">Quantity</th>
+        <th className="border p-3 text-left">Unit</th>
+        <th className="border p-3 text-center">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
       {items.map((item, index) => (
-        <div key={index} className="border border-gray-200 rounded-lg p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-bold mb-2">SL No</label>
-              <input
-                type="text"
-                value={item.slNo}
-                readOnly
-                className="w-full border border-gray-300 rounded px-4 py-3 bg-gray-100"
-              />
-            </div>
+        <tr key={index}>
+          <td className="border p-2">
+            <input
+              type="text"
+              value={item.slNo}
+              readOnly
+              className="w-full bg-gray-100 p-2"
+            />
+          </td>
 
-            <div>
-              <label className="block text-sm font-bold mb-2">
-                Item Description
-              </label>
-              <input
-                type="text"
-                placeholder="Enter item description"
-                value={item.itemDescription}
-                onChange={(e) =>
-                  handleItemChange(index, "itemDescription", e.target.value)
-                }
-                className="w-full border border-gray-300 rounded px-4 py-3"
-              />
-            </div>
+          <td className="border p-2">
+            <input
+              type="text"
+              value={item.itemDescription}
+              onChange={(e) =>
+                handleItemChange(index, "itemDescription", e.target.value)
+              }
+              className="w-full p-2"
+            />
+          </td>
 
-            <div>
-              <label className="block text-sm font-bold mb-2">Quantity</label>
-              <input
-                type="text"
-                placeholder="Enter quantity"
-                value={item.quantity}
-                onChange={(e) =>
-                  handleItemChange(index, "quantity", e.target.value)
-                }
-                className="w-full border border-gray-300 rounded px-4 py-3"
-              />
-            </div>
+          <td className="border p-2">
+            <input
+              type="text"
+              value={item.quantity}
+              onChange={(e) =>
+                handleItemChange(index, "quantity", e.target.value)
+              }
+              className="w-full p-2"
+            />
+          </td>
 
-            <div>
-              <label className="block text-sm font-bold mb-2">Unit</label>
-              <input
-                type="text"
-                placeholder="e.g. Nos, Kg, Meter"
-                value={item.unit}
-                onChange={(e) =>
-                  handleItemChange(index, "unit", e.target.value)
-                }
-                className="w-full border border-gray-300 rounded px-4 py-3"
-              />
-            </div>
-          </div>
+          <td className="border p-2">
+            <input
+              type="text"
+              value={item.unit}
+              onChange={(e) =>
+                handleItemChange(index, "unit", e.target.value)
+              }
+              className="w-full p-2"
+            />
+          </td>
 
-          {items.length > 1 && (
-            <div className="mt-4 flex justify-end">
-              <button
-                type="button"
-                onClick={() => handleRemoveItem(index)}
-                className="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 rounded"
-              >
-                <Trash2 size={16} />
-                Remove
-              </button>
-            </div>
-          )}
-        </div>
+          <td className="border p-2 text-center">
+            <button
+              type="button"
+              onClick={() => handleRemoveItem(index)}
+              className="text-red-600"
+            >
+              Remove
+            </button>
+          </td>
+        </tr>
       ))}
+    </tbody>
+  </table>
+</div>
 
       {/* One-time Description */}
       <div className="mt-4">
