@@ -259,7 +259,7 @@ const locationData = {
   India: {
     states: {
       Kerala: ["Ernakulam", "Kottayam", "Thrissur", "Kozhikode"],
-      Tamil Nadu: ["Chennai", "Coimbatore", "Madurai"],
+      "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"],
       Karnataka: ["Bengaluru", "Mysuru", "Mangaluru"],
       Maharashtra: ["Mumbai", "Pune", "Nagpur"],
     },
@@ -282,15 +282,15 @@ const locationData = {
   Qatar: {
     states: {
       Doha: ["Doha"],
-      Al Rayyan: ["Al Rayyan"],
-      Al Wakrah: ["Al Wakrah"],
-      Umm Salal: ["Umm Salal"],
+      "Al Rayyan": ["Al Rayyan"],
+      "Al Wakrah": ["Al Wakrah"],
+      "Umm Salal": ["Umm Salal"],
     },
   },
   UAE: {
     states: {
       Dubai: ["Dubai"],
-      Abu Dhabi: ["Abu Dhabi", "Al Ain"],
+      "Abu Dhabi": ["Abu Dhabi", "Al Ain"],
       Sharjah: ["Sharjah", "Khor Fakkan"],
       Ajman: ["Ajman"],
     },
@@ -300,7 +300,7 @@ const locationData = {
       California: ["Los Angeles", "San Diego", "San Francisco"],
       Texas: ["Houston", "Dallas", "Austin"],
       Florida: ["Miami", "Orlando", "Tampa"],
-      New York: ["New York City", "Buffalo", "Albany"],
+      "New York": ["New York City", "Buffalo", "Albany"],
     },
   },
 };
