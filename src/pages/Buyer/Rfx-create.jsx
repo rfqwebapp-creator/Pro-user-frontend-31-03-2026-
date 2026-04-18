@@ -1033,16 +1033,17 @@ const BuyerRFXcreate = () => {
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [selectedSubItems, setSelectedSubItems] = useState([]);
 
-  const [items, setItems] = useState([
-    {
-      slNo: 1,
-      itemDescription: "",
-      quantity: "",
-      description: "",
-      deliveryTime: "",
-      paymentTerms: "",
-    },
-  ]);
+const [items, setItems] = useState([
+  {
+    slNo: 1,
+    itemDescription: "",
+    quantity: "",
+    unit: "",    
+    description: "",
+    deliveryTime: "",
+    paymentTerms: "",
+  },
+]);
 
   const [supplierOption, setSupplierOption] = useState("search");
   const [searchSupplierText, setSearchSupplierText] = useState("");
@@ -1157,6 +1158,7 @@ const BuyerRFXcreate = () => {
         slNo: prevItems.length + 1,
         itemDescription: "",
         quantity: "",
+          unit: "",
         description: "",
         deliveryTime: "",
         paymentTerms: "",
@@ -1289,11 +1291,11 @@ const BuyerRFXcreate = () => {
       <div className="p-10 space-y-12">
            <div>
             <label className="block text-2xl font-bold text-black mb-2">
-              RFX/RFQ Heading
+              RFQ/RFP  Heading
             </label>
             <input
               type="text"
-              placeholder="Enter RFX/RFQ title"
+              placeholder="Enter RFQ/RFP  title"
               value={heading}
               onChange={(e) => setHeading(e.target.value)}
               className="w-full border border-gray-300 rounded px-4 py-3"
@@ -1567,6 +1569,23 @@ const BuyerRFXcreate = () => {
   };
 
   const renderRFQDetails = () => {
+    const [documents, setDocuments] = useState([
+  { name: "", url: "" },
+]);
+const handleDocChange = (index, field, value) => {
+  const updated = [...documents];
+  updated[index][field] = value;
+  setDocuments(updated);
+};
+
+const handleAddDoc = () => {
+  setDocuments([...documents, { name: "", url: "" }]);
+};
+
+const handleRemoveDoc = (index) => {
+  if (documents.length === 1) return;
+  setDocuments(documents.filter((_, i) => i !== index));
+};
     return (
       <div className="p-10 space-y-8">
         <div>
@@ -1594,7 +1613,8 @@ const BuyerRFXcreate = () => {
 
         {items.map((item, index) => (
           <div key={index} className="border border-gray-200 rounded-lg p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
               <div>
                 <label className="block text-sm font-bold mb-2">SL No</label>
                 <input
@@ -1632,6 +1652,18 @@ const BuyerRFXcreate = () => {
                   className="w-full border border-gray-300 rounded px-4 py-3"
                 />
               </div>
+              <div>
+  <label className="block text-sm font-bold mb-2">Unit</label>
+  <input
+    type="text"
+    placeholder="e.g. Nos, Kg, Meter"
+    value={item.unit}
+    onChange={(e) =>
+      handleItemChange(index, "unit", e.target.value)
+    }
+    className="w-full border border-gray-300 rounded px-4 py-3"
+  />
+</div>
             </div>
 
             <div className="mt-4">
@@ -1646,7 +1678,54 @@ const BuyerRFXcreate = () => {
                 className="w-full border border-gray-300 rounded px-4 py-3"
               />
             </div>
+{/* ATTACH DOCUMENT SECTION */}
+<div className="border border-gray-200 rounded-lg p-6 mt-6">
+  <div className="flex justify-between items-center mb-4">
+    <h2 className="text-xl font-bold">Attach Document</h2>
 
+    <button
+      type="button"
+      onClick={handleAddDoc}
+      className="flex items-center gap-2 px-3 py-2 text-white rounded"
+      style={{ backgroundColor: colors.deepGreen }}
+    >
+      <Plus size={16} /> Add
+    </button>
+  </div>
+
+  {documents.map((doc, index) => (
+    <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+      
+      <input
+        type="text"
+        placeholder="Attachment Name"
+        value={doc.name}
+        onChange={(e) =>
+          handleDocChange(index, "name", e.target.value)
+        }
+        className="border border-gray-300 rounded px-4 py-2"
+      />
+
+      <input
+        type="text"
+        placeholder="URL"
+        value={doc.url}
+        onChange={(e) =>
+          handleDocChange(index, "url", e.target.value)
+        }
+        className="border border-gray-300 rounded px-4 py-2"
+      />
+
+      <button
+        type="button"
+        onClick={() => handleRemoveDoc(index)}
+        className="border border-red-300 text-red-600 rounded px-3"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
                 <label className="block text-sm font-bold mb-2">
