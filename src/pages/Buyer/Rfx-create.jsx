@@ -202,36 +202,85 @@ const [items, setItems] = useState([
     }
   };
 
-  const handleSubmitRFX = () => {
-  const payload = {
-    procurementType,
-    requisitionType,
-    bidType,
-    purpose,
-    evaluationMethod,
-    classification,
-    costCenters,
-    publishDate,
-    closingDate,
-    heading,
-    description,
-    selectedIndustry,
-    selectedSubItems,
-    items,
-    itemDescriptionNote,
-    documents,
-    deliveryTime,
-    paymentTerms,
-    supplierOption,
-    searchSupplierText,
-    favouriteSuppliers,
-    inviteEmails,
-    rfxVisibility,
-  };
+  const handleSubmitRFX = async () => {
+  try {
+    const payload = {
+      procurementType,
+      requisitionType,
+      bidType,
+      purpose,
+      evaluationMethod,
+      classification,
+      costCenters,
+      publishDate,
+      closingDate,
+      heading,
+      description,
+      selectedIndustry,
+      selectedSubItems,
+      items,
+      itemDescriptionNote,
+      documents,
+      deliveryTime,
+      paymentTerms,
+      supplierOption,
+      searchSupplierText,
+      favouriteSuppliers,
+      inviteEmails,
+      rfxVisibility,
+      status: "IN_REVIEW", // final submit status
+    };
 
-  console.log("FINAL RFX PAYLOAD:", payload);
-  alert("RFX Submitted successfully");
+    const res = await API.post("/rfq/create", payload);
+
+    if (res.data.success) {
+      alert("RFX Submitted successfully");
+    }
+  } catch (error) {
+    console.error("SUBMIT ERROR:", error);
+    alert("Failed to submit RFQ");
+  }
 };
+const handleSaveDraft = async () => {
+  try {
+    const payload = {
+      procurementType,
+      requisitionType,
+      bidType,
+      purpose,
+      evaluationMethod,
+      classification,
+      costCenters,
+      publishDate,
+      closingDate,
+      heading,
+      description,
+      selectedIndustry,
+      selectedSubItems,
+      items,
+      itemDescriptionNote,
+      documents,
+      deliveryTime,
+      paymentTerms,
+      supplierOption,
+      searchSupplierText,
+      favouriteSuppliers,
+      inviteEmails,
+      rfxVisibility,
+      status: "DRAFT",
+    };
+
+    const res = await API.post("/rfq/create", payload);
+
+    if (res.data.success) {
+      alert("Draft saved successfully");
+    }
+  } catch (error) {
+    console.error("SAVE DRAFT ERROR:", error);
+    alert("Failed to save draft");
+  }
+};
+
    const [documents, setDocuments] = useState([
   { name: "", url: "", file: null },
 ]);
@@ -1174,16 +1223,17 @@ const handleDocFileChange = (index, file) => {
               Cancel
             </button>
 
-            <button
-              type="button"
-              className="px-6 py-2 border rounded"
-              style={{
-                color: colors.deepGreen,
-                borderColor: colors.deepGreen,
-              }}
-            >
-              Save Draft
-            </button>
+           <button
+  type="button"
+  onClick={handleSaveDraft}
+  className="px-6 py-2 border rounded"
+  style={{
+    color: colors.deepGreen,
+    borderColor: colors.deepGreen,
+  }}
+>
+  Save Draft
+</button>
 
             {currentStep < 2 ? (
               <button
