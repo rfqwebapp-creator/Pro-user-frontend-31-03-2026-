@@ -109,7 +109,7 @@ const BuyerRFQView = () => {
         {/* Main Table Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left hidden md:table">
               <thead>
                 <tr className="bg-gray-50/50 border-b border-gray-100">
                   <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reference</th>
@@ -204,12 +204,79 @@ const BuyerRFQView = () => {
                 )}
               </tbody>
             </table>
+
+            <div className="md:hidden px-4 py-3 space-y-4">
+              {loading ? (
+                Array(3).fill(0).map((_, i) => (
+                  <div key={i} className="animate-pulse bg-gray-50 rounded-2xl p-4" />
+                ))
+              ) : rfqs.length > 0 ? (
+                rfqs.map((row, index) => (
+                  <div key={row.id} className="border border-gray-200 rounded-3xl bg-white p-4 shadow-sm">
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[11px] uppercase tracking-[0.2em] text-gray-400">Reference</p>
+                          <p className="text-sm font-semibold text-[#2A2A2A]">RFQ-{String(index + 1).padStart(3, "0")}</p>
+                        </div>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${getStatusStyles(row.status)}`}>
+                          {row.status?.replace("_", " ")}
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <p className="text-sm font-semibold text-[#2A2A2A]">{row.heading || "Untitled RFQ"}</p>
+                        <p className="text-xs text-gray-500 uppercase">{row.cost_center || row.costCenter || "No Center"}</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
+                        <div>
+                          <p className="text-[11px] uppercase tracking-[0.2em] text-gray-400">Created</p>
+                          <p className="font-medium text-gray-900">{formatDate(row.created_at)}</p>
+                        </div>
+                        <div>
+                          <p className="text-[11px] uppercase tracking-[0.2em] text-gray-400">Closing</p>
+                          <p className="font-medium text-gray-900">{formatDate(row.closing_date)}</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3 text-center">
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3">
+                          <p className="text-xs text-gray-500">Quotes</p>
+                          <p className="text-sm font-semibold text-[#2A2A2A]">{row.quotes_received ?? 0}</p>
+                        </div>
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3">
+                          <p className="text-xs text-gray-500">Suppliers</p>
+                          <p className="text-sm font-semibold text-[#2A2A2A]">{row.invited_suppliers ?? 0}</p>
+                        </div>
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3">
+                          <p className="text-xs text-gray-500">Messages</p>
+                          <p className="text-sm font-semibold text-[#2A2A2A]">{row.chat_count ?? 0}</p>
+                        </div>
+                      </div>
+
+                      <div className="pt-2">
+                        <button className="w-full rounded-lg border border-[#43624A] px-4 py-2 text-sm font-semibold text-[#43624A] hover:bg-[#43624A]/10 transition">
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="rounded-3xl border border-gray-200 bg-gray-50 p-6 text-center">
+                  <FiFileText size={48} className="mx-auto mb-4 text-gray-300" />
+                  <p className="text-lg font-medium text-gray-700">No RFQs found</p>
+                  <p className="text-sm text-gray-500">Try adjusting your filters or create a new request.</p>
+                </div>
+              )}
+            </div>
           </div>
           
           {/* Pagination Placeholder */}
-          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
              <span className="text-xs text-gray-500 font-medium">Showing {rfqs.length} results</span>
-             <div className="flex gap-2">
+             <div className="flex gap-2 justify-center sm:justify-end">
                 <button className="px-3 py-1 text-xs border border-gray-300 rounded bg-white disabled:opacity-50">Prev</button>
                 <button className="px-3 py-1 text-xs border border-gray-300 rounded bg-white hover:bg-gray-50">Next</button>
              </div>
