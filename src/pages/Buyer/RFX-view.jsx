@@ -112,12 +112,16 @@ const BuyerRFQView = () => {
             <table className="w-full text-left hidden md:table">
               <thead>
                 <tr className="bg-gray-50/50 border-b border-gray-100">
-                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reference</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Heading & Center</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Timeline</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">RFQ #</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">RFQ/RFP Heading</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Cost Center</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Created On</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Closing Date</th>
                   <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Engagement</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Quotes Received</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Invited Suppliers</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">RFX Purchased</th>
+                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Chat</th>
                 </tr>
               </thead>
 
@@ -138,27 +142,21 @@ const BuyerRFQView = () => {
                       </td>
 
                       <td className="px-6 py-5">
-                        <div className="flex flex-col">
-                          <span className="font-semibold text-[#2A2A2A] group-hover:text-[#43624A] transition-colors">
-                            {row.heading || "Untitled RFQ"}
-                          </span>
-                          <span className="text-xs text-gray-400 mt-0.5 uppercase">
-                            {row.cost_center || row.costCenter || "No Center"}
-                          </span>
-                        </div>
+                        <span className="font-semibold text-[#2A2A2A] group-hover:text-[#43624A] transition-colors">
+                          {row.heading || "Untitled RFQ"}
+                        </span>
                       </td>
 
                       <td className="px-6 py-5">
-                        <div className="text-sm">
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase w-8">In:</span>
-                            {formatDate(row.created_at)}
-                          </div>
-                          <div className="flex items-center gap-2 text-gray-900 font-medium">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase w-8">End:</span>
-                            {formatDate(row.closing_date)}
-                          </div>
-                        </div>
+                        <span className="text-sm text-gray-600">{row.cost_center || row.costCenter || "No Center"}</span>
+                      </td>
+
+                      <td className="px-6 py-5 text-sm text-gray-700">
+                        {formatDate(row.created_at)}
+                      </td>
+
+                      <td className="px-6 py-5 text-sm text-gray-700">
+                        {formatDate(row.closing_date)}
                       </td>
 
                       <td className="px-6 py-5">
@@ -167,33 +165,15 @@ const BuyerRFQView = () => {
                         </span>
                       </td>
 
-                      <td className="px-6 py-5">
-                        <div className="flex items-center justify-center gap-4 text-gray-500">
-                          <div className="flex flex-col items-center" title="Quotes Received">
-                            <span className="text-sm font-bold text-[#2A2A2A]">{row.quotes_received ?? 0}</span>
-                            <FiFileText className="text-[10px]" />
-                          </div>
-                          <div className="flex flex-col items-center" title="Invited Suppliers">
-                            <span className="text-sm font-bold text-[#2A2A2A]">{row.invited_suppliers ?? 0}</span>
-                            <FiUsers className="text-[10px]" />
-                          </div>
-                          <div className="flex flex-col items-center text-[#7A9C83]" title="Messages">
-                            <span className="text-sm font-bold">{row.chat_count ?? 0}</span>
-                            <FiMessageSquare className="text-[10px]" />
-                          </div>
-                        </div>
-                      </td>
-
-                      <td className="px-6 py-5 text-right">
-                        <button className="text-[#43624A] hover:text-[#2A2A2A] font-bold text-xs uppercase tracking-wider">
-                          View Details
-                        </button>
-                      </td>
+                      <td className="px-6 py-5 text-sm font-semibold text-[#2A2A2A]">{row.quotes_received ?? 0}</td>
+                      <td className="px-6 py-5 text-sm font-semibold text-[#2A2A2A]">{row.invited_suppliers ?? 0}</td>
+                      <td className="px-6 py-5 text-sm font-semibold text-[#2A2A2A]">{row.rfx_purchased ?? row.rfq_purchased ?? row.purchased_count ?? 0}</td>
+                      <td className="px-6 py-5 text-right text-sm font-semibold text-[#2A2A2A]">{row.chat_count ?? 0}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="px-6 py-20 text-center">
+                    <td colSpan="10" className="px-6 py-20 text-center">
                       <div className="flex flex-col items-center justify-center text-gray-400">
                         <FiFileText size={48} className="mb-4 opacity-20" />
                         <p className="text-lg font-medium">No RFQs found</p>
@@ -240,17 +220,21 @@ const BuyerRFQView = () => {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-3 text-center">
-                        <div className="rounded-2xl bg-[#F5F2EA] p-3">
+                      <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3 text-center">
                           <p className="text-xs text-gray-500">Quotes</p>
                           <p className="text-sm font-semibold text-[#2A2A2A]">{row.quotes_received ?? 0}</p>
                         </div>
-                        <div className="rounded-2xl bg-[#F5F2EA] p-3">
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3 text-center">
                           <p className="text-xs text-gray-500">Suppliers</p>
                           <p className="text-sm font-semibold text-[#2A2A2A]">{row.invited_suppliers ?? 0}</p>
                         </div>
-                        <div className="rounded-2xl bg-[#F5F2EA] p-3">
-                          <p className="text-xs text-gray-500">Messages</p>
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3 text-center">
+                          <p className="text-xs text-gray-500">Purchased</p>
+                          <p className="text-sm font-semibold text-[#2A2A2A]">{row.rfx_purchased ?? row.rfq_purchased ?? row.purchased_count ?? 0}</p>
+                        </div>
+                        <div className="rounded-2xl bg-[#F5F2EA] p-3 text-center">
+                          <p className="text-xs text-gray-500">Chat</p>
                           <p className="text-sm font-semibold text-[#2A2A2A]">{row.chat_count ?? 0}</p>
                         </div>
                       </div>
