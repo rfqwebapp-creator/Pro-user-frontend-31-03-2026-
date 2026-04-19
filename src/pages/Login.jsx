@@ -55,15 +55,25 @@ const handleLogin = async (e) => {
   setError("");
 
   try {
+    console.log("CLICKED LOGIN");
+    console.log("SENDING LOGIN REQUEST...");
+
     const res = await API.post("/auth/login", { email, password });
     const data = res.data;
 
+    console.log("LOGIN RESPONSE DATA:", data);
+
     if (!data.token) {
-      throw new Error("Token not received from server");
+      setError("Token not received from server");
+      setLoading(false);
+      return;
     }
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
+
+    console.log("TOKEN SAVED:", data.token);
+    console.log("USER SAVED:", data.user);
 
     setLoading(false);
     navigate("/buyer/dashboard");
@@ -72,6 +82,8 @@ const handleLogin = async (e) => {
     console.error("Login Error:", error);
 
     if (error.response) {
+      console.log("LOGIN ERROR RESPONSE:", error.response.data);
+
       if (error.response.status === 401) {
         setError("Invalid email or password ❌");
       } else {
