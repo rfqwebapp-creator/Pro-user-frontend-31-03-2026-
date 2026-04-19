@@ -26,8 +26,7 @@ const BuyerRFXcreate = () => {
 
   const [classification, setClassification] = useState("");
   const [costCenters, setCostCenters] = useState([]);
-  const [publishDate, setPublishDate] = useState("09/03/2026 03:22");
-  const [closingDate, setClosingDate] = useState("11/03/2026 03:22");
+ 
 
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
@@ -213,8 +212,8 @@ const [items, setItems] = useState([
       evaluationMethod,
       classification,
       costCenters,
-      publishDate,
-      closingDate,
+      publish_date: publishDate,
+closing_date: closingDate,
       heading,
       description,
       selectedIndustry,
@@ -252,8 +251,8 @@ const handleSaveDraft = async () => {
       evaluationMethod,
       classification,
       costCenters,
-      publishDate,
-      closingDate,
+      publish_date: publishDate,
+closing_date: closingDate,
       heading,
       description,
       selectedIndustry,
@@ -374,6 +373,9 @@ const handleDocFileChange = (index, file) => {
   updated[index].file = file;
   setDocuments(updated);
 };
+ 
+const [publishDate, setPublishDate] = useState("");
+const [closingDate, setClosingDate] = useState("");
   const renderStepHeader = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -694,40 +696,46 @@ const handleDocFileChange = (index, file) => {
 
         <hr />
 
-        <section className="grid grid-cols-3 gap-8">
-          <div>
-            <h2
-              className="text-lg font-bold flex items-center gap-2"
-              style={{ color: colors.deepGreen }}
-            >
-              <Calendar size={20} /> RFX Timeline
-            </h2>
-          </div>
+      <section className="grid grid-cols-3 gap-8">
+  <div>
+    <h2
+      className="text-lg font-bold flex items-center gap-2"
+      style={{ color: colors.deepGreen }}
+    >
+      <Calendar size={20} /> RFX Timeline
+    </h2>
+  </div>
 
-          <div className="col-span-2 grid grid-cols-2 gap-6">
-            <div>
-              <label className="text-xs font-bold text-gray-500 uppercase">
-                Publish Date
-              </label>
+  <div className="col-span-2 grid grid-cols-2 gap-6">
+    {/* Publish Date */}
+    <div>
+      <label className="text-xs font-bold text-gray-500 uppercase mb-2 block">
+        Publish Date
+      </label>
 
-              <div className="flex justify-between p-3 border rounded">
-                <span>{publishDate}</span>
-                <Calendar size={16} />
-              </div>
-            </div>
+<input
+  type="datetime-local"
+  value={publishDate}
+  onChange={(e) => setPublishDate(e.target.value)}
+        className="w-full p-3 border rounded"
+      />
+    </div>
 
-            <div>
-              <label className="text-xs font-bold text-gray-500 uppercase">
-                Closing Date
-              </label>
+    {/* Closing Date */}
+    <div>
+      <label className="text-xs font-bold text-gray-500 uppercase mb-2 block">
+        Closing Date
+      </label>
 
-              <div className="flex justify-between p-3 border rounded">
-                <span>{closingDate}</span>
-                <Calendar size={16} />
-              </div>
-            </div>
-          </div>
-        </section>
+      <input
+        type="datetime-local"
+        value={closingDate}
+        onChange={(e) => setClosingDate(e.target.value)}
+        className="w-full p-3 border rounded"
+      />
+    </div>
+  </div>
+</section>
       </div>
     );
   };
