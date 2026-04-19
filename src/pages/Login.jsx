@@ -9,41 +9,81 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError("Please enter both email and password");
-      return;
-    }
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+//     if (!email || !password) {
+//       setError("Please enter both email and password");
+//       return;
+//     }
 
-    setLoading(true);
-    setError("");
+//     setLoading(true);
+//     setError("");
 
-    try {
-      const res = await API.post("/auth/login", { email, password });
-      const data = res.data;
-      localStorage.setItem("token", data.token || "true");
-      localStorage.setItem("user", JSON.stringify(data.user || data));
-      setLoading(false);
-      navigate("/buyer/dashboard");
-    } catch (error) {
-  setLoading(false);
-  console.error("Login Error:", error);
+//     try {
+//       const res = await API.post("/auth/login", { email, password });
+//       const data = res.data;
+//       localStorage.setItem("token", data.token || "true");
+//       localStorage.setItem("user", JSON.stringify(data.user || data));
+//       setLoading(false);
+//       navigate("/buyer/dashboard");
+//     } catch (error) {
+//   setLoading(false);
+//   console.error("Login Error:", error);
 
-  if (error.response) {
-    if (error.response.status === 401) {
-      setError("Invalid email or password ❌");
-    } else {
-      setError(error.response.data?.message || "Login failed ❌");
-    }
-  } else if (error.request) {
-    setError("Server not responding properly ❌");
-  } else {
-    setError(error.message || "Something went wrong ❌");
+//   if (error.response) {
+//     if (error.response.status === 401) {
+//       setError("Invalid email or password ❌");
+//     } else {
+//       setError(error.response.data?.message || "Login failed ❌");
+//     }
+//   } else if (error.request) {
+//     setError("Server not responding properly ❌");
+//   } else {
+//     setError(error.message || "Something went wrong ❌");
+//   }
+// }
+//   };
+const handleLogin = async (e) => {
+  e.preventDefault();
+
+  if (!email || !password) {
+    setError("Please enter both email and password");
+    return;
   }
-}
-  };
 
+  setLoading(true);
+  setError("");
+
+  try {
+    const res = await API.post("/auth/login", { email, password });
+    const data = res.data;
+
+    if (!data.token) {
+      throw new Error("Token not received from server");
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    setLoading(false);
+    navigate("/buyer/dashboard");
+  } catch (error) {
+    setLoading(false);
+    console.error("Login Error:", error);
+
+    if (error.response) {
+      if (error.response.status === 401) {
+        setError("Invalid email or password ❌");
+      } else {
+        setError(error.response.data?.message || "Login failed ❌");
+      }
+    } else if (error.request) {
+      setError("Server not responding properly ❌");
+    } else {
+      setError(error.message || "Something went wrong ❌");
+    }
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#F5F2EA" }}>
       <form
