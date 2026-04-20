@@ -83,7 +83,9 @@ useEffect(() => {
   };
 
 const getStatusStyles = (status) => {
-  switch (status) {
+  const normalized = normalizeStatus(status);
+
+  switch (normalized) {
     case "DRAFT":
       return "bg-amber-50 text-amber-700 border-amber-100";
     case "IN_REVIEW":
@@ -115,6 +117,13 @@ const getRfxNumber = (type, index) => {
   if (upperType === "RFP") return `RFP-${number}`;
   if (upperType === "RFQ") return `RFQ-${number}`;
   return `RFX-${number}`;
+
+};
+const normalizeStatus = (value) => {
+  return String(value ?? "")
+    .trim()
+    .replace(/\s+/g, "_")
+    .toUpperCase();
 };
   return (
     <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-10 font-sans text-[#2A2A2A]">
@@ -208,62 +217,60 @@ const getRfxNumber = (type, index) => {
                     ))
                 ) : filteredRfqs.length > 0 ? (
 filteredRfqs.map((row, index) => {
-  const statusValue = String(
-    row?.status ||
-    row?.rfq_status ||
-    row?.rfx_status ||
-    ""
-  )
-    .trim()
-    .toUpperCase();
+  const rawStatus =
+    row?.status ??
+    row?.rfq_status ??
+    row?.rfx_status ??
+    "";
 
-  return (                    <tr
-                      key={row.id}
-                      className="hover:bg-[#F5F2EA]/20 transition-colors group"
-                    >
-                      <td className="px-6 py-5">
-                        <span className="font-mono text-xs font-bold text-[#43624A] bg-[#7A9C83]/10 px-2 py-1 rounded">
-                          {getRfxNumber(row.requisition_type, index)}
-                        </span>
-                      </td>
+  const statusValue = normalizeStatus(rawStatus);
 
-                      <td className="px-6 py-5">
-                        <span className="font-semibold text-[#2A2A2A] group-hover:text-[#43624A] transition-colors">
-                          {row.heading || "Untitled RFQ"}
-                        </span>
-                      </td>
+  return (
+    <tr
+      key={row.id}
+      className="hover:bg-[#F5F2EA]/20 transition-colors group"
+    >
+      <td className="px-6 py-5">
+        <span className="font-mono text-xs font-bold text-[#43624A] bg-[#7A9C83]/10 px-2 py-1 rounded">
+          {getRfxNumber(row.requisition_type, index)}
+        </span>
+      </td>
 
-                      
+      <td className="px-6 py-5">
+        <span className="font-semibold text-[#2A2A2A] group-hover:text-[#43624A] transition-colors">
+          {row.heading || "Untitled RFQ"}
+        </span>
+      </td>
 
-                      <td className="px-6 py-5 text-sm text-gray-700 capitalize">
-                        {row.purpose || "-"}
-                      </td>
+      <td className="px-6 py-5 text-sm text-gray-700 capitalize">
+        {row.purpose || "-"}
+      </td>
 
-                      <td className="px-6 py-5 text-sm text-gray-700">
-                        {formatDate(row.created_at)}
-                      </td>
+      <td className="px-6 py-5 text-sm text-gray-700">
+        {formatDate(row.created_at)}
+      </td>
 
-               <td className="px-6 py-5">
-  <span
-    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusStyles(
-      statusValue
-    )}`}
-  >
-    {statusValue ? statusValue.replaceAll("_", " ") : "-"}
-  </span>
-</td>
+      <td className="px-6 py-5">
+        <span
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusStyles(
+            statusValue
+          )}`}
+        >
+          {statusValue || "-"}
+        </span>
+      </td>
 
-                      <td className="px-6 py-5 text-center">
-                        <button
-                          onClick={() => handleViewDetails(row.id)}
-                          className="rounded-lg border border-[#43624A] px-4 py-2 text-sm font-semibold text-[#43624A] hover:bg-[#43624A]/10 transition"
-                        >
-                          View Details
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
+      <td className="px-6 py-5 text-center">
+        <button
+          onClick={() => handleViewDetails(row.id)}
+          className="rounded-lg border border-[#43624A] px-4 py-2 text-sm font-semibold text-[#43624A] hover:bg-[#43624A]/10 transition"
+        >
+          View Details
+        </button>
+      </td>
+    </tr>
+  );
+})
                 ) : (
                   <tr>
                     <td colSpan="7" className="px-6 py-20 text-center">
@@ -291,15 +298,14 @@ filteredRfqs.map((row, index) => {
                     />
                   ))
               ) : filteredRfqs.length > 0 ? (
-                filteredRfqs.map((row, index) => {
-  const statusValue = String(
-    row?.status ||
-    row?.rfq_status ||
-    row?.rfx_status ||
-    ""
-  )
-    .trim()
-    .toUpperCase();
+              filteredRfqs.map((row, index) => {
+  const rawStatus =
+    row?.status ??
+    row?.rfq_status ??
+    row?.rfx_status ??
+    "";
+
+  const statusValue = normalizeStatus(rawStatus);
 
   return (
                   <div
