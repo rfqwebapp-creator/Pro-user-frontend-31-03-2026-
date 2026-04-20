@@ -9,6 +9,10 @@ import {
   Truck,
   CreditCard,
   Paperclip,
+  SquarePen,
+  XCircle,
+  PlusCircle,
+  Clock3,
 } from "lucide-react";
 
 const BuyerRfqDetails = () => {
@@ -23,13 +27,13 @@ const BuyerRfqDetails = () => {
     deepGreen: "#43624A",
     mutedGreen: "#7A9C83",
     offWhite: "#F5F2EA",
+    danger: "#B42318",
   };
 
   const fetchRFQDetails = async () => {
     try {
       setLoading(true);
 
-      // ✅ expected backend API
       const res = await API.get(`/rfq/${id}`);
 
       if (res?.data?.success) {
@@ -77,6 +81,8 @@ const BuyerRfqDetails = () => {
         return "bg-emerald-50 text-emerald-700 border-emerald-100";
       case "REJECTED":
         return "bg-red-50 text-red-700 border-red-100";
+      case "CANCELLED":
+        return "bg-red-50 text-red-700 border-red-100";
       default:
         return "bg-gray-50 text-gray-600 border-gray-200";
     }
@@ -101,6 +107,39 @@ const BuyerRfqDetails = () => {
     rfq?.favourite_suppliers || rfq?.favouriteSuppliers
   );
   const costCenters = parseArray(rfq?.cost_centers || rfq?.costCenters);
+
+  const handleEditRfx = () => {
+    navigate(`/buyer/rfx/edit/${id}`);
+  };
+
+  const handleAddDocumentsItems = () => {
+    navigate(`/buyer/rfx/update/${id}?tab=documents-items`);
+  };
+
+  const handleDateExtension = () => {
+    navigate(`/buyer/rfx/update/${id}?tab=date-extension`);
+  };
+
+  const handleCancelRfx = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this RFX?"
+    );
+    if (!confirmed) return;
+
+    try {
+      const res = await API.put(`/rfq/${id}/cancel`);
+
+      if (res?.data?.success) {
+        alert("RFX cancelled successfully");
+        fetchRFQDetails();
+      } else {
+        alert(res?.data?.message || "Failed to cancel RFX");
+      }
+    } catch (error) {
+      console.error("CANCEL RFX ERROR:", error);
+      alert("Error while cancelling RFX");
+    }
+  };
 
   if (loading) {
     return (
@@ -141,7 +180,7 @@ const BuyerRfqDetails = () => {
     <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-10 font-sans text-[#2A2A2A]">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Top */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
           <div>
             <button
               onClick={() => navigate(-1)}
@@ -161,7 +200,7 @@ const BuyerRfqDetails = () => {
             </p>
           </div>
 
-          <div>
+          <div className="flex flex-col items-start lg:items-end gap-3">
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${getStatusStyles(
                 rfq.status
@@ -169,6 +208,60 @@ const BuyerRfqDetails = () => {
             >
               {rfq.status?.replaceAll("_", " ") || "-"}
             </span>
+
+            {/* 2 MAIN OPTIONS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full lg:w-auto">
+              {/* OPTION 1 */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm min-w-[280px]">
+                <h3 className="text-sm font-bold mb-3" style={{ color: colors.deepGreen }}>
+                  Option 1 — Edit RFX
+                </h3>
+
+                <div className="space-y-2">
+                  <button
+                    onClick={handleEditRfx}
+                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-gray-200 hover:bg-gray-50 transition"
+                  >
+                    <SquarePen size={18} />
+                    Edit RFX
+                  </button>
+
+                  <button
+                    onClick={handleAddDocumentsItems}
+                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-gray-200 hover:bg-gray-50 transition"
+                  >
+                    <PlusCircle size={18} />
+                    Add New Documents & Items
+                  </button>
+                </div>
+              </div>
+
+              {/* OPTION 2 */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm min-w-[280px]">
+                <h3 className="text-sm font-bold mb-3" style={{ color: colors.deepGreen }}>
+                  Option 2 — Manage RFX
+                </h3>
+
+                <div className="space-y-2">
+                  <button
+                    onClick={handleDateExtension}
+                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-gray-200 hover:bg-gray-50 transition"
+                  >
+                    <Clock3 size={18} />
+                    Date Extension
+                  </button>
+
+                  <button
+                    onClick={handleCancelRfx}
+                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-red-200 bg-red-50 hover:bg-red-100 transition"
+                    style={{ color: colors.danger }}
+                  >
+                    <XCircle size={18} />
+                    Cancel RFX
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -196,11 +289,7 @@ const BuyerRfqDetails = () => {
               label="Industry"
               value={rfq.selected_industry || rfq.selectedIndustry}
             />
-            <InfoCard
-              label="Description"
-              value={rfq.description}
-              fullWidth
-            />
+            <InfoCard label="Description" value={rfq.description} fullWidth />
             <InfoCard
               label="Sub Items"
               value={
@@ -403,7 +492,7 @@ const InfoCard = ({
       <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
         {label}
       </p>
-      <div className="min-h-[48px] rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3 text-sm text-gray-800">
+      <div className="min-h-[48px] rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3 text-sm text-gray-800 break-words">
         {displayValue}
       </div>
     </div>
