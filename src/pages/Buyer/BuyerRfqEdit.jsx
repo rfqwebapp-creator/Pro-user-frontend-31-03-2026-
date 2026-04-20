@@ -9,25 +9,6 @@ const BuyerRfqEdit = () => {
   const [formData, setFormData] = useState({
     heading: "",
     description: "",
-    procurementType: "",
-    requisitionType: "",
-    bidType: "",
-    purpose: "",
-    evaluationMethod: "",
-    classification: "",
-    publishDate: "",
-    closingDate: "",
-    selectedIndustry: "",
-    selectedSubItems: [],
-    items: [],
-    itemDescriptionNote: "",
-    documents: [],
-    deliveryTime: "",
-    paymentTerms: "",
-    supplierOption: "",
-    searchSupplierText: "",
-    inviteEmails: [],
-    rfxVisibility: "",
   });
 
   useEffect(() => {
@@ -37,31 +18,14 @@ const BuyerRfqEdit = () => {
   const fetchRFQ = async () => {
     try {
       const res = await API.get(`/rfq/${id}`);
+      console.log("EDIT FETCH RESPONSE:", res.data);
+
       if (res.data.success) {
         const data = res.data.data;
 
         setFormData({
           heading: data.heading || "",
           description: data.description || "",
-          procurementType: data.procurement_type || "",
-          requisitionType: data.requisition_type || "",
-          bidType: data.bid_type || "",
-          purpose: data.purpose || "",
-          evaluationMethod: data.evaluation_method || "",
-          classification: data.classification || "",
-          publishDate: data.publish_date ? data.publish_date.slice(0, 16) : "",
-          closingDate: data.closing_date ? data.closing_date.slice(0, 16) : "",
-          selectedIndustry: data.selected_industry || "",
-          selectedSubItems: data.selectedSubItems || [],
-          items: data.items || [],
-          itemDescriptionNote: data.item_description_note || "",
-          documents: data.documents || [],
-          deliveryTime: data.delivery_time || "",
-          paymentTerms: data.payment_terms || "",
-          supplierOption: data.supplier_option || "",
-          searchSupplierText: data.search_supplier_text || "",
-          inviteEmails: data.inviteEmails || [],
-          rfxVisibility: data.rfx_visibility || "",
         });
       }
     } catch (error) {
@@ -76,36 +40,64 @@ const BuyerRfqEdit = () => {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    await API.put(`/rfq/${id}`, formData);
-    alert("RFQ updated successfully");
-    navigate(`/buyer/rfq/${id}`);
-  } catch (error) {
-    console.error("UPDATE ERROR:", error);
-    alert("Failed to update RFQ");
-  }
-};
+    try {
+      await API.put(`/rfq/${id}`, formData);
+      alert("RFQ updated successfully");
+      navigate(`/buyer/rfq/${id}`);
+    } catch (error) {
+      console.error("UPDATE ERROR:", error);
+      alert("Failed to update RFQ");
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="heading"
-        value={formData.heading}
-        onChange={handleChange}
-      />
+    <div className="p-6 max-w-3xl mx-auto bg-white rounded-xl shadow mt-6">
+      <h1 className="text-2xl font-bold mb-6">Update RFQ</h1>
 
-      <textarea
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-      />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block mb-1 font-medium">Heading</label>
+          <input
+            type="text"
+            name="heading"
+            value={formData.heading}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-lg p-3"
+          />
+        </div>
 
-      <button type="submit">Update RFQ</button>
-    </form>
+        <div>
+          <label className="block mb-1 font-medium">Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="5"
+            className="w-full border border-gray-300 rounded-lg p-3"
+          />
+        </div>
+
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => navigate(`/buyer/rfq/${id}`)}
+            className="px-5 py-2 rounded-lg border border-gray-300"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="px-5 py-2 rounded-lg bg-green-700 text-white"
+          >
+            Update RFQ
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
