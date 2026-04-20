@@ -82,22 +82,24 @@ useEffect(() => {
     });
   };
 
-  const getStatusStyles = (status) => {
-    switch (status) {
-      case "DRAFT":
-        return "bg-amber-50 text-amber-700 border-amber-100";
-      case "IN_REVIEW":
-        return "bg-blue-50 text-blue-700 border-blue-100";
-      case "PUBLISHED":
-        return "bg-[#F5F2EA] text-[#43624A] border-[#7A9C83]/30";
-      case "ACCEPTED":
-        return "bg-emerald-50 text-emerald-700 border-emerald-100";
-      case "REJECTED":
-        return "bg-red-50 text-red-700 border-red-100";
-      default:
-        return "bg-gray-50 text-gray-600 border-gray-200";
-    }
-  };
+const getStatusStyles = (status) => {
+  switch (status) {
+    case "DRAFT":
+      return "bg-amber-50 text-amber-700 border-amber-100";
+    case "IN_REVIEW":
+      return "bg-blue-50 text-blue-700 border-blue-100";
+    case "PUBLISHED":
+      return "bg-[#F5F2EA] text-[#43624A] border-[#7A9C83]/30";
+    case "ACCEPTED":
+      return "bg-emerald-50 text-emerald-700 border-emerald-100";
+    case "REJECTED":
+      return "bg-red-50 text-red-700 border-red-100";
+    case "CANCELLED":
+      return "bg-red-50 text-red-700 border-red-100";
+    default:
+      return "bg-gray-50 text-gray-600 border-gray-200";
+  }
+};
 
   const handleCreateRFX = () => {
     navigate("/buyer/create-rfx");
