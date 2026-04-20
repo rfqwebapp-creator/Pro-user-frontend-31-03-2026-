@@ -9,9 +9,7 @@ import {
   Truck,
   CreditCard,
   Paperclip,
-  SquarePen,
   XCircle,
-  PlusCircle,
   Clock3,
   Hash,
   MessageCircle,
@@ -20,6 +18,9 @@ import {
   BadgeCheck,
   Building2,
   ReceiptText,
+  PlusCircle,
+  Target,
+  Landmark,
 } from "lucide-react";
 
 const BuyerRfqDetails = () => {
@@ -28,6 +29,7 @@ const BuyerRfqDetails = () => {
 
   const [rfq, setRfq] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("date-change");
 
   const colors = {
     dark: "#2A2A2A",
@@ -138,7 +140,9 @@ const BuyerRfqDetails = () => {
 
   const items = parseArray(rfq?.items);
   const documents = parseArray(rfq?.documents);
-  const selectedSubItems = parseArray(rfq?.selected_sub_items || rfq?.selectedSubItems);
+  const selectedSubItems = parseArray(
+    rfq?.selected_sub_items || rfq?.selectedSubItems
+  );
   const inviteEmails = parseArray(rfq?.invite_emails || rfq?.inviteEmails);
   const favouriteSuppliers = parseArray(
     rfq?.favourite_suppliers || rfq?.favouriteSuppliers
@@ -175,21 +179,49 @@ const BuyerRfqDetails = () => {
     rfq?.messageCount ??
     0;
 
-const handleEditRfx = () => {
-  navigate(`/buyer/rfq/${id}/edit`);
-};
-
-  const handleAddDocumentsItems = () => {
-    navigate(`/buyer/rfx/update/${id}?tab=documents-items`);
-  };
-
-  const handleDateExtension = () => {
-    navigate(`/buyer/rfx/update/${id}?tab=date-extension`);
-  };
+  const actionTabs = [
+    {
+      key: "date-change",
+      label: "Date Change",
+      icon: <Clock3 size={16} />,
+      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=date-change`),
+    },
+    {
+      key: "add-supplier",
+      label: "Add More Supplier",
+      icon: <Users size={16} />,
+      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=add-supplier`),
+    },
+    {
+      key: "purpose",
+      label: "Purpose",
+      icon: <Target size={16} />,
+      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=purpose`),
+    },
+    {
+      key: "cost-center",
+      label: "Cost Center",
+      icon: <Landmark size={16} />,
+      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=cost-center`),
+    },
+    {
+      key: "documents",
+      label: "Add Documents",
+      icon: <Paperclip size={16} />,
+      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=documents`),
+    },
+    {
+      key: "cancel",
+      label: "Cancel RFQ",
+      icon: <XCircle size={16} />,
+      onClick: () => handleCancelRfx(),
+      danger: true,
+    },
+  ];
 
   const handleCancelRfx = async () => {
     const confirmed = window.confirm(
-      "Are you sure you want to cancel this RFX?"
+      "Are you sure you want to cancel this RFQ?"
     );
     if (!confirmed) return;
 
@@ -197,14 +229,14 @@ const handleEditRfx = () => {
       const res = await API.put(`/rfq/${id}/cancel`);
 
       if (res?.data?.success) {
-        alert("RFX cancelled successfully");
+        alert("RFQ cancelled successfully");
         fetchRFQDetails();
       } else {
-        alert(res?.data?.message || "Failed to cancel RFX");
+        alert(res?.data?.message || "Failed to cancel RFQ");
       }
     } catch (error) {
-      console.error("CANCEL RFX ERROR:", error);
-      alert("Error while cancelling RFX");
+      console.error("CANCEL RFQ ERROR:", error);
+      alert("Error while cancelling RFQ");
     }
   };
 
@@ -264,7 +296,7 @@ const handleEditRfx = () => {
             </h1>
 
             <p className="text-sm text-gray-500 mt-2">
-              Complete RFQ / RFP details view
+              Complete RFQ details view
             </p>
           </div>
 
@@ -276,78 +308,58 @@ const handleEditRfx = () => {
             >
               {rfq.status?.replaceAll("_", " ") || "-"}
             </span>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full lg:w-auto">
-              <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm min-w-[280px]">
-                <h3
-                  className="text-sm font-bold mb-3"
-                  style={{ color: colors.deepGreen }}
-                >
-                  Option 1 — Edit RFX
-                </h3>
-
-                <div className="space-y-2">
-                  <button
-                    onClick={handleEditRfx}
-                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-gray-200 hover:bg-gray-50 transition"
-                  >
-                    <SquarePen size={18} />
-                    Edit RFX
-                  </button>
-
-                  <button
-                    onClick={handleAddDocumentsItems}
-                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-gray-200 hover:bg-gray-50 transition"
-                  >
-                    <PlusCircle size={18} />
-                    Add New Documents & Items
-                  </button>
-                </div>
-              </div>
-
-              <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm min-w-[280px]">
-                <h3
-                  className="text-sm font-bold mb-3"
-                  style={{ color: colors.deepGreen }}
-                >
-                  Option 2 — Manage RFX
-                </h3>
-
-                <div className="space-y-2">
-                  <button
-                    onClick={handleDateExtension}
-                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-gray-200 hover:bg-gray-50 transition"
-                  >
-                    <Clock3 size={18} />
-                    Date Extension
-                  </button>
-
-                  <button
-                    onClick={handleCancelRfx}
-                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium border border-red-200 bg-red-50 hover:bg-red-100 transition"
-                    style={{ color: colors.danger }}
-                  >
-                    <XCircle size={18} />
-                    Cancel RFX
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* RFX Summary - image fields added */}
+        {/* 6 Tabs Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 md:p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <ReceiptText size={20} style={{ color: colors.deepGreen }} />
+            <h2 className="text-xl font-bold">Manage RFQ</h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+            {actionTabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => {
+                  setActiveTab(tab.key);
+                  tab.onClick();
+                }}
+                className={`w-full rounded-xl border px-4 py-4 text-sm font-semibold transition flex flex-col items-center justify-center gap-2 ${
+                  tab.danger
+                    ? "border-red-200 bg-red-50 text-red-700 hover:bg-red-100"
+                    : activeTab === tab.key
+                    ? "border-[#43624A] bg-[#E8F0EA] text-[#43624A]"
+                    : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* RFX Summary */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
           <div className="flex items-center gap-2 mb-6">
             <ReceiptText size={20} style={{ color: colors.deepGreen }} />
-            <h2 className="text-xl font-bold">RFX Summary</h2>
+            <h2 className="text-xl font-bold">RFQ Summary</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
             <SummaryCard
               icon={<Hash size={18} />}
-              label="RFX #"
-              value={rfq.rfx_no || rfq.rfxNo || rfq.rfq_no || rfq.rfqNo || rfq.id || "-"}
+              label="RFQ #"
+              value={
+                rfq.rfx_no ||
+                rfq.rfxNo ||
+                rfq.rfq_no ||
+                rfq.rfqNo ||
+                rfq.id ||
+                "-"
+              }
             />
 
             <SummaryCard
@@ -399,7 +411,7 @@ const handleEditRfx = () => {
 
             <SummaryCard
               icon={<ShoppingBag size={18} />}
-              label="RFX Purchased"
+              label="RFQ Purchased"
               value={String(parseNumber(rfxPurchased))}
             />
 
@@ -411,7 +423,7 @@ const handleEditRfx = () => {
 
             <SummaryCard
               icon={<FileText size={18} />}
-              label="RFQ/RFP Heading"
+              label="Heading"
               value={rfq.heading || "-"}
             />
           </div>
@@ -426,22 +438,33 @@ const handleEditRfx = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <InfoCard label="Heading" value={rfq.heading} />
-            <InfoCard label="Purpose" value={rfq.purpose} capitalize />
+
+            <InfoCard
+              label="Purpose"
+              value={rfq.purpose || "Procurement"}
+              capitalize
+            />
+
             <InfoCard
               label="Requisition Type"
               value={rfq.requisition_type || rfq.requisitionType}
               uppercase
             />
+
             <InfoCard label="Bid Type" value={rfq.bid_type || rfq.bidType} />
+
             <InfoCard
               label="Evaluation Method"
               value={rfq.evaluation_method || rfq.evaluationMethod}
             />
+
             <InfoCard
               label="Industry"
               value={rfq.selected_industry || rfq.selectedIndustry}
             />
+
             <InfoCard label="Description" value={rfq.description} fullWidth />
+
             <InfoCard
               label="Sub Items"
               value={
@@ -449,8 +472,9 @@ const handleEditRfx = () => {
               }
               fullWidth
             />
+
             <InfoCard
-              label="Cost Centers"
+              label="Cost Center"
               value={
                 costCenters.length > 0
                   ? costCenters.join(", ")
@@ -552,8 +576,14 @@ const handleEditRfx = () => {
                   className="border border-gray-200 rounded-xl p-4 bg-gray-50/40"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InfoCard label="Document Name" value={doc.name || doc.documentName} />
-                    <InfoCard label="URL" value={doc.url || doc.fileUrl || "-"} />
+                    <InfoCard
+                      label="Document Name"
+                      value={doc.name || doc.documentName}
+                    />
+                    <InfoCard
+                      label="URL"
+                      value={doc.url || doc.fileUrl || "-"}
+                    />
                   </div>
                 </div>
               ))}
