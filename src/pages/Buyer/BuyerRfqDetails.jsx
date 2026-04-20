@@ -175,9 +175,9 @@ const BuyerRfqDetails = () => {
     rfq?.messageCount ??
     0;
 
-  const handleEditRfx = () => {
-    navigate(`/buyer/rfx/edit/${id}`);
-  };
+const handleEditRfx = () => {
+  navigate(`/buyer/rfq/${id}/edit`);
+};
 
   const handleAddDocumentsItems = () => {
     navigate(`/buyer/rfx/update/${id}?tab=documents-items`);
