@@ -179,9 +179,7 @@ const getRfxNumber = (type, index) => {
                   <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                     RFQ/RFP Heading
                   </th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                    Requisition Type
-                  </th>
+                  
                   <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
                     Purpose
                   </th>
