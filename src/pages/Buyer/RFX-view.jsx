@@ -36,9 +36,13 @@ const RFXView = () => {
     }
   };
 
-  useEffect(() => {
-    fetchRFQs(activeTab);
-  }, [activeTab]);
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token || token === "true") return;
+
+  fetchRFQs(activeTab);
+}, [activeTab]);
 
   useEffect(() => {
     const term = searchTerm.trim().toLowerCase();

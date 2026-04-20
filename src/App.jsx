@@ -61,6 +61,7 @@ import BuyerQuestionnaireResponse from "./pages/Buyer/Questionnier";
 import BuyerCreateNewQuestionnire from "./pages/Buyer/Create-Questionnier";
 import BuyerInternalApproval from "./pages/Buyer/Internal approval";
 import BuyerHome from "./pages/Buyer/BuyerHome";
+import BuyerRfqDetails from "./pages/Buyer/BuyerRfqDetails";
 //--------------------------------BUYER END----------------------------------------------------------------
 
 //------------------------------------SELLER-- START----------------------------------------------------------------
@@ -203,6 +204,7 @@ function BuyerLayout() {
 
   <Route path="internal-approval" element={<BuyerInternalApproval />} />
   <Route path="footer" element={<Footer />} />
+  <Route path="rfq/:id" element={<BuyerRfqDetails />} />
 
 </Routes>
 
