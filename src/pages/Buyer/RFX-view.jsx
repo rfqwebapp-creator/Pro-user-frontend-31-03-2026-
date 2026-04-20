@@ -222,9 +222,7 @@ const getRfxNumber = (type, index) => {
                         </span>
                       </td>
 
-                      <td className="px-6 py-5 text-sm text-gray-700 uppercase">
-                        {row.requisition_type || "-"}
-                      </td>
+                      
 
                       <td className="px-6 py-5 text-sm text-gray-700 capitalize">
                         {row.purpose || "-"}
