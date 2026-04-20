@@ -106,7 +106,14 @@ useEffect(() => {
   const handleViewDetails = (id) => {
     navigate(`/buyer/rfq/${id}`);
   };
+const getRfxNumber = (type, index) => {
+  const number = String(index + 1).padStart(3, "0");
+  const upperType = type?.toUpperCase();
 
+  if (upperType === "RFP") return `RFP-${number}`;
+  if (upperType === "RFQ") return `RFQ-${number}`;
+  return `RFX-${number}`;
+};
   return (
     <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-10 font-sans text-[#2A2A2A]">
       <div className="max-w-7xl mx-auto">
@@ -207,7 +214,7 @@ useEffect(() => {
                     >
                       <td className="px-6 py-5">
                         <span className="font-mono text-xs font-bold text-[#43624A] bg-[#7A9C83]/10 px-2 py-1 rounded">
-                          RFQ-{String(index + 1).padStart(3, "0")}
+                          {getRfxNumber(row.requisition_type, index)}
                         </span>
                       </td>
 
@@ -288,7 +295,7 @@ useEffect(() => {
                             Reference
                           </p>
                           <p className="text-sm font-semibold text-[#2A2A2A]">
-                            RFQ-{String(index + 1).padStart(3, "0")}
+                           {getRfxNumber(row.requisition_type, index)}
                           </p>
                         </div>
 
