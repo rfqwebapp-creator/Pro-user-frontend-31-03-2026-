@@ -205,8 +205,17 @@ const getRfxNumber = (type, index) => {
                       </tr>
                     ))
                 ) : filteredRfqs.length > 0 ? (
-                  filteredRfqs.map((row, index) => (
-                    <tr
+filteredRfqs.map((row, index) => {
+  const statusValue = String(
+    row?.status ||
+    row?.rfq_status ||
+    row?.rfx_status ||
+    ""
+  )
+    .trim()
+    .toUpperCase();
+
+  return (                    <tr
                       key={row.id}
                       className="hover:bg-[#F5F2EA]/20 transition-colors group"
                     >
@@ -232,15 +241,15 @@ const getRfxNumber = (type, index) => {
                         {formatDate(row.created_at)}
                       </td>
 
-                      <td className="px-6 py-5">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusStyles(
-                            row.status
-                          )}`}
-                        >
-                          {row.status?.replaceAll("_", " ") || "-"}
-                        </span>
-                      </td>
+               <td className="px-6 py-5">
+  <span
+    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusStyles(
+      statusValue
+    )}`}
+  >
+    {statusValue ? statusValue.replaceAll("_", " ") : "-"}
+  </span>
+</td>
 
                       <td className="px-6 py-5 text-center">
                         <button
@@ -251,7 +260,8 @@ const getRfxNumber = (type, index) => {
                         </button>
                       </td>
                     </tr>
-                  ))
+                  );
+                })
                 ) : (
                   <tr>
                     <td colSpan="7" className="px-6 py-20 text-center">
@@ -279,7 +289,17 @@ const getRfxNumber = (type, index) => {
                     />
                   ))
               ) : filteredRfqs.length > 0 ? (
-                filteredRfqs.map((row, index) => (
+                filteredRfqs.map((row, index) => {
+  const statusValue = String(
+    row?.status ||
+    row?.rfq_status ||
+    row?.rfx_status ||
+    ""
+  )
+    .trim()
+    .toUpperCase();
+
+  return (
                   <div
                     key={row.id}
                     className="border border-gray-200 rounded-3xl bg-white p-4 shadow-sm"
@@ -295,13 +315,13 @@ const getRfxNumber = (type, index) => {
                           </p>
                         </div>
 
-                        <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${getStatusStyles(
-                            row.status
-                          )}`}
-                        >
-                          {row.status?.replaceAll("_", " ") || "-"}
-                        </span>
+                     <span
+  className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${getStatusStyles(
+    statusValue
+  )}`}
+>
+  {statusValue ? statusValue.replaceAll("_", " ") : "-"}
+</span>
                       </div>
 
                       <div className="space-y-1">
@@ -343,7 +363,8 @@ const getRfxNumber = (type, index) => {
                       </div>
                     </div>
                   </div>
-                ))
+                );
+              })
               ) : (
                 <div className="rounded-3xl border border-gray-200 bg-gray-50 p-6 text-center">
                   <FiFileText size={48} className="mx-auto mb-4 text-gray-300" />
