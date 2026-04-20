@@ -31,6 +31,19 @@ const BuyerRfqDetails = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("date-change");
 
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [updateType, setUpdateType] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const [updateForm, setUpdateForm] = useState({
+    publishDate: "",
+    closingDate: "",
+    purpose: "",
+    costCenters: [],
+    newSupplierEmail: "",
+    documents: [],
+  });
+
   const colors = {
     dark: "#2A2A2A",
     deepGreen: "#43624A",
@@ -179,45 +192,193 @@ const BuyerRfqDetails = () => {
     rfq?.messageCount ??
     0;
 
-  const actionTabs = [
-    {
-      key: "date-change",
-      label: "Date Change",
-      icon: <Clock3 size={16} />,
-      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=date-change`),
-    },
-    {
-      key: "add-supplier",
-      label: "Add More Supplier",
-      icon: <Users size={16} />,
-      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=add-supplier`),
-    },
-    {
-      key: "purpose",
-      label: "Purpose",
-      icon: <Target size={16} />,
-      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=purpose`),
-    },
-    {
-      key: "cost-center",
-      label: "Cost Center",
-      icon: <Landmark size={16} />,
-      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=cost-center`),
-    },
-    {
-      key: "documents",
-      label: "Add Documents",
-      icon: <Paperclip size={16} />,
-      onClick: () => navigate(`/buyer/rfx/update/${id}?tab=documents`),
-    },
-    {
-      key: "cancel",
-      label: "Cancel RFQ",
-      icon: <XCircle size={16} />,
-      onClick: () => handleCancelRfx(),
-      danger: true,
-    },
-  ];
+  const openUpdateModal = (type) => {
+    setUpdateType(type);
+
+    const safeDateValue = (dateValue) => {
+      if (!dateValue) return "";
+      const d = new Date(dateValue);
+      if (isNaN(d)) return "";
+      return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
+    };
+
+    setUpdateForm({
+      publishDate: safeDateValue(rfq?.publish_date || rfq?.publishDate),
+      closingDate: safeDateValue(rfq?.closing_date || rfq?.closingDate),
+      purpose: rfq?.purpose || "",
+      costCenters:
+        costCenters.length > 0
+          ? costCenters
+          : rfq?.cost_center
+          ? [rfq.cost_center]
+          : rfq?.costCenter
+          ? [rfq.costCenter]
+          : [""],
+      newSupplierEmail: "",
+      documents:
+        documents.length > 0
+          ? documents.map((doc) => ({
+              name: doc.name || doc.documentName || "",
+              url: doc.url || doc.fileUrl || "",
+            }))
+          : [{ name: "", url: "" }],
+    });
+
+    setShowUpdateModal(true);
+  };
+
+  const handleUpdateInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCostCenterChange = (index, value) => {
+    const updated = [...updateForm.costCenters];
+    updated[index] = value;
+    setUpdateForm((prev) => ({
+      ...prev,
+      costCenters: updated,
+    }));
+  };
+
+  const addCostCenterField = () => {
+    setUpdateForm((prev) => ({
+      ...prev,
+      costCenters: [...prev.costCenters, ""],
+    }));
+  };
+
+  const removeCostCenterField = (index) => {
+    const updated = updateForm.costCenters.filter((_, i) => i !== index);
+    setUpdateForm((prev) => ({
+      ...prev,
+      costCenters: updated.length > 0 ? updated : [""],
+    }));
+  };
+
+  const handleDocumentChange = (index, field, value) => {
+    const updated = [...updateForm.documents];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
+
+    setUpdateForm((prev) => ({
+      ...prev,
+      documents: updated,
+    }));
+  };
+
+  const addDocumentField = () => {
+    setUpdateForm((prev) => ({
+      ...prev,
+      documents: [...prev.documents, { name: "", url: "" }],
+    }));
+  };
+
+  const removeDocumentField = (index) => {
+    const updated = updateForm.documents.filter((_, i) => i !== index);
+    setUpdateForm((prev) => ({
+      ...prev,
+      documents: updated.length > 0 ? updated : [{ name: "", url: "" }],
+    }));
+  };
+
+  const handleUpdateSubmit = async () => {
+    try {
+      setSubmitting(true);
+
+      const payload = {
+        heading: rfq?.heading || "",
+        description: rfq?.description || "",
+        procurementType: rfq?.procurement_type || rfq?.procurementType || "",
+        requisitionType: rfq?.requisition_type || rfq?.requisitionType || "",
+        bidType: rfq?.bid_type || rfq?.bidType || "",
+        purpose:
+          updateType === "purpose" ? updateForm.purpose : rfq?.purpose || "",
+        evaluationMethod:
+          rfq?.evaluation_method || rfq?.evaluationMethod || "",
+        classification: rfq?.classification || "",
+        publishDate:
+          updateType === "date-change"
+            ? updateForm.publishDate
+            : rfq?.publish_date || rfq?.publishDate || "",
+        closingDate:
+          updateType === "date-change"
+            ? updateForm.closingDate
+            : rfq?.closing_date || rfq?.closingDate || "",
+        selectedIndustry:
+          rfq?.selected_industry || rfq?.selectedIndustry || "",
+        selectedSubItems: selectedSubItems.length > 0 ? selectedSubItems : [],
+        items:
+          items.length > 0
+            ? items.map((item, index) => ({
+                slNo: item.slNo || item.sl_no || index + 1,
+                itemDescription:
+                  item.itemDescription || item.item_description || "",
+                quantity: item.quantity || "",
+                unit: item.unit || "",
+              }))
+            : [],
+        itemDescriptionNote:
+          rfq?.item_description_note || rfq?.itemDescriptionNote || "",
+        documents:
+          updateType === "documents"
+            ? updateForm.documents.filter(
+                (doc) => doc.name?.trim() || doc.url?.trim()
+              )
+            : documents.length > 0
+            ? documents.map((doc) => ({
+                name: doc.name || doc.documentName || "",
+                url: doc.url || doc.fileUrl || "",
+              }))
+            : [],
+        deliveryTime: rfq?.delivery_time || rfq?.deliveryTime || "",
+        paymentTerms: rfq?.payment_terms || rfq?.paymentTerms || "",
+        supplierOption: rfq?.supplier_option || rfq?.supplierOption || "",
+        searchSupplierText:
+          rfq?.search_supplier_text || rfq?.searchSupplierText || "",
+        inviteEmails:
+          updateType === "add-supplier"
+            ? [
+                ...inviteEmails,
+                ...(updateForm.newSupplierEmail.trim()
+                  ? [updateForm.newSupplierEmail.trim()]
+                  : []),
+              ]
+            : inviteEmails.length > 0
+            ? inviteEmails
+            : [],
+        rfxVisibility: rfq?.rfx_visibility || rfq?.rfxVisibility || "",
+        costCenters:
+          updateType === "cost-center"
+            ? updateForm.costCenters.filter((item) => item.trim() !== "")
+            : costCenters.length > 0
+            ? costCenters
+            : [],
+      };
+
+      const res = await API.put(`/rfq/${id}`, payload);
+
+      if (res?.data?.success) {
+        alert("RFQ updated successfully");
+        setShowUpdateModal(false);
+        fetchRFQDetails();
+      } else {
+        alert(res?.data?.message || "Failed to update RFQ");
+      }
+    } catch (error) {
+      console.error("UPDATE RFQ ERROR:", error);
+      alert("Error while updating RFQ");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const handleCancelRfx = async () => {
     const confirmed = window.confirm(
@@ -239,6 +400,46 @@ const BuyerRfqDetails = () => {
       alert("Error while cancelling RFQ");
     }
   };
+
+  const actionTabs = [
+    {
+      key: "date-change",
+      label: "Date Change",
+      icon: <Clock3 size={16} />,
+      onClick: () => openUpdateModal("date-change"),
+    },
+    {
+      key: "add-supplier",
+      label: "Add More Supplier",
+      icon: <Users size={16} />,
+      onClick: () => openUpdateModal("add-supplier"),
+    },
+    {
+      key: "purpose",
+      label: "Purpose",
+      icon: <Target size={16} />,
+      onClick: () => openUpdateModal("purpose"),
+    },
+    {
+      key: "cost-center",
+      label: "Cost Center",
+      icon: <Landmark size={16} />,
+      onClick: () => openUpdateModal("cost-center"),
+    },
+    {
+      key: "documents",
+      label: "Add Documents",
+      icon: <Paperclip size={16} />,
+      onClick: () => openUpdateModal("documents"),
+    },
+    {
+      key: "cancel",
+      label: "Cancel RFQ",
+      icon: <XCircle size={16} />,
+      onClick: () => handleCancelRfx(),
+      danger: true,
+    },
+  ];
 
   if (loading) {
     return (
@@ -537,9 +738,11 @@ const BuyerRfqDetails = () => {
                 <tbody>
                   {items.map((item, index) => (
                     <tr key={index} className="hover:bg-gray-50/60">
-                      <td className="border-b p-3">{item.slNo || index + 1}</td>
                       <td className="border-b p-3">
-                        {item.itemDescription || item.description || "-"}
+                        {item.slNo || item.sl_no || index + 1}
+                      </td>
+                      <td className="border-b p-3">
+                        {item.itemDescription || item.item_description || "-"}
                       </td>
                       <td className="border-b p-3">{item.quantity || "-"}</td>
                       <td className="border-b p-3">{item.unit || "-"}</td>
@@ -655,6 +858,197 @@ const BuyerRfqDetails = () => {
           </div>
         </div>
       </div>
+
+      {/* UPDATE MODAL */}
+      {showUpdateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b">
+              <h2 className="text-xl font-bold text-[#2A2A2A]">
+                {updateType === "date-change" && "Update Dates"}
+                {updateType === "add-supplier" && "Add More Supplier"}
+                {updateType === "purpose" && "Update Purpose"}
+                {updateType === "cost-center" && "Update Cost Center"}
+                {updateType === "documents" && "Add Documents"}
+              </h2>
+
+              <button
+                onClick={() => setShowUpdateModal(false)}
+                className="text-gray-500 hover:text-red-600"
+              >
+                <XCircle size={22} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+              {updateType === "date-change" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Publish Date
+                    </label>
+                    <input
+                      type="datetime-local"
+                      name="publishDate"
+                      value={updateForm.publishDate}
+                      onChange={handleUpdateInputChange}
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">
+                      Closing Date
+                    </label>
+                    <input
+                      type="datetime-local"
+                      name="closingDate"
+                      value={updateForm.closingDate}
+                      onChange={handleUpdateInputChange}
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {updateType === "add-supplier" && (
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    Supplier Email
+                  </label>
+                  <input
+                    type="email"
+                    name="newSupplierEmail"
+                    value={updateForm.newSupplierEmail}
+                    onChange={handleUpdateInputChange}
+                    placeholder="Enter supplier email"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                  />
+                </div>
+              )}
+
+              {updateType === "purpose" && (
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    Purpose
+                  </label>
+                  <select
+                    name="purpose"
+                    value={updateForm.purpose}
+                    onChange={handleUpdateInputChange}
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                  >
+                    <option value="">Select Purpose</option>
+                    <option value="Procurement">Procurement</option>
+                    <option value="Tender">Tender</option>
+                  </select>
+                </div>
+              )}
+
+              {updateType === "cost-center" && (
+                <div className="space-y-3">
+                  {updateForm.costCenters.map((center, index) => (
+                    <div key={index} className="flex gap-2">
+                      <input
+                        type="text"
+                        value={center}
+                        onChange={(e) =>
+                          handleCostCenterChange(index, e.target.value)
+                        }
+                        placeholder={`Cost Center ${index + 1}`}
+                        className="flex-1 border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeCostCenterField(index)}
+                        className="px-3 py-2 rounded-xl bg-red-50 text-red-600 border border-red-200"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={addCostCenterField}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#E8F0EA] text-[#43624A] font-semibold"
+                  >
+                    <PlusCircle size={18} />
+                    Add Cost Center
+                  </button>
+                </div>
+              )}
+
+              {updateType === "documents" && (
+                <div className="space-y-4">
+                  {updateForm.documents.map((doc, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-3 border border-gray-200 rounded-xl p-4"
+                    >
+                      <input
+                        type="text"
+                        value={doc.name || ""}
+                        onChange={(e) =>
+                          handleDocumentChange(index, "name", e.target.value)
+                        }
+                        placeholder="Document Name"
+                        className="border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                      />
+
+                      <input
+                        type="text"
+                        value={doc.url || ""}
+                        onChange={(e) =>
+                          handleDocumentChange(index, "url", e.target.value)
+                        }
+                        placeholder="Document URL"
+                        className="border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                      />
+
+                      <div className="md:col-span-2">
+                        <button
+                          type="button"
+                          onClick={() => removeDocumentField(index)}
+                          className="px-3 py-2 rounded-xl bg-red-50 text-red-600 border border-red-200"
+                        >
+                          Remove Document
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={addDocumentField}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#E8F0EA] text-[#43624A] font-semibold"
+                  >
+                    <PlusCircle size={18} />
+                    Add Document
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50">
+              <button
+                onClick={() => setShowUpdateModal(false)}
+                className="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-semibold"
+              >
+                Close
+              </button>
+
+              <button
+                onClick={handleUpdateSubmit}
+                disabled={submitting}
+                className="px-5 py-2.5 rounded-xl text-white font-semibold bg-[#43624A] disabled:opacity-60"
+              >
+                {submitting ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -687,7 +1081,8 @@ const InfoCard = ({
   if (typeof displayValue === "string") {
     if (capitalize) {
       displayValue =
-        displayValue.charAt(0).toUpperCase() + displayValue.slice(1).toLowerCase();
+        displayValue.charAt(0).toUpperCase() +
+        displayValue.slice(1).toLowerCase();
     }
     if (uppercase) displayValue = displayValue.toUpperCase();
   }
