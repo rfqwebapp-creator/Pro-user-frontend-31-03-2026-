@@ -13,6 +13,13 @@ import {
   XCircle,
   PlusCircle,
   Clock3,
+  Hash,
+  MessageCircle,
+  ShoppingBag,
+  Users,
+  BadgeCheck,
+  Building2,
+  ReceiptText,
 } from "lucide-react";
 
 const BuyerRfqDetails = () => {
@@ -28,6 +35,8 @@ const BuyerRfqDetails = () => {
     mutedGreen: "#7A9C83",
     offWhite: "#F5F2EA",
     danger: "#B42318",
+    lightGreen: "#E8F0EA",
+    borderSoft: "#E5E7EB",
   };
 
   const fetchRFQDetails = async () => {
@@ -62,27 +71,49 @@ const BuyerRfqDetails = () => {
 
     return d.toLocaleString("en-GB", {
       day: "2-digit",
-      month: "short",
+      month: "2-digit",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
   };
 
+  const formatDateOnly = (date) => {
+    if (!date) return "-";
+    const d = new Date(date);
+    if (isNaN(d)) return "-";
+
+    return d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   const getStatusStyles = (status) => {
     switch (status) {
       case "DRAFT":
-        return "bg-amber-50 text-amber-700 border-amber-100";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "IN_REVIEW":
-        return "bg-blue-50 text-blue-700 border-blue-100";
+        return "bg-blue-50 text-blue-700 border-blue-200";
       case "PUBLISHED":
         return "bg-[#F5F2EA] text-[#43624A] border-[#7A9C83]/30";
       case "ACCEPTED":
-        return "bg-emerald-50 text-emerald-700 border-emerald-100";
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       case "REJECTED":
-        return "bg-red-50 text-red-700 border-red-100";
+        return "bg-red-50 text-red-700 border-red-200";
       case "CANCELLED":
-        return "bg-red-50 text-red-700 border-red-100";
+        return "bg-red-50 text-red-700 border-red-200";
+      case "QUOTATION_RECEIVED":
+        return "bg-violet-50 text-violet-700 border-violet-200";
+      case "PURCHASE_ORDER_ISSUED":
+        return "bg-cyan-50 text-cyan-700 border-cyan-200";
+      case "CLOSED_ACCEPTED_BY_BIDDER":
+        return "bg-green-50 text-green-700 border-green-200";
+      case "CLOSED_SELECTED_LOWEST_BIDDER":
+        return "bg-lime-50 text-lime-700 border-lime-200";
+      case "AWAITING_SELLER_QUOTATION":
+        return "bg-orange-50 text-orange-700 border-orange-200";
       default:
         return "bg-gray-50 text-gray-600 border-gray-200";
     }
@@ -99,6 +130,12 @@ const BuyerRfqDetails = () => {
     }
   };
 
+  const parseNumber = (value) => {
+    if (value === null || value === undefined || value === "") return 0;
+    const num = Number(value);
+    return Number.isNaN(num) ? 0 : num;
+  };
+
   const items = parseArray(rfq?.items);
   const documents = parseArray(rfq?.documents);
   const selectedSubItems = parseArray(rfq?.selected_sub_items || rfq?.selectedSubItems);
@@ -107,6 +144,36 @@ const BuyerRfqDetails = () => {
     rfq?.favourite_suppliers || rfq?.favouriteSuppliers
   );
   const costCenters = parseArray(rfq?.cost_centers || rfq?.costCenters);
+
+  const quotesReceived =
+    rfq?.quotes_received ??
+    rfq?.quotesReceived ??
+    rfq?.quotation_received_count ??
+    rfq?.quotationReceivedCount ??
+    rfq?.quote_count ??
+    rfq?.quoteCount ??
+    0;
+
+  const invitedSuppliersCount =
+    rfq?.invited_suppliers_count ??
+    rfq?.invitedSuppliersCount ??
+    rfq?.supplier_invited_count ??
+    rfq?.supplierInvitedCount ??
+    (inviteEmails?.length || 0);
+
+  const rfxPurchased =
+    rfq?.rfx_purchased ??
+    rfq?.rfxPurchased ??
+    rfq?.purchased_count ??
+    rfq?.purchasedCount ??
+    0;
+
+  const chatCount =
+    rfq?.chat_count ??
+    rfq?.chatCount ??
+    rfq?.message_count ??
+    rfq?.messageCount ??
+    0;
 
   const handleEditRfx = () => {
     navigate(`/buyer/rfx/edit/${id}`);
@@ -144,9 +211,10 @@ const BuyerRfqDetails = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F5F2EA]/30 p-6 md:p-10">
-        <div className="max-w-6xl mx-auto animate-pulse space-y-6">
+        <div className="max-w-7xl mx-auto animate-pulse space-y-6">
           <div className="h-10 w-40 bg-gray-200 rounded" />
           <div className="h-32 bg-white rounded-2xl" />
+          <div className="h-44 bg-white rounded-2xl" />
           <div className="h-64 bg-white rounded-2xl" />
           <div className="h-64 bg-white rounded-2xl" />
         </div>
@@ -177,8 +245,8 @@ const BuyerRfqDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-10 font-sans text-[#2A2A2A]">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-8 font-sans text-[#2A2A2A]">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Top */}
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
           <div>
@@ -209,11 +277,12 @@ const BuyerRfqDetails = () => {
               {rfq.status?.replaceAll("_", " ") || "-"}
             </span>
 
-            {/* 2 MAIN OPTIONS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full lg:w-auto">
-              {/* OPTION 1 */}
               <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm min-w-[280px]">
-                <h3 className="text-sm font-bold mb-3" style={{ color: colors.deepGreen }}>
+                <h3
+                  className="text-sm font-bold mb-3"
+                  style={{ color: colors.deepGreen }}
+                >
                   Option 1 — Edit RFX
                 </h3>
 
@@ -236,9 +305,11 @@ const BuyerRfqDetails = () => {
                 </div>
               </div>
 
-              {/* OPTION 2 */}
               <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm min-w-[280px]">
-                <h3 className="text-sm font-bold mb-3" style={{ color: colors.deepGreen }}>
+                <h3
+                  className="text-sm font-bold mb-3"
+                  style={{ color: colors.deepGreen }}
+                >
                   Option 2 — Manage RFX
                 </h3>
 
@@ -262,6 +333,87 @@ const BuyerRfqDetails = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* RFX Summary - image fields added */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+          <div className="flex items-center gap-2 mb-6">
+            <ReceiptText size={20} style={{ color: colors.deepGreen }} />
+            <h2 className="text-xl font-bold">RFX Summary</h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+            <SummaryCard
+              icon={<Hash size={18} />}
+              label="RFX #"
+              value={rfq.rfx_no || rfq.rfxNo || rfq.rfq_no || rfq.rfqNo || rfq.id || "-"}
+            />
+
+            <SummaryCard
+              icon={<Building2 size={18} />}
+              label="Cost Center"
+              value={
+                costCenters.length > 0
+                  ? costCenters.join(", ")
+                  : rfq.cost_center || rfq.costCenter || "-"
+              }
+            />
+
+            <SummaryCard
+              icon={<Calendar size={18} />}
+              label="Created On"
+              value={formatDateOnly(rfq.created_at || rfq.createdAt)}
+            />
+
+            <SummaryCard
+              icon={<Calendar size={18} />}
+              label="Closing Date"
+              value={formatDateOnly(rfq.closing_date || rfq.closingDate)}
+            />
+
+            <SummaryCard
+              icon={<BadgeCheck size={18} />}
+              label="Status"
+              value={rfq.status?.replaceAll("_", " ") || "-"}
+            />
+
+            <SummaryCard
+              icon={<FileText size={18} />}
+              label="Quotes Received"
+              value={String(parseNumber(quotesReceived))}
+            />
+
+            <SummaryCard
+              icon={<Users size={18} />}
+              label="Invited Suppliers"
+              value={
+                rfq.rfx_visibility === "PUBLIC" ||
+                rfq.rfx_visibility === "Public" ||
+                rfq.rfxVisibility === "PUBLIC" ||
+                rfq.rfxVisibility === "Public"
+                  ? "Public"
+                  : String(parseNumber(invitedSuppliersCount))
+              }
+            />
+
+            <SummaryCard
+              icon={<ShoppingBag size={18} />}
+              label="RFX Purchased"
+              value={String(parseNumber(rfxPurchased))}
+            />
+
+            <SummaryCard
+              icon={<MessageCircle size={18} />}
+              label="Chat"
+              value={String(parseNumber(chatCount))}
+            />
+
+            <SummaryCard
+              icon={<FileText size={18} />}
+              label="RFQ/RFP Heading"
+              value={rfq.heading || "-"}
+            />
           </div>
         </div>
 
@@ -299,7 +451,11 @@ const BuyerRfqDetails = () => {
             />
             <InfoCard
               label="Cost Centers"
-              value={costCenters.length > 0 ? costCenters.join(", ") : "-"}
+              value={
+                costCenters.length > 0
+                  ? costCenters.join(", ")
+                  : rfq.cost_center || rfq.costCenter || "-"
+              }
               fullWidth
             />
           </div>
@@ -323,7 +479,7 @@ const BuyerRfqDetails = () => {
             />
             <InfoCard
               label="Created At"
-              value={formatDateTime(rfq.created_at)}
+              value={formatDateTime(rfq.created_at || rfq.createdAt)}
             />
           </div>
         </div>
@@ -359,7 +515,7 @@ const BuyerRfqDetails = () => {
                     <tr key={index} className="hover:bg-gray-50/60">
                       <td className="border-b p-3">{item.slNo || index + 1}</td>
                       <td className="border-b p-3">
-                        {item.itemDescription || "-"}
+                        {item.itemDescription || item.description || "-"}
                       </td>
                       <td className="border-b p-3">{item.quantity || "-"}</td>
                       <td className="border-b p-3">{item.unit || "-"}</td>
@@ -396,8 +552,8 @@ const BuyerRfqDetails = () => {
                   className="border border-gray-200 rounded-xl p-4 bg-gray-50/40"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InfoCard label="Document Name" value={doc.name} />
-                    <InfoCard label="URL" value={doc.url} />
+                    <InfoCard label="Document Name" value={doc.name || doc.documentName} />
+                    <InfoCard label="URL" value={doc.url || doc.fileUrl || "-"} />
                   </div>
                 </div>
               ))}
@@ -473,6 +629,22 @@ const BuyerRfqDetails = () => {
   );
 };
 
+const SummaryCard = ({ icon, label, value }) => {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-[#F9FAFB] p-4 shadow-sm hover:shadow-md transition">
+      <div className="flex items-center gap-2 mb-2 text-[#43624A]">
+        {icon}
+        <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
+          {label}
+        </p>
+      </div>
+      <div className="text-sm md:text-base font-semibold text-[#2A2A2A] break-words">
+        {value || "-"}
+      </div>
+    </div>
+  );
+};
+
 const InfoCard = ({
   label,
   value,
@@ -483,7 +655,10 @@ const InfoCard = ({
   let displayValue = value || "-";
 
   if (typeof displayValue === "string") {
-    if (capitalize) displayValue = displayValue.toLowerCase();
+    if (capitalize) {
+      displayValue =
+        displayValue.charAt(0).toUpperCase() + displayValue.slice(1).toLowerCase();
+    }
     if (uppercase) displayValue = displayValue.toUpperCase();
   }
 
