@@ -398,7 +398,6 @@ const handleCancelRfx = async () => {
       }));
 
       alert("RFQ cancelled successfully");
-      fetchRFQDetails();
     } else {
       alert(res?.data?.message || "Failed to cancel RFQ");
     }
@@ -483,9 +482,16 @@ const handleCancelRfx = async () => {
       </div>
     );
   }
-const statusValue = String(rfq?.status || "").trim().toUpperCase();
-  return (
-    <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-8 font-sans text-[#2A2A2A]">
+const statusValue = String(
+  rfq?.status ||
+  rfq?.rfq_status ||
+  rfq?.rfx_status ||
+  ""
+)
+  .trim()
+  .toUpperCase();
+  return(
+      <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-8 font-sans text-[#2A2A2A]">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Top */}
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
@@ -592,11 +598,11 @@ const statusValue = String(rfq?.status || "").trim().toUpperCase();
               value={formatDateOnly(rfq.closing_date || rfq.closingDate)}
             />
 
-            <SummaryCard
-              icon={<BadgeCheck size={18} />}
-              label="Status"
-value={statusValue ? statusValue.replaceAll("_", " ") : "-"}            />
-
+   <SummaryCard
+  icon={<BadgeCheck size={18} />}
+  label="Status"
+  value={statusValue ? statusValue.replaceAll("_", " ") : "-"}
+/>
             <SummaryCard
               icon={<FileText size={18} />}
               label="Quotes Received"
