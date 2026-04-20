@@ -105,34 +105,36 @@ const BuyerRfqDetails = () => {
     });
   };
 
-  const getStatusStyles = (status) => {
-    switch (status) {
-      case "DRAFT":
-        return "bg-amber-50 text-amber-700 border-amber-200";
-      case "IN_REVIEW":
-        return "bg-blue-50 text-blue-700 border-blue-200";
-      case "PUBLISHED":
-        return "bg-[#F5F2EA] text-[#43624A] border-[#7A9C83]/30";
-      case "ACCEPTED":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
-      case "REJECTED":
-        return "bg-red-50 text-red-700 border-red-200";
-      case "CANCELLED":
-        return "bg-red-50 text-red-700 border-red-200";
-      case "QUOTATION_RECEIVED":
-        return "bg-violet-50 text-violet-700 border-violet-200";
-      case "PURCHASE_ORDER_ISSUED":
-        return "bg-cyan-50 text-cyan-700 border-cyan-200";
-      case "CLOSED_ACCEPTED_BY_BIDDER":
-        return "bg-green-50 text-green-700 border-green-200";
-      case "CLOSED_SELECTED_LOWEST_BIDDER":
-        return "bg-lime-50 text-lime-700 border-lime-200";
-      case "AWAITING_SELLER_QUOTATION":
-        return "bg-orange-50 text-orange-700 border-orange-200";
-      default:
-        return "bg-gray-50 text-gray-600 border-gray-200";
-    }
-  };
+const getStatusStyles = (status) => {
+  const normalizedStatus = String(status || "").trim().toUpperCase();
+
+  switch (normalizedStatus) {
+    case "DRAFT":
+      return "bg-amber-50 text-amber-700 border-amber-200";
+    case "IN_REVIEW":
+      return "bg-blue-50 text-blue-700 border-blue-200";
+    case "PUBLISHED":
+      return "bg-[#F5F2EA] text-[#43624A] border-[#7A9C83]/30";
+    case "ACCEPTED":
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    case "REJECTED":
+      return "bg-red-50 text-red-700 border-red-200";
+    case "CANCELLED":
+      return "bg-red-50 text-red-700 border-red-200";
+    case "QUOTATION_RECEIVED":
+      return "bg-violet-50 text-violet-700 border-violet-200";
+    case "PURCHASE_ORDER_ISSUED":
+      return "bg-cyan-50 text-cyan-700 border-cyan-200";
+    case "CLOSED_ACCEPTED_BY_BIDDER":
+      return "bg-green-50 text-green-700 border-green-200";
+    case "CLOSED_SELECTED_LOWEST_BIDDER":
+      return "bg-lime-50 text-lime-700 border-lime-200";
+    case "AWAITING_SELLER_QUOTATION":
+      return "bg-orange-50 text-orange-700 border-orange-200";
+    default:
+      return "bg-gray-50 text-gray-600 border-gray-200";
+  }
+};
 
   const parseArray = (value) => {
     if (!value) return [];
@@ -380,26 +382,31 @@ const BuyerRfqDetails = () => {
     }
   };
 
-  const handleCancelRfx = async () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to cancel this RFQ?"
-    );
-    if (!confirmed) return;
+const handleCancelRfx = async () => {
+  const confirmed = window.confirm(
+    "Are you sure you want to cancel this RFQ?"
+  );
+  if (!confirmed) return;
 
-    try {
-      const res = await API.put(`/rfq/${id}/cancel`);
+  try {
+    const res = await API.put(`/rfq/${id}/cancel`);
 
-      if (res?.data?.success) {
-        alert("RFQ cancelled successfully");
-        fetchRFQDetails();
-      } else {
-        alert(res?.data?.message || "Failed to cancel RFQ");
-      }
-    } catch (error) {
-      console.error("CANCEL RFQ ERROR:", error);
-      alert("Error while cancelling RFQ");
+    if (res?.data?.success) {
+      setRfq((prev) => ({
+        ...prev,
+        status: "CANCELLED",
+      }));
+
+      alert("RFQ cancelled successfully");
+      fetchRFQDetails();
+    } else {
+      alert(res?.data?.message || "Failed to cancel RFQ");
     }
-  };
+  } catch (error) {
+    console.error("CANCEL RFQ ERROR:", error);
+    alert("Error while cancelling RFQ");
+  }
+};
 
   const actionTabs = [
     {
@@ -476,7 +483,7 @@ const BuyerRfqDetails = () => {
       </div>
     );
   }
-
+const statusValue = String(rfq?.status || "").trim().toUpperCase();
   return (
     <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-8 font-sans text-[#2A2A2A]">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -502,13 +509,13 @@ const BuyerRfqDetails = () => {
           </div>
 
           <div className="flex flex-col items-start lg:items-end gap-3">
-            <span
-              className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${getStatusStyles(
-                rfq.status
-              )}`}
-            >
-              {rfq.status?.replaceAll("_", " ") || "-"}
-            </span>
+           <span
+  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold border ${getStatusStyles(
+    statusValue
+  )}`}
+>
+  {statusValue ? statusValue.replaceAll("_", " ") : "-"}
+</span>
           </div>
         </div>
 
@@ -588,8 +595,7 @@ const BuyerRfqDetails = () => {
             <SummaryCard
               icon={<BadgeCheck size={18} />}
               label="Status"
-              value={rfq.status?.replaceAll("_", " ") || "-"}
-            />
+value={statusValue ? statusValue.replaceAll("_", " ") : "-"}            />
 
             <SummaryCard
               icon={<FileText size={18} />}
