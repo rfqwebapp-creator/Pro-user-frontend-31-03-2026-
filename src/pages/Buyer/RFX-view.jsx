@@ -132,7 +132,10 @@ const normalizeStatus = (value) => {
   const trimmed = String(value ?? "").trim();
   
   // If still empty after trim, return empty (not "-")
-  if (!trimmed) return "";
+  if (!trimmed) {
+    console.log(`🔄 NORMALIZE STATUS: input="${value}" (type: ${typeof value}) → empty (will display as "-")`);
+    return "";
+  }
   
   const normalized = trimmed
     .replace(/\s+/g, "_")
