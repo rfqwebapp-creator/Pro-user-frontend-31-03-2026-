@@ -22,9 +22,17 @@ const RFXView = () => {
     setLoading(true);
     try {
       const url = status === "ALL" ? "/rfq" : `/rfq?status=${status}`;
+      console.log("📡 FETCH RFQS URL:", url);
+      
       const res = await API.get(url);
 
       const data = res?.data?.data || [];
+      
+      console.log("📡 FETCH RFQS RESPONSE COUNT:", data.length);
+      data.forEach((row, i) => {
+        console.log(`📡 Row ${i}: id=${row.id}, status="${row.status ?? 'null'}" (type: ${typeof row.status})`);
+      });
+      
       setRfqs(data);
       setFilteredRfqs(data);
     } catch (error) {
@@ -120,10 +128,19 @@ const getRfxNumber = (type, index) => {
 
 };
 const normalizeStatus = (value) => {
-  return String(value ?? "")
-    .trim()
+  // Handle null/undefined/empty properly with ??
+  const trimmed = String(value ?? "").trim();
+  
+  // If still empty after trim, return empty (not "-")
+  if (!trimmed) return "";
+  
+  const normalized = trimmed
     .replace(/\s+/g, "_")
     .toUpperCase();
+  
+  console.log(`🔄 NORMALIZE STATUS: input="${value}" (type: ${typeof value}) → normalized="${normalized}"`);
+  
+  return normalized;
 };
   return (
     <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-10 font-sans text-[#2A2A2A]">
@@ -221,9 +238,12 @@ filteredRfqs.map((row, index) => {
     row?.status ??
     row?.rfq_status ??
     row?.rfx_status ??
-    "";
+    null;
 
   const statusValue = normalizeStatus(rawStatus);
+  
+  // Display logic: use statusValue if non-empty, otherwise "-"
+  const displayStatus = statusValue !== "" ? statusValue : "-";
 
   return (
     <tr
@@ -256,7 +276,7 @@ filteredRfqs.map((row, index) => {
             statusValue
           )}`}
         >
-          {statusValue || "-"}
+          {displayStatus}
         </span>
       </td>
 

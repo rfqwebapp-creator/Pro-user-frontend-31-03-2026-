@@ -389,7 +389,10 @@ const handleCancelRfx = async () => {
   if (!confirmed) return;
 
   try {
+    console.log("🔴 CANCEL REQUEST - RFQ ID:", id);
     const res = await API.put(`/rfq/${id}/cancel`);
+
+    console.log("🔴 CANCEL RESPONSE:", res?.data);
 
     if (res?.data?.success) {
       setRfq((prev) => ({
@@ -397,7 +400,14 @@ const handleCancelRfx = async () => {
         status: "CANCELLED",
       }));
 
+      console.log("🔴 CANCEL SUCCESS - Status updated to CANCELLED");
+      
       alert("RFQ cancelled successfully");
+      
+      // Navigate back to the RFX list page to show updated status
+      setTimeout(() => {
+        navigate("/buyer/rfx-view");
+      }, 500);
     } else {
       alert(res?.data?.message || "Failed to cancel RFQ");
     }
