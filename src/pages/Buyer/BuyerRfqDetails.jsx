@@ -405,9 +405,9 @@ const handleCancelRfx = async () => {
       alert("RFQ cancelled successfully");
       
       // Navigate back to the RFX list page to show updated status
-      setTimeout(() => {
-        navigate("/buyer/rfx-view");
-      }, 500);
+     setTimeout(() => {
+  navigate("/buyer/view-rfx");
+}, 500);
     } else {
       alert(res?.data?.message || "Failed to cancel RFQ");
     }
@@ -482,7 +482,7 @@ const handleCancelRfx = async () => {
             The requested RFQ could not be loaded.
           </p>
           <button
-            onClick={() => navigate("/buyer/rfx")}
+            onClick={() => navigate("/buyer/view-rfx")}
             className="px-6 py-3 rounded-lg text-white font-medium"
             style={{ backgroundColor: colors.deepGreen }}
           >
