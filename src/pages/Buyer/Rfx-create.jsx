@@ -1324,7 +1324,7 @@ const [closingDate, setClosingDate] = useState("");
       </main>
       {showSubmitPopup && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
-    <div className="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6">
+    <div className="bg-white w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-xl shadow-xl p-4">
       <h2 className="text-2xl font-bold mb-4" style={{ color: colors.deepGreen }}>
         Confirm RFX Submission
       </h2>
@@ -1333,7 +1333,7 @@ const [closingDate, setClosingDate] = useState("");
         Please verify the below details. Is this valid? Can I permit this submission?
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm border rounded-lg p-4 bg-gray-50">
+     <div className="grid grid-cols-1 gap-2 text-sm border rounded p-3 bg-gray-50">
         <div>
           <strong>Heading:</strong> {heading || "-"}
         </div>
@@ -1382,7 +1382,7 @@ const [closingDate, setClosingDate] = useState("");
       <div className="mt-6">
         <h3 className="font-bold mb-2">Item Details</h3>
         <div className="border rounded-lg overflow-hidden">
-          <table className="w-full border-collapse text-sm">
+         <table className="w-full border-collapse text-xs">
             <thead className="bg-gray-100">
               <tr>
                 <th className="border p-2 text-left">SL No</th>
