@@ -202,8 +202,49 @@ const [items, setItems] = useState([
     }
   };
 
-  const handleSubmitRFX = async () => {
+//   const handleSubmitRFX = async () => {
+//   try {
+//     const payload = {
+//       procurementType,
+//       requisitionType,
+//       bidType,
+//       purpose,
+//       evaluationMethod,
+//       classification,
+//       costCenters,
+//       publishDate: publishDate,
+// closingDate: closingDate,
+//       heading,
+//       description,
+//       selectedIndustry,
+//       selectedSubItems,
+//       items,
+//       itemDescriptionNote,
+//       documents,
+//       deliveryTime,
+//       paymentTerms,
+//       supplierOption,
+//       searchSupplierText,
+//       favouriteSuppliers,
+//       inviteEmails,
+//       rfxVisibility,
+//       status: "IN_REVIEW", // final submit status
+//     };
+
+//     const res = await API.post("/rfq/create", payload);
+
+//     if (res.data.success) {
+//       alert("RFX Submitted successfully");
+//     }
+//   } catch (error) {
+//     console.error("SUBMIT ERROR:", error);
+//     alert("Failed to submit RFQ");
+//   }
+// };
+const handleSubmitRFX = async () => {
   try {
+    setIsSubmitting(true);
+
     const payload = {
       procurementType,
       requisitionType,
@@ -212,8 +253,8 @@ const [items, setItems] = useState([
       evaluationMethod,
       classification,
       costCenters,
-      publishDate: publishDate,
-closingDate: closingDate,
+      publishDate,
+      closingDate,
       heading,
       description,
       selectedIndustry,
@@ -228,17 +269,20 @@ closingDate: closingDate,
       favouriteSuppliers,
       inviteEmails,
       rfxVisibility,
-      status: "IN_REVIEW", // final submit status
+      status: "IN_REVIEW",
     };
 
     const res = await API.post("/rfq/create", payload);
 
     if (res.data.success) {
       alert("RFX Submitted successfully");
+      setShowSubmitPopup(false);
     }
   } catch (error) {
     console.error("SUBMIT ERROR:", error);
     alert("Failed to submit RFQ");
+  } finally {
+    setIsSubmitting(false);
   }
 };
 const handleSaveDraft = async () => {
@@ -303,6 +347,17 @@ const [paymentTerms, setPaymentTerms] = useState("");
 const [selectedCountry, setSelectedCountry] = useState("");
 const [selectedState, setSelectedState] = useState("");
 const [selectedDistrict, setSelectedDistrict] = useState("");
+//for getting poup when clciking on submit rfx
+
+const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+const [isSubmitting, setIsSubmitting] = useState(false);
+const openSubmitPopup = () => {
+  setShowSubmitPopup(true);
+};
+
+const closeSubmitPopup = () => {
+  setShowSubmitPopup(false);
+};
 const locationData = {
   India: {
     states: {
@@ -1257,7 +1312,7 @@ const [closingDate, setClosingDate] = useState("");
             ) : (
               <button
                 type="button"
-                onClick={handleSubmitRFX}
+               onClick={openSubmitPopup}
                 className="px-6 py-2 text-white rounded flex items-center gap-2"
                 style={{ backgroundColor: colors.deepGreen }}
               >
@@ -1267,6 +1322,111 @@ const [closingDate, setClosingDate] = useState("");
           </div>
         </div>
       </main>
+      {showSubmitPopup && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+    <div className="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6">
+      <h2 className="text-2xl font-bold mb-4" style={{ color: colors.deepGreen }}>
+        Confirm RFX Submission
+      </h2>
+
+      <p className="text-gray-700 mb-4">
+        Please verify the below details. Is this valid? Can I permit this submission?
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm border rounded-lg p-4 bg-gray-50">
+        <div>
+          <strong>Heading:</strong> {heading || "-"}
+        </div>
+        <div>
+          <strong>Purpose:</strong> {purpose || "-"}
+        </div>
+        <div>
+          <strong>RFX Type:</strong> {requisitionType?.toUpperCase() || "-"}
+        </div>
+        <div>
+          <strong>Bid Type:</strong> {bidType || "-"}
+        </div>
+        <div>
+          <strong>Industry:</strong> {selectedIndustry || "-"}
+        </div>
+        <div>
+          <strong>Evaluation Method:</strong> {evaluationMethod || "-"}
+        </div>
+        <div>
+          <strong>Publish Date:</strong> {publishDate || "-"}
+        </div>
+        <div>
+          <strong>Closing Date:</strong> {closingDate || "-"}
+        </div>
+        <div>
+          <strong>Delivery Time:</strong> {deliveryTime || "-"}
+        </div>
+        <div>
+          <strong>Payment Terms:</strong> {paymentTerms || "-"}
+        </div>
+        <div className="md:col-span-2">
+          <strong>Description:</strong> {description || "-"}
+        </div>
+        <div className="md:col-span-2">
+          <strong>Sub Items:</strong>{" "}
+          {selectedSubItems.length > 0 ? selectedSubItems.join(", ") : "-"}
+        </div>
+        <div className="md:col-span-2">
+          <strong>Total Items:</strong> {items.length}
+        </div>
+        <div className="md:col-span-2">
+          <strong>Visibility:</strong> {rfxVisibility || "-"}
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <h3 className="font-bold mb-2">Item Details</h3>
+        <div className="border rounded-lg overflow-hidden">
+          <table className="w-full border-collapse text-sm">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="border p-2 text-left">SL No</th>
+                <th className="border p-2 text-left">Item Description</th>
+                <th className="border p-2 text-left">Quantity</th>
+                <th className="border p-2 text-left">Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item, index) => (
+                <tr key={index}>
+                  <td className="border p-2">{item.slNo}</td>
+                  <td className="border p-2">{item.itemDescription || "-"}</td>
+                  <td className="border p-2">{item.quantity || "-"}</td>
+                  <td className="border p-2">{item.unit || "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-3 mt-6">
+        <button
+          type="button"
+          onClick={closeSubmitPopup}
+          className="px-5 py-2 border rounded"
+        >
+          No, Go Back
+        </button>
+
+        <button
+          type="button"
+          onClick={handleSubmitRFX}
+          disabled={isSubmitting}
+          className="px-5 py-2 text-white rounded"
+          style={{ backgroundColor: colors.deepGreen }}
+        >
+          {isSubmitting ? "Submitting..." : "Yes, Permit Submission"}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };
