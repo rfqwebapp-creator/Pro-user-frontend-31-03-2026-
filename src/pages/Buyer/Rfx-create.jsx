@@ -1322,106 +1322,169 @@ const [closingDate, setClosingDate] = useState("");
           </div>
         </div>
       </main>
-      {showSubmitPopup && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
-    <div className="bg-white w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-xl shadow-xl p-4">
-      <h2 className="text-2xl font-bold mb-4" style={{ color: colors.deepGreen }}>
-        Confirm RFX Submission
-      </h2>
+       
+ {showSubmitPopup && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4 py-6">
+    <div className="bg-white w-full max-w-5xl rounded-[24px] shadow-2xl overflow-hidden">
+      
+      <div className="flex items-start justify-between px-10 py-8 border-b border-gray-200">
+        <div className="flex items-start gap-5">
+          <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
+            <FileText size={30} style={{ color: colors.deepGreen }} />
+          </div>
 
-      <p className="text-gray-700 mb-4">
-        Please verify the below details. Is this valid? Can I permit this submission?
-      </p>
+          <div>
+            <h2
+              className="text-4xl font-semibold mb-2"
+              style={{ color: colors.deepGreen }}
+            >
+              Confirm RFX Submission
+            </h2>
+            <p className="text-gray-600 text-xl">
+              Please review the details below. Is this valid? Can I permit this submission?
+            </p>
+          </div>
+        </div>
 
-     <div className="grid grid-cols-1 gap-2 text-sm border rounded p-3 bg-gray-50">
-        <div>
-          <strong>Heading:</strong> {heading || "-"}
-        </div>
-        <div>
-          <strong>Purpose:</strong> {purpose || "-"}
-        </div>
-        <div>
-          <strong>RFX Type:</strong> {requisitionType?.toUpperCase() || "-"}
-        </div>
-        <div>
-          <strong>Bid Type:</strong> {bidType || "-"}
-        </div>
-        <div>
-          <strong>Industry:</strong> {selectedIndustry || "-"}
-        </div>
-        <div>
-          <strong>Evaluation Method:</strong> {evaluationMethod || "-"}
-        </div>
-        <div>
-          <strong>Publish Date:</strong> {publishDate || "-"}
-        </div>
-        <div>
-          <strong>Closing Date:</strong> {closingDate || "-"}
-        </div>
-        <div>
-          <strong>Delivery Time:</strong> {deliveryTime || "-"}
-        </div>
-        <div>
-          <strong>Payment Terms:</strong> {paymentTerms || "-"}
-        </div>
-        <div className="md:col-span-2">
-          <strong>Description:</strong> {description || "-"}
-        </div>
-        <div className="md:col-span-2">
-          <strong>Sub Items:</strong>{" "}
-          {selectedSubItems.length > 0 ? selectedSubItems.join(", ") : "-"}
-        </div>
-        <div className="md:col-span-2">
-          <strong>Total Items:</strong> {items.length}
-        </div>
-        <div className="md:col-span-2">
-          <strong>Visibility:</strong> {rfxVisibility || "-"}
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <h3 className="font-bold mb-2">Item Details</h3>
-        <div className="border rounded-lg overflow-hidden">
-         <table className="w-full border-collapse text-xs">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="border p-2 text-left">SL No</th>
-                <th className="border p-2 text-left">Item Description</th>
-                <th className="border p-2 text-left">Quantity</th>
-                <th className="border p-2 text-left">Unit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => (
-                <tr key={index}>
-                  <td className="border p-2">{item.slNo}</td>
-                  <td className="border p-2">{item.itemDescription || "-"}</td>
-                  <td className="border p-2">{item.quantity || "-"}</td>
-                  <td className="border p-2">{item.unit || "-"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="flex justify-end gap-3 mt-6">
         <button
           type="button"
           onClick={closeSubmitPopup}
-          className="px-5 py-2 border rounded"
+          className="text-gray-500 hover:text-black text-4xl leading-none"
         >
-          No, Go Back
+          ×
+        </button>
+      </div>
+
+      <div className="px-10 py-8 bg-[#fcfcfb]">
+        <div className="mb-6">
+          <h3
+            className="text-2xl font-semibold flex items-center gap-3"
+            style={{ color: colors.deepGreen }}
+          >
+            <span className="text-xl">☰</span> RFX Summary
+          </h3>
+        </div>
+
+        <div className="border border-gray-200 rounded-2xl bg-white p-8 mb-8">
+          <div className="grid grid-cols-2 gap-x-16 gap-y-6 text-lg">
+            <div className="flex justify-between border-r border-gray-200 pr-10">
+              <span className="font-semibold">Heading</span>
+              <span>{heading || "-"}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="font-semibold">Publish Date</span>
+              <span>{publishDate || "-"}</span>
+            </div>
+
+            <div className="flex justify-between border-r border-gray-200 pr-10">
+              <span className="font-semibold">Purpose</span>
+              <span>{purpose || "-"}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="font-semibold">Closing Date</span>
+              <span>{closingDate || "-"}</span>
+            </div>
+
+            <div className="flex justify-between border-r border-gray-200 pr-10">
+              <span className="font-semibold">RFX Type</span>
+              <span>{requisitionType?.toUpperCase() || "-"}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="font-semibold">Delivery Time</span>
+              <span>{deliveryTime || "-"}</span>
+            </div>
+
+            <div className="flex justify-between border-r border-gray-200 pr-10">
+              <span className="font-semibold">Bid Type</span>
+              <span>{bidType || "-"}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="font-semibold">Payment Terms</span>
+              <span>{paymentTerms || "-"}</span>
+            </div>
+
+            <div className="flex justify-between border-r border-gray-200 pr-10">
+              <span className="font-semibold">Industry</span>
+              <span>{selectedIndustry || "-"}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="font-semibold">Total Items</span>
+              <span>{items.length}</span>
+            </div>
+
+            <div className="flex justify-between border-r border-gray-200 pr-10">
+              <span className="font-semibold">Evaluation Method</span>
+              <span>{evaluationMethod || "-"}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="font-semibold">Visibility</span>
+              <span className="px-4 py-1 rounded-full text-sm bg-green-100 text-green-700">
+                {rfxVisibility || "-"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h3
+            className="text-2xl font-semibold flex items-center gap-3 mb-4"
+            style={{ color: colors.deepGreen }}
+          >
+            <span className="text-xl">⬡</span> Item Details ({items.length})
+          </h3>
+
+          <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white">
+            <table className="w-full text-lg border-collapse">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="border-b border-r p-5 text-left">SL No</th>
+                  <th className="border-b border-r p-5 text-left">Item Description</th>
+                  <th className="border-b border-r p-5 text-left">Quantity</th>
+                  <th className="border-b p-5 text-left">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border-r border-b p-5">{item.slNo}</td>
+                    <td className="border-r border-b p-5">{item.itemDescription || "-"}</td>
+                    <td className="border-r border-b p-5">{item.quantity || "-"}</td>
+                    <td className="border-b p-5">{item.unit || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mt-8 bg-green-50 border border-green-100 rounded-2xl px-6 py-5 text-green-800 text-lg">
+          Once submitted, the RFX will be sent for review and cannot be edited.
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-4 px-10 py-6 border-t border-gray-200 bg-white">
+        <button
+          type="button"
+          onClick={closeSubmitPopup}
+          className="px-8 py-4 rounded-xl border border-gray-300 text-gray-700 font-medium text-lg"
+        >
+          ✕ No, Go Back
         </button>
 
         <button
           type="button"
           onClick={handleSubmitRFX}
           disabled={isSubmitting}
-          className="px-5 py-2 text-white rounded"
+          className="px-8 py-4 rounded-xl text-white font-medium text-lg"
           style={{ backgroundColor: colors.deepGreen }}
         >
-          {isSubmitting ? "Submitting..." : "Yes, Permit Submission"}
+          {isSubmitting ? "Submitting..." : "✓ Yes, Permit Submission"}
         </button>
       </div>
     </div>
