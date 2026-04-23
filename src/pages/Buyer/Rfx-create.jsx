@@ -1324,10 +1324,10 @@ const [closingDate, setClosingDate] = useState("");
       </main>
        
  {showSubmitPopup && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4 py-6">
+     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
     <div className="bg-white w-full max-w-5xl rounded-[24px] shadow-2xl overflow-hidden">
       
-      <div className="flex items-start justify-between px-10 py-8 border-b border-gray-200">
+      <div className="flex items-start justify-between px-8 py-6 border-b border-gray-200">
         <div className="flex items-start gap-5">
           <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
             <FileText size={30} style={{ color: colors.deepGreen }} />
@@ -1335,7 +1335,7 @@ const [closingDate, setClosingDate] = useState("");
 
           <div>
             <h2
-              className="text-4xl font-semibold mb-2"
+              className="text-3xl font-semibold mb-2"
               style={{ color: colors.deepGreen }}
             >
               Confirm RFX Submission
@@ -1349,13 +1349,13 @@ const [closingDate, setClosingDate] = useState("");
         <button
           type="button"
           onClick={closeSubmitPopup}
-          className="text-gray-500 hover:text-black text-4xl leading-none"
+          className="text-gray-500 hover:text-black text-3xl leading-none"
         >
           ×
         </button>
       </div>
 
-      <div className="px-10 py-8 bg-[#fcfcfb]">
+      <div className="px-8 py-6 bg-[#fcfcfb]">
         <div className="mb-6">
           <h3
             className="text-2xl font-semibold flex items-center gap-3"
@@ -1366,64 +1366,88 @@ const [closingDate, setClosingDate] = useState("");
         </div>
 
         <div className="border border-gray-200 rounded-2xl bg-white p-8 mb-8">
-          <div className="grid grid-cols-2 gap-x-16 gap-y-6 text-lg">
+          <div className="grid grid-cols-2 gap-x-16 gap-y-6 text-sm">
             <div className="flex justify-between border-r border-gray-200 pr-10">
               <span className="font-semibold">Heading</span>
+                <span>:</span>
+
               <span>{heading || "-"}</span>
             </div>
 
-            <div className="flex justify-between">
+           <div className="flex justify-between items-center">
               <span className="font-semibold">Publish Date</span>
+                <span>:</span>
+
               <span>{publishDate || "-"}</span>
             </div>
 
             <div className="flex justify-between border-r border-gray-200 pr-10">
               <span className="font-semibold">Purpose</span>
+                <span>:</span>
+
               <span>{purpose || "-"}</span>
             </div>
 
-            <div className="flex justify-between">
+           <div className="flex justify-between items-center">
               <span className="font-semibold">Closing Date</span>
+                <span>:</span>
+
               <span>{closingDate || "-"}</span>
             </div>
 
             <div className="flex justify-between border-r border-gray-200 pr-10">
               <span className="font-semibold">RFX Type</span>
+                <span>:</span>
+
               <span>{requisitionType?.toUpperCase() || "-"}</span>
             </div>
 
-            <div className="flex justify-between">
+           <div className="flex justify-between items-center">
               <span className="font-semibold">Delivery Time</span>
+                <span>:</span>
+
               <span>{deliveryTime || "-"}</span>
             </div>
 
             <div className="flex justify-between border-r border-gray-200 pr-10">
               <span className="font-semibold">Bid Type</span>
+                <span>:</span>
+
               <span>{bidType || "-"}</span>
             </div>
 
-            <div className="flex justify-between">
+           <div className="flex justify-between items-center">
               <span className="font-semibold">Payment Terms</span>
+                <span>:</span>
+
               <span>{paymentTerms || "-"}</span>
             </div>
 
             <div className="flex justify-between border-r border-gray-200 pr-10">
               <span className="font-semibold">Industry</span>
+                <span>:</span>
+
               <span>{selectedIndustry || "-"}</span>
             </div>
 
-            <div className="flex justify-between">
+           <div className="flex justify-between items-center">
               <span className="font-semibold">Total Items</span>
+                <span>:</span>
+
               <span>{items.length}</span>
             </div>
 
             <div className="flex justify-between border-r border-gray-200 pr-10">
               <span className="font-semibold">Evaluation Method</span>
+                <span>:</span>
+
               <span>{evaluationMethod || "-"}</span>
             </div>
 
             <div className="flex justify-between items-center">
               <span className="font-semibold">Visibility</span>
+                <span>:</span>
+
               <span className="px-4 py-1 rounded-full text-sm bg-green-100 text-green-700">
                 {rfxVisibility || "-"}
               </span>
@@ -1437,10 +1461,12 @@ const [closingDate, setClosingDate] = useState("");
             style={{ color: colors.deepGreen }}
           >
             <span className="text-xl">⬡</span> Item Details ({items.length})
+              <span>:</span>
+
           </h3>
 
           <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white">
-            <table className="w-full text-lg border-collapse">
+            <table className="w-full text-sm border-collapse">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="border-b border-r p-5 text-left">SL No</th>
@@ -1463,7 +1489,7 @@ const [closingDate, setClosingDate] = useState("");
           </div>
         </div>
 
-        <div className="mt-8 bg-green-50 border border-green-100 rounded-2xl px-6 py-5 text-green-800 text-lg">
+        <div className="mt-8 bg-green-50 border border-green-100 rounded-2xl px-6 py-5 text-green-800 text-sm">
           Once submitted, the RFX will be sent for review and cannot be edited.
         </div>
       </div>
@@ -1472,7 +1498,7 @@ const [closingDate, setClosingDate] = useState("");
         <button
           type="button"
           onClick={closeSubmitPopup}
-          className="px-8 py-4 rounded-xl border border-gray-300 text-gray-700 font-medium text-lg"
+          className="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium text-sm"
         >
           ✕ No, Go Back
         </button>
@@ -1481,7 +1507,7 @@ const [closingDate, setClosingDate] = useState("");
           type="button"
           onClick={handleSubmitRFX}
           disabled={isSubmitting}
-          className="px-8 py-4 rounded-xl text-white font-medium text-lg"
+          className="px-6 py-3 rounded-lg text-white font-medium text-sm"
           style={{ backgroundColor: colors.deepGreen }}
         >
           {isSubmitting ? "Submitting..." : "✓ Yes, Permit Submission"}
