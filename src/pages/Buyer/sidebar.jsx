@@ -56,7 +56,7 @@ export default function Sidebar() {
   "Analytics": "/buyer/Analytics-page",
   "Messages": "/buyer/message-page",
   "Reports": "/buyer/report-page",
-  "RFQ/RFP View": "/buyer/view-rfx",
+  "RFQ/RFP Status": "/buyer/view-rfx",
   "Reverse Auction": "/buyer/reverse-auction",
   "Internal Approval": "/buyer/internal-approval"
 };
@@ -123,8 +123,7 @@ export default function Sidebar() {
 
                 <div className="absolute left-[85px] top-0 w-40 bg-white rounded-r-lg shadow-xl py-2 z-50 border border-gray-200">
 
-                  {dropdownItems.map((dropItem, i) => {
-
+               {dropdownItems[item.label]?.map((dropItem, i) => {
                     const DropIcon = dropItem.icon;
 
                     return (
