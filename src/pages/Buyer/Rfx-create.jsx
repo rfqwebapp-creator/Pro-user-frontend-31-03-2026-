@@ -499,6 +499,8 @@ const [closingDate, setClosingDate] = useState("");
 useEffect(() => {
   if (id) {
     fetchDraftRFQ();
+  } else {
+    resetForm();
   }
 }, [id]);
 
@@ -562,7 +564,42 @@ const fetchDraftRFQ = async () => {
     alert("Failed to load draft RFQ");
   }
 };
-
+const resetForm = () => {
+  setProcurementType("spot");
+  setRequisitionType("rfq");
+  setBidType("Open");
+  setPurpose("procurement");
+  setEvaluationMethod("");
+  setCurrentStep(0);
+  setClassification("");
+  setCostCenters([]);
+  setHeading("");
+  setDescription("");
+  setSelectedIndustry("");
+  setSelectedSubItems([]);
+  setItems([
+    {
+      slNo: 1,
+      itemDescription: "",
+      quantity: "",
+      unit: "",
+    },
+  ]);
+  setSupplierOption("search");
+  setSearchSupplierText("");
+  setFavouriteSuppliers([]);
+  setInviteEmails([""]);
+  setRfxVisibility("public");
+  setDocuments([{ name: "", url: "", file: null }]);
+  setItemDescriptionNote("");
+  setDeliveryTime("");
+  setPaymentTerms("");
+  setSelectedCountry("");
+  setSelectedState("");
+  setSelectedDistrict("");
+  setPublishDate("");
+  setClosingDate("");
+};
 const formatDateTimeLocal = (dateString) => {
   if (!dateString) return "";
   const date = new Date(dateString);
