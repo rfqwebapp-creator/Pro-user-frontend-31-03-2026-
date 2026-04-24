@@ -41,30 +41,32 @@ export default function Sidebar() {
     { icon: MessageSquare, label: 'Messages', badge: true },
   ];
 
-  const dropdownItems = [
-    { label: 'Create', icon: FilePlus },
-    { label: 'View', icon: Eye }
-  ];
-
-  const isDropdownItem = (label) =>
-    ["RFQ/RFP", "Purchase Orders"].includes(label);
-
-  const handleNavigation = (label) => {
-
-   const routes = {
-  "Home": "/buyer/dashboard",
-  "Analytics": "/buyer/Analytics-page",
-  "Messages": "/buyer/message-page",
-  "Reports": "/buyer/report-page",
-  "RFQ/RFP Status": "/buyer/view-rfx",
-  "Reverse Auction": "/buyer/reverse-auction",
-  "Internal Approval": "/buyer/internal-approval"
+const dropdownItems = {
+  "Purchase Orders": [
+    { label: "Create", icon: FilePlus },
+    { label: "View", icon: Eye }
+  ]
 };
 
-    if (routes[label]) {
-      navigate(routes[label]);
-    }
+  const isDropdownItem = (label) =>
+    [ "Purchase Orders"].includes(label);
+
+const handleNavigation = (label) => {
+  const routes = {
+    "Home": "/buyer/dashboard",
+    "RFQ/RFP": "/buyer/create-rfx",
+    "RFQ/RFP Status": "/buyer/view-rfx",
+    "Analytics": "/buyer/Analytics-page",
+    "Messages": "/buyer/message-page",
+    "Reports": "/buyer/report-page",
+    "Reverse Auction": "/buyer/reverse-auction",
+    "Internal Approval": "/buyer/internal-approval"
   };
+
+  if (routes[label]) {
+    navigate(routes[label]);
+  }
+};
 
   const handleDropdownNavigation = (menuLabel, action) => {
 
@@ -75,9 +77,7 @@ export default function Sidebar() {
   //   "View": "/buyer/view-requisition"
   // },
 
-  "RFQ/RFP": {
-    "Create": "/buyer/create-rfx",
-   },
+  
 
   "Purchase Orders": {
     "Create": "/buyer/create-purchaseOrder",
