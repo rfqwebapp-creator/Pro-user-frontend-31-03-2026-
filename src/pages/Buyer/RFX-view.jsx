@@ -293,12 +293,12 @@ filteredRfqs.map((row, index) => {
       </td>
 
       <td className="px-6 py-5 text-center"> 
-        <button
-          onClick={() => handleViewClick(row)}
-          className="rounded-lg border border-[#43624A] px-4 py-2 text-sm font-semibold text-[#43624A] hover:bg-[#43624A]/10 transition"
-        >
-          View Details
-        </button>
+       <button
+  onClick={() => handleViewClick(row)}
+  className="rounded-lg border border-[#43624A] px-4 py-2 text-sm font-semibold text-[#43624A] hover:bg-[#43624A]/10 transition"
+>
+  {row.status === "DRAFT" ? "Continue Draft" : "View Details"}
+</button>
       </td>
     </tr>
   );
