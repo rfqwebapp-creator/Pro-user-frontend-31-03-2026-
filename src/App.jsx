@@ -165,6 +165,7 @@ function BuyerLayout() {
   <Route path="view-purchaseOrder" element={<BuyerPurchaseOrderVIEW />} />
 
   <Route path="create-rfx" element={<BuyerRFXcreate />} />
+  <Route path="rfx-create/:id" element={<BuyerRFXcreate />} />
   <Route path="view-rfx" element={<BuyerRFQView />} />
 
   <Route path="supplierDirectories" element={<BuyerSupplierDirectories />} />
