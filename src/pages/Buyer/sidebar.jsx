@@ -56,7 +56,7 @@ export default function Sidebar() {
   "Analytics": "/buyer/Analytics-page",
   "Messages": "/buyer/message-page",
   "Reports": "/buyer/report-page",
-  "RFQ/RFP Status": "/buyer/supplier-responses",
+  "RFQ/RFP View": "/buyer/view-rfx",
   "Reverse Auction": "/buyer/reverse-auction",
   "Internal Approval": "/buyer/internal-approval"
 };
@@ -77,8 +77,7 @@ export default function Sidebar() {
 
   "RFQ/RFP": {
     "Create": "/buyer/create-rfx",
-    "View": "/buyer/view-rfx"
-  },
+   },
 
   "Purchase Orders": {
     "Create": "/buyer/create-purchaseOrder",
