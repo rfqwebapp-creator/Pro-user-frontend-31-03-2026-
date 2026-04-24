@@ -116,7 +116,8 @@ const getStatusStyles = (status) => {
   };
 
   const handleViewDetails = (id) => {
-    navigate(`/buyer/rfq/${id}`);
+     
+    navigate(`/buyer/create-rfx/${rfq.id}`);
   };
 const getRfxNumber = (type, index) => {
   const number = String(index + 1).padStart(3, "0");
@@ -144,6 +145,14 @@ const normalizeStatus = (value) => {
   console.log(`🔄 NORMALIZE STATUS: input="${value}" (type: ${typeof value}) → normalized="${normalized}"`);
   
   return normalized;
+};
+
+const handleViewClick = (rfq) => {
+  if (rfq.status === "DRAFT") {
+    navigate(`/buyer/rfx-create/${rfq.id}`);
+  } else {
+    navigate(`/buyer/rfq/view/${rfq.id}`);
+  }
 };
   return (
     <div className="min-h-screen bg-[#F5F2EA]/30 p-4 md:p-10 font-sans text-[#2A2A2A]">
@@ -283,9 +292,9 @@ filteredRfqs.map((row, index) => {
         </span>
       </td>
 
-      <td className="px-6 py-5 text-center">
+      <td className="px-6 py-5 text-center"> 
         <button
-          onClick={() => handleViewDetails(row.id)}
+          onClick={() => handleViewClick(row)}
           className="rounded-lg border border-[#43624A] px-4 py-2 text-sm font-semibold text-[#43624A] hover:bg-[#43624A]/10 transition"
         >
           View Details

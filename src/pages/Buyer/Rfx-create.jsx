@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import API from "../../api";
 import {
   Calendar,
@@ -15,6 +16,10 @@ import {
 } from "lucide-react";
 
 const BuyerRFXcreate = () => {
+  const { id } = useParams();        // ✅ add here
+  const navigate = useNavigate();    // ✅ add here
+  const isEditMode = !!id;           // ✅ add here
+
   const [procurementType, setProcurementType] = useState("spot");
   const [requisitionType, setRequisitionType] = useState("rfq");
   const [bidType, setBidType] = useState("Open");
@@ -241,22 +246,66 @@ const [items, setItems] = useState([
 //     alert("Failed to submit RFQ");
 //   }
 // };
+// const handleSubmitRFX = async () => {
+//   try {
+//     setIsSubmitting(true);
+
+//     const payload = {
+//       procurementType,
+//       requisitionType,
+//       bidType,
+//       purpose,
+//       evaluationMethod,
+//       classification,
+//       costCenters,
+//       publishDate,
+//       closingDate,
+//       heading,
+//       description,
+//       selectedIndustry,
+//       selectedSubItems,
+//       items,
+//       itemDescriptionNote,
+//       documents,
+//       deliveryTime,
+//       paymentTerms,
+//       supplierOption,
+//       searchSupplierText,
+//       favouriteSuppliers,
+//       inviteEmails,
+//       rfxVisibility,
+//       status: "IN_REVIEW",
+//     };
+
+//     const res = await API.post("/rfq/create", payload);
+
+//     if (res.data.success) {
+//       alert("RFX Submitted successfully");
+//       setShowSubmitPopup(false);
+//     }
+//   } catch (error) {
+//     console.error("SUBMIT ERROR:", error);
+//     alert("Failed to submit RFQ");
+//   } finally {
+//     setIsSubmitting(false);
+//   }
+// };
+
 const handleSubmitRFX = async () => {
   try {
     setIsSubmitting(true);
 
     const payload = {
+      heading,
+      description,
       procurementType,
       requisitionType,
       bidType,
       purpose,
       evaluationMethod,
       classification,
-      costCenters,
       publishDate,
       closingDate,
-      heading,
-      description,
       selectedIndustry,
       selectedSubItems,
       items,
@@ -266,17 +315,24 @@ const handleSubmitRFX = async () => {
       paymentTerms,
       supplierOption,
       searchSupplierText,
-      favouriteSuppliers,
       inviteEmails,
       rfxVisibility,
       status: "IN_REVIEW",
     };
 
-    const res = await API.post("/rfq/create", payload);
+    let res;
+
+    if (isEditMode) {
+      res = await API.put(`/rfq/${id}`, payload);
+      await API.put(`/rfq/${id}/status`, { status: "IN_REVIEW" });
+    } else {
+      res = await API.post("/rfq/create", payload);
+    }
 
     if (res.data.success) {
-      alert("RFX Submitted successfully");
+      alert(isEditMode ? "Draft submitted successfully" : "RFX submitted successfully");
       setShowSubmitPopup(false);
+      navigate("/buyer/rfq");
     }
   } catch (error) {
     console.error("SUBMIT ERROR:", error);
@@ -288,17 +344,16 @@ const handleSubmitRFX = async () => {
 const handleSaveDraft = async () => {
   try {
     const payload = {
+      heading,
+      description,
       procurementType,
       requisitionType,
       bidType,
       purpose,
       evaluationMethod,
       classification,
-      costCenters,
-      publish_date: publishDate,
-closing_date: closingDate,
-      heading,
-      description,
+      publishDate,
+      closingDate,
       selectedIndustry,
       selectedSubItems,
       items,
@@ -308,13 +363,19 @@ closing_date: closingDate,
       paymentTerms,
       supplierOption,
       searchSupplierText,
-      favouriteSuppliers,
       inviteEmails,
       rfxVisibility,
       status: "DRAFT",
     };
 
-    const res = await API.post("/rfq/create", payload);
+    let res;
+
+    if (isEditMode) {
+      res = await API.put(`/rfq/${id}`, payload);
+      await API.put(`/rfq/${id}/status`, { status: "DRAFT" });
+    } else {
+      res = await API.post("/rfq/create", payload);
+    }
 
     if (res.data.success) {
       alert("Draft saved successfully");
@@ -431,6 +492,93 @@ const handleDocFileChange = (index, file) => {
  
 const [publishDate, setPublishDate] = useState("");
 const [closingDate, setClosingDate] = useState("");
+
+
+
+//draft
+useEffect(() => {
+  if (id) {
+    fetchDraftRFQ();
+  }
+}, [id]);
+
+const fetchDraftRFQ = async () => {
+  try {
+    const res = await API.get(`/rfq/${id}`);
+
+    if (res.data.success) {
+      const data = res.data.data;
+
+      setHeading(data.heading || "");
+      setDescription(data.description || "");
+      setProcurementType(data.procurement_type || "spot");
+      setRequisitionType(data.requisition_type || "rfq");
+      setBidType(data.bid_type || "Open");
+      setPurpose(data.purpose || "procurement");
+      setEvaluationMethod(data.evaluation_method || "");
+      setClassification(data.classification || "");
+      setPublishDate(data.publish_date ? formatDateTimeLocal(data.publish_date) : "");
+      setClosingDate(data.closing_date ? formatDateTimeLocal(data.closing_date) : "");
+      setSelectedIndustry(data.selected_industry || "");
+      setSelectedSubItems(data.selectedSubItems || []);
+      setItemDescriptionNote(data.item_description_note || "");
+      setDeliveryTime(data.delivery_time || "");
+      setPaymentTerms(data.payment_terms || "");
+      setSupplierOption(data.supplier_option || "search");
+      setSearchSupplierText(data.search_supplier_text || "");
+      setInviteEmails(data.inviteEmails?.length ? data.inviteEmails : [""]);
+      setRfxVisibility(data.rfx_visibility || "public");
+
+      setItems(
+        data.items?.length
+          ? data.items.map((item, index) => ({
+              slNo: item.sl_no || index + 1,
+              itemDescription: item.item_description || "",
+              quantity: item.quantity || "",
+              unit: item.unit || "",
+            }))
+          : [
+              {
+                slNo: 1,
+                itemDescription: "",
+                quantity: "",
+                unit: "",
+              },
+            ]
+      );
+
+      setDocuments(
+        data.documents?.length
+          ? data.documents.map((doc) => ({
+              name: doc.name || "",
+              url: doc.url || "",
+              file: null,
+            }))
+          : [{ name: "", url: "", file: null }]
+      );
+    }
+  } catch (error) {
+    console.error("FETCH DRAFT ERROR:", error);
+    alert("Failed to load draft RFQ");
+  }
+};
+
+const formatDateTimeLocal = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const pad = (num) => String(num).padStart(2, "0");
+
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
+
+
   const renderStepHeader = () => {
     return (
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
@@ -638,6 +786,7 @@ const [closingDate, setClosingDate] = useState("");
               <div
                 onClick={() => setRequisitionType("rfp")}
                 className="p-5 border-2 rounded-lg cursor-pointer"
+                
                 style={{
                   backgroundColor:
                     requisitionType === "rfp" ? colors.offWhite : "#FFF",
