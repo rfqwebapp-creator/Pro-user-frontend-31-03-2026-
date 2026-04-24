@@ -148,10 +148,12 @@ const normalizeStatus = (value) => {
 };
 
 const handleViewClick = (rfq) => {
-  if (rfq.status === "DRAFT") {
+  const status = String(rfq.status || "").trim().toUpperCase();
+
+  if (status === "DRAFT") {
     navigate(`/buyer/rfx-create/${rfq.id}`);
   } else {
-    navigate(`/buyer/rfq/view/${rfq.id}`);
+    navigate(`/buyer/rfq/${rfq.id}`);
   }
 };
   return (
