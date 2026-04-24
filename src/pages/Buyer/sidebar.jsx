@@ -51,15 +51,15 @@ export default function Sidebar() {
 
   const handleNavigation = (label) => {
 
-    const routes = {
-     "Home": "/buyer/dashboard",
-    "Analytics": "/buyer/Analytics-page",
-    "Messages": "/buyer/message-page",
-    "Reports": "/buyer/report-page",
-    "Status": "/buyer/supplier-responses",
-    "Reverse Auction": "/buyer/reverse-auction",
-    "Internal Approval": "/buyer/internal-approval"
-    };
+   const routes = {
+  "Home": "/buyer/dashboard",
+  "Analytics": "/buyer/Analytics-page",
+  "Messages": "/buyer/message-page",
+  "Reports": "/buyer/report-page",
+  "RFQ/RFP Status": "/buyer/supplier-responses",
+  "Reverse Auction": "/buyer/reverse-auction",
+  "Internal Approval": "/buyer/internal-approval"
+};
 
     if (routes[label]) {
       navigate(routes[label]);
