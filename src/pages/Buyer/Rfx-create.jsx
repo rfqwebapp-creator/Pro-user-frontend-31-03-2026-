@@ -915,39 +915,31 @@ const removeCostCenter = (index) => {
             </div>
           )}
           </section>
-          <section className="grid grid-cols-3 gap-12">
-<section className="flex gap-8 items-start">
-  <div className="w-[200px]">
-    <h2 className="text-lg font-bold" style={{ color: colors.deepGreen }}>
+ <section className="flex gap-12 items-start mt-6">
+  {/* LEFT LABEL */}
+  <div className="w-[220px] pt-2">
+    <h2
+      className="text-lg font-bold"
+      style={{ color: colors.deepGreen }}
+    >
       Cost Centers
     </h2>
   </div>
 
+  {/* RIGHT INPUT */}
   <div className="flex-1">
-    {/* input + button + chips */}
-  </div>
-</section>
-
-  <div className="col-span-2">
     <input
       type="text"
       value={costCenterInput}
-      list="costCenterSuggestions"
       placeholder="Enter cost center"
       onChange={(e) => {
-  setCostCenterInput(e.target.value);
-  if (costCenterSuggestions.includes(e.target.value)) {
-    addCostCenter(e.target.value);
-  }
-}}
+        setCostCenterInput(e.target.value);
+        if (costCenterSuggestions.includes(e.target.value)) {
+          addCostCenter(e.target.value);
+        }
+      }}
       className="w-full border border-gray-300 rounded px-4 py-3"
     />
-
-    <datalist id="costCenterSuggestions">
-      {costCenterSuggestions.map((item, index) => (
-        <option key={index} value={item} />
-      ))}
-    </datalist>
 
     <button
       type="button"
