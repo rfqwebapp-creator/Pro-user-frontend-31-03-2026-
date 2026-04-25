@@ -829,7 +829,7 @@ const removeCostCenter = (index) => {
           </div>
 
           <div className="col-span-2">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 mb-12">
               <div
                 onClick={() => setRequisitionType("rfq")}
                 className="p-5 border-2 rounded-lg cursor-pointer"
@@ -870,7 +870,7 @@ const removeCostCenter = (index) => {
                 </p>
               </div>
             </div>
-<section className="border border-gray-200 rounded-lg p-6"><div>
+<section className="border border-gray-200 rounded-lg p-6 mt-10"><div>
             <label className="block text-sm font-bold text-gray-700 mb-3">
               Industry
             </label>
