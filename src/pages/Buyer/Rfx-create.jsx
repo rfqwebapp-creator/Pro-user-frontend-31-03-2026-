@@ -774,7 +774,7 @@ const removeCostCenter = (index) => {
 
         <hr /> */}
 
-        <section className="grid grid-cols-3 gap-8">
+        <section className="grid grid-cols-3 gap-12">
           <div className="col-span-2 space-y-8">
             <div>
               <label
@@ -818,7 +818,7 @@ const removeCostCenter = (index) => {
 
         <hr />
 
-        <section className="grid grid-cols-3 gap-8">
+        <section className="grid grid-cols-3 gap-12">
           <div className="col-span-1">
             <h2
               className="text-lg font-bold flex items-center gap-2"
@@ -915,15 +915,18 @@ const removeCostCenter = (index) => {
             </div>
           )}
           </section>
-          <section className="grid grid-cols-3 gap-8">
-  <div>
-    <h2
-      className="text-lg font-bold flex items-center gap-2"
-      style={{ color: colors.deepGreen }}
-    >
+          <section className="grid grid-cols-3 gap-12">
+<section className="flex gap-8 items-start">
+  <div className="w-[200px]">
+    <h2 className="text-lg font-bold" style={{ color: colors.deepGreen }}>
       Cost Centers
     </h2>
   </div>
+
+  <div className="flex-1">
+    {/* input + button + chips */}
+  </div>
+</section>
 
   <div className="col-span-2">
     <input
@@ -1024,7 +1027,7 @@ const removeCostCenter = (index) => {
 
         <hr />
 
-      <section className="grid grid-cols-3 gap-8">
+      <section className="grid grid-cols-3 gap-12">
   <div>
     <h2
       className="text-lg font-bold flex items-center gap-2"
