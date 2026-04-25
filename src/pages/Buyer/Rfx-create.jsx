@@ -317,6 +317,7 @@ const handleSubmitRFX = async () => {
       searchSupplierText,
       inviteEmails,
       rfxVisibility,
+      costCenters,
       status: "IN_REVIEW",
     };
 
@@ -365,6 +366,7 @@ const handleSaveDraft = async () => {
       searchSupplierText,
       inviteEmails,
       rfxVisibility,
+      costCenters,
       status: "DRAFT",
     };
 
@@ -493,7 +495,8 @@ const handleDocFileChange = (index, file) => {
 const [publishDate, setPublishDate] = useState("");
 const [closingDate, setClosingDate] = useState("");
 
-
+const [costCenterInput, setCostCenterInput] = useState("");
+const [costCenterSuggestions, setCostCenterSuggestions] = useState([]);
 
 //draft
 useEffect(() => {
@@ -530,7 +533,7 @@ const fetchDraftRFQ = async () => {
       setSearchSupplierText(data.search_supplier_text || "");
       setInviteEmails(data.inviteEmails?.length ? data.inviteEmails : [""]);
       setRfxVisibility(data.rfx_visibility || "public");
-
+      setCostCenters(data.costCenters || []);
       setItems(
         data.items?.length
           ? data.items.map((item, index) => ({
@@ -613,8 +616,34 @@ const formatDateTimeLocal = (dateString) => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
+useEffect(() => {
+  fetchCostCenterSuggestions();
+}, []);
 
+const fetchCostCenterSuggestions = async () => {
+  try {
+    const res = await API.get("/rfq/cost-centers/suggestions");
+    if (res.data.success) {
+      setCostCenterSuggestions(res.data.data || []);
+    }
+  } catch (error) {
+    console.error("FETCH COST CENTERS ERROR:", error);
+  }
+};
+const addCostCenter = (value) => {
+  const cleanValue = value.trim();
+  if (!cleanValue) return;
 
+  if (!costCenters.map(c => c.toLowerCase()).includes(cleanValue.toLowerCase())) {
+    setCostCenters([...costCenters, cleanValue]);
+  }
+
+  setCostCenterInput("");
+};
+
+const removeCostCenter = (index) => {
+  setCostCenters(costCenters.filter((_, i) => i !== index));
+};
 
   const renderStepHeader = () => {
     return (
@@ -886,7 +915,65 @@ const formatDateTimeLocal = (dateString) => {
             </div>
           )}
           </section>
-          
+          <section className="grid grid-cols-3 gap-8">
+  <div>
+    <h2
+      className="text-lg font-bold flex items-center gap-2"
+      style={{ color: colors.deepGreen }}
+    >
+      Cost Centers
+    </h2>
+  </div>
+
+  <div className="col-span-2">
+    <input
+      type="text"
+      value={costCenterInput}
+      list="costCenterSuggestions"
+      placeholder="Enter cost center"
+      onChange={(e) => {
+  setCostCenterInput(e.target.value);
+  if (costCenterSuggestions.includes(e.target.value)) {
+    addCostCenter(e.target.value);
+  }
+}}
+      className="w-full border border-gray-300 rounded px-4 py-3"
+    />
+
+    <datalist id="costCenterSuggestions">
+      {costCenterSuggestions.map((item, index) => (
+        <option key={index} value={item} />
+      ))}
+    </datalist>
+
+    <button
+      type="button"
+      onClick={() => addCostCenter(costCenterInput)}
+      className="mt-3 px-4 py-2 text-white rounded"
+      style={{ backgroundColor: colors.deepGreen }}
+    >
+      Add Cost Center
+    </button>
+
+    <div className="flex flex-wrap gap-2 mt-4">
+      {costCenters.map((item, index) => (
+        <span
+          key={index}
+          className="px-3 py-1 rounded-full bg-gray-100 border text-sm flex items-center gap-2"
+        >
+          {item}
+          <button
+            type="button"
+            onClick={() => removeCostCenter(index)}
+            className="text-red-500 font-bold"
+          >
+            ×
+          </button>
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
             <div className="mt-6">
               <label className="block text-sm font-semibold text-gray-700 mb-3">
                 Award Type
