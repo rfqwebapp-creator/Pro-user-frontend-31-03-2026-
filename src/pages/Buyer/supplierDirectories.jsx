@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Search,
   Filter,
@@ -9,9 +9,9 @@ import {
   Trash2,
   Menu,
   X,
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import BuyerSettingsSidebar from './sidebar-settings';
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import BuyerSettingsSidebar from "./sidebar-settings";
 
 const BuyerSupplierDirectory = () => {
   const navigate = useNavigate();
@@ -21,152 +21,155 @@ const BuyerSupplierDirectory = () => {
   const suppliers = [
     {
       id: 1,
-      name: '.HYPEWAVE MEDIA',
-      cr: '134150-3',
-      vat: 'N/A',
-      country: 'Bahrain',
+      name: ".HYPEWAVE MEDIA",
+      cr: "134150-3",
+      vat: "N/A",
+      country: "Bahrain",
       quotations: 0,
-      contact: 'hype@media.com',
-      initial: 'H',
-      color: 'bg-purple-500',
+      contact: "hype@media.com",
+      initial: "H",
+      color: "bg-purple-400",
     },
     {
       id: 2,
-      name: 'ARVENTA TECHNIS W.L.L',
-      cr: '191373-1',
-      vat: '200011536600002',
-      country: 'Bahrain',
+      name: "ARVENTA TECHNIS W.L.L",
+      cr: "191373-1",
+      vat: "200011536600002",
+      country: "Bahrain",
       quotations: 0,
-      contact: '+973 33445566',
-      initial: 'A',
-      color: 'bg-blue-500',
+      contact: "+973 33445566",
+      initial: "A",
+      color: "bg-blue-500",
     },
     {
       id: 3,
-      name: 'BRONZE FIX SPARE PARTS & REPAIR',
-      cr: '22755-4',
-      vat: '000000000000000',
-      country: 'Bahrain',
+      name: "BRONZE FIX SPARE PARTS & REPAIR",
+      cr: "22755-4",
+      vat: "000000000000000",
+      country: "Bahrain",
       quotations: 0,
-      contact: 'info@bronzefix.com',
-      initial: 'B',
-      color: 'bg-pink-500',
+      contact: "info@bronzefix.com",
+      initial: "B",
+      color: "bg-pink-500",
     },
     {
       id: 4,
-      name: 'CENTURY TRADING HOUSE CO W.L.L',
-      cr: '58747-1',
-      vat: '200011536600002',
-      country: 'Bahrain',
+      name: "CENTURY TRADING HOUSE CO W.L.L",
+      cr: "58747-1",
+      vat: "200011536600002",
+      country: "Bahrain",
       quotations: 0,
-      contact: '-',
-      initial: 'C',
-      color: 'bg-teal-500',
+      contact: "-",
+      initial: "C",
+      color: "bg-teal-500",
     },
   ];
 
   return (
     <div className="flex min-h-screen bg-[#F5F2EA] text-[#2A2A2A]">
+      {/* Mobile overlay for settings sidebar */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
+      {/* Second Sidebar */}
       <aside
         className={`fixed left-0 top-0 z-40 h-screen transform transition-transform duration-300 lg:static lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <BuyerSettingsSidebar />
       </aside>
 
-      <main className="w-full px-4 py-4 sm:px-6 lg:px-8 lg:py-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-5 flex items-center gap-3 lg:hidden">
+      {/* Main Content */}
+      <main className="flex-1 min-w-0 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
+        <div className="w-full">
+          {/* Mobile sidebar button */}
+          <div className="mb-4 flex items-center gap-3 lg:hidden">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="rounded-xl bg-white p-2.5 text-gray-700 shadow-sm border border-gray-200 hover:bg-gray-50"
+              className="rounded-lg border border-gray-200 bg-white p-2 text-gray-700 shadow-sm"
             >
               {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
 
             <span className="text-sm font-semibold text-gray-700">
-              Supplier Management
+              Settings Menu
             </span>
           </div>
 
-          <section className="mb-6 rounded-2xl bg-white/70 border border-white shadow-sm p-4 sm:p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-[#43624A]">
-                  Procurement Settings
-                </p>
-
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#1f1f1f]">
-                  Supplier Directory
-                </h1>
-
-                <p className="mt-2 max-w-2xl text-sm sm:text-base text-gray-600">
-                  Manage supplier relationships, contact information, quotation
-                  activity, and vetting status from one place.
-                </p>
-              </div>
-
-              <button
-                onClick={() => navigate('/add-supplier')}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#43624A] px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#354d3a] active:scale-[0.98]"
-              >
-                <Plus size={18} />
-                Add Supplier
-              </button>
+          {/* Header */}
+          <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-[#222] lg:text-4xl">
+                Supplier Directory
+              </h1>
+              <p className="mt-1 text-sm text-gray-600">
+                Manage your supplier relationships, contacts, and vetting
+                status.
+              </p>
             </div>
-          </section>
 
-          <section className="overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-200">
-            <div className="border-b border-gray-100 p-4 sm:p-6">
+            <button
+              onClick={() => navigate("/add-supplier")}
+              className="inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-[#43624A] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#354d3a]"
+            >
+              <Plus size={18} />
+              Add Supplier
+            </button>
+          </div>
+
+          {/* Main Card */}
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+            {/* Tabs and Filter */}
+            <div className="border-b border-gray-100 p-4 sm:p-5">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex gap-2 overflow-x-auto rounded-xl bg-[#F5F2EA] p-1">
-                  <button className="rounded-lg bg-white px-5 py-2 text-sm font-bold text-[#43624A] shadow-sm">
+                <div className="flex gap-6 overflow-x-auto">
+                  <button className="border-b-2 border-[#43624A] pb-2 text-sm font-semibold text-[#43624A]">
                     All
                   </button>
-                  <button className="rounded-lg px-5 py-2 text-sm font-semibold text-gray-500 hover:bg-white hover:text-[#43624A]">
+
+                  <button className="pb-2 text-sm font-semibold text-gray-400 transition hover:text-[#43624A]">
                     My Suppliers
                   </button>
-                  <button className="rounded-lg px-5 py-2 text-sm font-semibold text-gray-500 hover:bg-white hover:text-[#43624A]">
+
+                  <button className="pb-2 text-sm font-semibold text-gray-400 transition hover:text-[#43624A]">
                     Deleted
                   </button>
                 </div>
 
                 <button
                   onClick={() => setShowAdvanced(!showAdvanced)}
-                  className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
+                  className={`inline-flex w-fit items-center justify-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition ${
                     showAdvanced
-                      ? 'border-[#43624A] bg-[#43624A] text-white'
-                      : 'border-gray-200 bg-white text-[#43624A] hover:bg-gray-50'
+                      ? "border-[#43624A] bg-[#43624A] text-white"
+                      : "border-[#43624A] bg-white text-[#43624A] hover:bg-[#F5F2EA]"
                   }`}
                 >
-                  <Filter size={16} />
+                  <Filter size={18} />
                   Filters
                   <ChevronDown
                     size={16}
-                    className={`transition ${showAdvanced ? 'rotate-180' : ''}`}
+                    className={`transition ${showAdvanced ? "rotate-180" : ""}`}
                   />
                 </button>
               </div>
 
+              {/* Advanced Filters */}
               {showAdvanced && (
-                <div className="mt-5 rounded-2xl border border-gray-100 bg-gray-50 p-4 sm:p-5">
+                <div className="mt-5 rounded-2xl border border-gray-100 bg-gray-50 p-4">
                   <div className="grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-end">
                     <div>
-                      <label className="mb-2 flex items-center gap-2 text-sm font-bold text-gray-700">
+                      <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700">
                         Classification
                         <Search size={14} className="text-gray-400" />
                       </label>
 
                       <div className="relative">
-                        <select className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 outline-none transition focus:border-[#7A9C83] focus:ring-4 focus:ring-[#7A9C83]/10">
+                        <select className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 outline-none focus:border-[#7A9C83] focus:ring-2 focus:ring-[#7A9C83]/20">
                           <option>No options selected</option>
                         </select>
 
@@ -178,22 +181,22 @@ const BuyerSupplierDirectory = () => {
                     </div>
 
                     <div className="flex gap-2">
-                      <button className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-white text-blue-600 shadow-sm transition hover:bg-blue-50">
+                      <button className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-white text-blue-600 shadow-sm hover:bg-blue-50">
                         <Search size={16} />
                       </button>
 
-                      <button className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-white text-blue-600 shadow-sm transition hover:bg-blue-50">
+                      <button className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-white text-blue-600 shadow-sm hover:bg-blue-50">
                         <RotateCcw size={16} />
                       </button>
                     </div>
 
                     <div>
-                      <label className="mb-2 block text-sm font-bold text-gray-700">
+                      <label className="mb-2 block text-sm font-semibold text-gray-700">
                         Vetting Status
                       </label>
 
                       <div className="relative">
-                        <select className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 outline-none transition focus:border-[#7A9C83] focus:ring-4 focus:ring-[#7A9C83]/10">
+                        <select className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 outline-none focus:border-[#7A9C83] focus:ring-2 focus:ring-[#7A9C83]/20">
                           <option>Select vetting status</option>
                           <option>Blacklist</option>
                           <option>Watchlist</option>
@@ -210,8 +213,9 @@ const BuyerSupplierDirectory = () => {
               )}
             </div>
 
+            {/* Desktop Table */}
             <div className="hidden overflow-x-auto md:block">
-              <table className="w-full min-w-[900px] text-left">
+              <table className="w-full min-w-[850px] text-left">
                 <thead>
                   <tr className="border-b border-gray-100 bg-gray-50 text-xs uppercase tracking-wider text-gray-500">
                     <th className="px-6 py-4 font-bold">Supplier</th>
@@ -227,7 +231,7 @@ const BuyerSupplierDirectory = () => {
                   {suppliers.map((s) => (
                     <tr
                       key={s.id}
-                      className="group transition hover:bg-[#F5F2EA]/60"
+                      className="transition hover:bg-[#F5F2EA]/60"
                     >
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-4">
@@ -239,9 +243,7 @@ const BuyerSupplierDirectory = () => {
 
                           <div>
                             <p className="font-bold text-gray-900">{s.name}</p>
-                            <p className="mt-0.5 text-xs text-gray-500">
-                              CR: {s.cr}
-                            </p>
+                            <p className="text-xs text-gray-500">CR: {s.cr}</p>
                             <p className="text-xs text-gray-500">
                               VAT: {s.vat}
                             </p>
@@ -269,8 +271,8 @@ const BuyerSupplierDirectory = () => {
                       </td>
 
                       <td className="px-6 py-5">
-                        <div className="relative max-w-[170px]">
-                          <select className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-3 py-2 pr-8 text-xs text-gray-600 outline-none transition focus:border-[#7A9C83] focus:ring-4 focus:ring-[#7A9C83]/10">
+                        <div className="relative max-w-[160px]">
+                          <select className="w-full appearance-none rounded-xl border border-gray-200 bg-white px-3 py-2 pr-8 text-xs text-gray-600 outline-none focus:border-[#7A9C83]">
                             <option value="">Select Status</option>
                             <option>Blacklist</option>
                             <option>Watchlist</option>
@@ -287,12 +289,12 @@ const BuyerSupplierDirectory = () => {
                         <div className="flex justify-end gap-2">
                           <button
                             onClick={() => navigate(`/view-supplier/${s.id}`)}
-                            className="rounded-full p-2 text-gray-400 transition hover:bg-[#43624A]/10 hover:text-[#43624A]"
+                            className="rounded-full p-2 text-gray-400 hover:bg-[#43624A]/10 hover:text-[#43624A]"
                           >
                             <Eye size={17} />
                           </button>
 
-                          <button className="rounded-full p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-600">
+                          <button className="rounded-full p-2 text-gray-400 hover:bg-red-50 hover:text-red-600">
                             <Trash2 size={17} />
                           </button>
                         </div>
@@ -303,6 +305,7 @@ const BuyerSupplierDirectory = () => {
               </table>
             </div>
 
+            {/* Mobile Cards */}
             <div className="space-y-4 p-4 md:hidden">
               {suppliers.map((s) => (
                 <div
@@ -312,7 +315,7 @@ const BuyerSupplierDirectory = () => {
                   <div className="flex items-start justify-between gap-3 border-b border-gray-100 pb-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-full ${s.color} text-sm font-bold text-white shadow-sm`}
+                        className={`flex h-11 w-11 items-center justify-center rounded-full ${s.color} text-sm font-bold text-white`}
                       >
                         {s.initial}
                       </div>
@@ -368,7 +371,7 @@ const BuyerSupplierDirectory = () => {
                       <span className="font-semibold text-gray-500">
                         Contact
                       </span>
-                      <span className="text-right text-gray-800 break-all">
+                      <span className="break-all text-right text-gray-800">
                         {s.contact}
                       </span>
                     </div>
@@ -396,13 +399,14 @@ const BuyerSupplierDirectory = () => {
               ))}
             </div>
 
-            <div className="flex flex-col gap-4 border-t border-gray-100 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+            {/* Footer Pagination */}
+            <div className="flex flex-col gap-4 border-t border-gray-100 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
               <p className="text-center text-sm font-medium text-gray-500 sm:text-left">
                 Showing 1 to 10 of 3,185 entries
               </p>
 
               <div className="flex justify-center overflow-x-auto">
-                <div className="inline-flex rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div className="inline-flex overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
                   <button className="px-4 py-2 text-sm font-bold text-blue-600 hover:bg-blue-50">
                     Prev
                   </button>
@@ -412,8 +416,8 @@ const BuyerSupplierDirectory = () => {
                       key={page}
                       className={`border-l border-gray-200 px-4 py-2 text-sm font-bold ${
                         page === 1
-                          ? 'bg-blue-600 text-white'
-                          : 'text-blue-600 hover:bg-blue-50'
+                          ? "bg-blue-600 text-white"
+                          : "text-blue-600 hover:bg-blue-50"
                       }`}
                     >
                       {page}
@@ -426,7 +430,7 @@ const BuyerSupplierDirectory = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </div>
         </div>
       </main>
     </div>
