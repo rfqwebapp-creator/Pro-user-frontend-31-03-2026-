@@ -31,7 +31,7 @@ export default function Sidebar() {
   const menuItems = [
     { icon: Home, label: 'Home' },
     // { icon: LayoutGrid, label: 'Purchase Request' },
-    { icon: FileText, label: 'RFQ/RFP' },
+    { icon: FileText, label: 'Create RFQ/RFP' },
     { icon: Users, label: 'RFQ/RFP Status' },
     { icon: Gavel, label: 'Reverse Auction' },
     { icon: CheckSquare, label: 'Internal Approval' },
@@ -54,7 +54,7 @@ const dropdownItems = {
 const handleNavigation = (label) => {
   const routes = {
     "Home": "/buyer/dashboard",
-    "RFQ/RFP": "/buyer/create-rfx",
+    "Create RFQ/RFP": "/buyer/create-rfx",
     "RFQ/RFP Status": "/buyer/view-rfx",
     "Analytics": "/buyer/Analytics-page",
     "Messages": "/buyer/message-page",
