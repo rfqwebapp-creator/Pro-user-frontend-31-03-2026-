@@ -76,7 +76,7 @@ const handleLogin = async (e) => {
     console.log("USER SAVED:", data.user);
 
     setLoading(false);
-    navigate("/buyer/dashboard");
+    navigate("/");
   } catch (error) {
     setLoading(false);
     console.error("Login Error:", error);

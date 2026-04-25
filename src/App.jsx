@@ -4,7 +4,7 @@ import Footer from "./pages/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TermsAndConditions from "./pages/Terms";
-
+import MainNavbarAfterLogin from "./pages/navbarAfterLogin";
 
 //-----------------------------MAIN HOME PAGE -- START----------------------------------------------------------------
 import MainNavbar from "./pages/MAIN/navbar";
@@ -102,24 +102,16 @@ import SellerChatInterface from "./pages/Seller/seller-message-page";
 
 function Home() {
   const isLoggedIn = !!localStorage.getItem("token");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/buyer/dashboard");
-    }
-  }, [isLoggedIn, navigate]);
-
-  if (isLoggedIn) return null;
 
   return (
     <>
-      <MainNavbar />
+      {isLoggedIn ? <MainNavbarAfterLogin /> : <MainNavbar />}
+
       <ProcurementHeader />
       <OpportunityFilter />
       <OpportunityTable />
       <MainFooter />
-     </>
+    </>
   );
 }
 
@@ -298,6 +290,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/terms" element={<TermsAndConditions />} />
+        
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/about" element={<AboutUs />} />
