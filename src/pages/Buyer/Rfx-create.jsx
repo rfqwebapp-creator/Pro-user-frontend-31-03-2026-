@@ -333,7 +333,7 @@ const handleSubmitRFX = async () => {
     if (res.data.success) {
       alert(isEditMode ? "Draft submitted successfully" : "RFX submitted successfully");
       setShowSubmitPopup(false);
-      navigate("/buyer/rfq");
+     navigate("/buyer/view-rfx");
     }
   } catch (error) {
     console.error("SUBMIT ERROR:", error);
