@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import logo from '../../assets/logo.png';
+import logo from '../assets/logo.png';
 
 export default function MainNavbarAfterLogin() {
   const navigate = useNavigate();
