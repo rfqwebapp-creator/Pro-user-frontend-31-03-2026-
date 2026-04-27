@@ -38,14 +38,28 @@ const BuyerUserRolesPage = () => {
     if (Array.isArray(parsedData)) {
       return parsedData
         .map((item, index) => {
-          if (typeof item === "object") {
-            return `${index + 1}. ${
+          if (typeof item === "object" && item !== null) {
+            const moduleName =
               item.module ||
               item.name ||
               item.permission ||
               item.menu ||
               item.page ||
-              JSON.stringify(item)
+              item.title ||
+              "Permission";
+
+            const actions = [];
+
+            if (item.manage) actions.push("Manage");
+            if (item.view) actions.push("View");
+            if (item.approve) actions.push("Approve");
+            if (item.reveal) actions.push("Reveal");
+            if (item.create) actions.push("Create");
+            if (item.edit) actions.push("Edit");
+            if (item.delete) actions.push("Delete");
+
+            return `${index + 1}. ${moduleName}${
+              actions.length > 0 ? ` - ${actions.join(", ")}` : ""
             }`;
           }
 
@@ -54,8 +68,28 @@ const BuyerUserRolesPage = () => {
         .join("\n");
     }
 
-    if (typeof parsedData === "object") {
-      return JSON.stringify(parsedData, null, 2);
+    if (typeof parsedData === "object" && parsedData !== null) {
+      return Object.entries(parsedData)
+        .map(([key, value], index) => {
+          if (typeof value === "object" && value !== null) {
+            const actions = [];
+
+            if (value.manage) actions.push("Manage");
+            if (value.view) actions.push("View");
+            if (value.approve) actions.push("Approve");
+            if (value.reveal) actions.push("Reveal");
+            if (value.create) actions.push("Create");
+            if (value.edit) actions.push("Edit");
+            if (value.delete) actions.push("Delete");
+
+            return `${index + 1}. ${key}${
+              actions.length > 0 ? ` - ${actions.join(", ")}` : ""
+            }`;
+          }
+
+          return `${index + 1}. ${key}: ${value}`;
+        })
+        .join("\n");
     }
 
     return parsedData;
@@ -98,7 +132,6 @@ ${formatData(role.field_permissions)}`
 
       <div className="flex-1 p-6 md:p-10 font-sans text-[#2A2A2A]">
         <div className="w-full bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          {/* Header Section */}
           <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="max-w-md">
               <h1 className="text-2xl font-bold mb-2">User Roles</h1>
@@ -118,7 +151,6 @@ ${formatData(role.field_permissions)}`
             </button>
           </div>
 
-          {/* Controls Section */}
           <div className="p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2 text-sm">
               <span>Show</span>
@@ -142,7 +174,6 @@ ${formatData(role.field_permissions)}`
             </div>
           </div>
 
-          {/* Table Container */}
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -224,7 +255,6 @@ ${formatData(role.field_permissions)}`
             </table>
           </div>
 
-          {/* Footer / Pagination */}
           <div className="p-6 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-gray-100">
             <p className="text-sm text-gray-500">
               Showing {roles.length > 0 ? 1 : 0} to {roles.length} of{" "}
