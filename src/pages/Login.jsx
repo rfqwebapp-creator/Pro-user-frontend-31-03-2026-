@@ -55,9 +55,6 @@ const handleLogin = async (e) => {
   setError("");
 
   try {
-    console.log("CLICKED LOGIN");
-    console.log("SENDING LOGIN REQUEST...");
-
     const res = await API.post("/auth/login", { email, password });
     const data = res.data;
 
@@ -69,23 +66,33 @@ const handleLogin = async (e) => {
       return;
     }
 
+    if (!data.user) {
+      setError("User data not received from server");
+      setLoading(false);
+      return;
+    }
+
+    // ✅ token save
     localStorage.setItem("token", data.token);
+
+    // ✅ user save with gst
     localStorage.setItem("user", JSON.stringify(data.user));
 
     console.log("TOKEN SAVED:", data.token);
     console.log("USER SAVED:", data.user);
 
     setLoading(false);
-    navigate("/");
+
+    // ✅ login kazhinjal buyer dashboard lek pokanam
+    navigate("/buyer/dashboard");
+
   } catch (error) {
     setLoading(false);
     console.error("Login Error:", error);
 
     if (error.response) {
-      console.log("LOGIN ERROR RESPONSE:", error.response.data);
-
-      if (error.response.status === 401) {
-        setError("Invalid email or password ❌");
+      if (error.response.status === 400 || error.response.status === 401) {
+        setError(error.response.data?.message || "Invalid email or password ❌");
       } else {
         setError(error.response.data?.message || "Login failed ❌");
       }

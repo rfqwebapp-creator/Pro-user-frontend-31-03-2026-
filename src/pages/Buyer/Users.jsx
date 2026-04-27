@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
-import { Search, UserPlus, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';import { Search, UserPlus, ChevronLeft, ChevronRight } from 'lucide-react';
 import BuyerSettingsSidebar from "./sidebar-settings"; // Uncomment in your project
 
 const BuyerUserManagement = () => {
   // 1. Move users to state to allow checkbox interaction
-  const [userData, setUserData] = useState([
-    { id: 1, name: "Shankar Durga Prasad Kadali", email: "shankar@yateemac.net", phone: "36929793", role: "STORE STOCK", buyer: true, seller: false },
-    { id: 2, name: "SAYED ALI", email: "sayedali@yateemac.net", phone: "39429988", role: "Purchaser", buyer: true, seller: false },
-    { id: 3, name: "savio peters", email: "savio@yateemac.net", phone: "", role: "Purchaser", buyer: true, seller: false },
-    { id: 4, name: "rosita evora", email: "rosita.evora@yateemac.net", phone: "35542585", role: "ADMIN", buyer: true, seller: true },
-    { id: 5, name: "renjith sindhu", email: "renjith.sindhu@yateemac.net", phone: "", role: "Purchaser", buyer: true, seller: true },
-  ]);
+ const [userData, setUserData] = useState([]);
+const user = JSON.parse(localStorage.getItem("user"));
+const gst = user?.gst;
 
+useEffect(() => {
+  if (gst) {
+    API.get(`/users/by-gst/${gst}`)
+      .then(res => {
+        setUserData(res.data);
+      })
+      .catch(err => console.log(err));
+  }
+}, [gst]);
   const invites = [
     { email: "surendra@yateemac.net", name: "surendra", role: "Purchaser", invitedBy: "ramani rengaraman", date: "06-Aug-2024 11:22 AM" },
     { email: "shine@yateemac.net", name: "shine", role: "Purchaser", invitedBy: "ramani rengaraman", date: "06-Aug-2024 11:33 AM" },
