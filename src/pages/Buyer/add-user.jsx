@@ -173,37 +173,40 @@ const [password, setPassword] = useState("");
       )
     );
 
-  const handleSave = async () => {
-    try {
-      const payload = {
-        name: roleName,
-        description: roleDescription,
-         email,
-  password,
-        permissions: selectedPermissions,
-        fieldPermissions: selectedFieldPermissions,
-      };
+const handleSave = async () => {
+  try {
 
-      await API.post("/roles/create", payload);
+    const payload = {   // ✅ THIS WAS MISSING
+      name: roleName,
+      description: roleDescription,
+      email,
+      password,
+      permissions: selectedPermissions,
+      fieldPermissions: selectedFieldPermissions,
+    };
 
-      toast.success("Role added successfully ✅");
+    console.log("📤 Payload:", payload);
 
-      setTimeout(() => {
-        navigate("/buyer/user-teams");
-      }, 1500);
+    await API.post("/roles/create", payload);
 
-      setRoleName("");
-      setRoleDescription("");
-      setEmail("");
-      setPassword("");
-      setSelectedPermissions([]);
-      setSelectedFieldPermissions([]);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add role ❌");
-    }
-  };
+    toast.success("Role added successfully ✅");
 
+    setTimeout(() => {
+      navigate("/buyer/user-teams");
+    }, 1500);
+
+    setRoleName("");
+    setRoleDescription("");
+    setEmail("");
+    setPassword("");
+    setSelectedPermissions([]);
+    setSelectedFieldPermissions([]);
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to add role ❌");
+  }
+};
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: colors.background }}>
       <ToastContainer position="top-right" autoClose={3000} />
