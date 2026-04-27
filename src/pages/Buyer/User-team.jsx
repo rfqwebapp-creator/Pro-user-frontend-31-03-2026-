@@ -23,6 +23,26 @@ const fetchRoles = async () => {
     console.error("Error fetching roles:", error);
   }
 };
+const handleView = (role) => {
+  alert(
+    `Role Name: ${role.name}\n\nDescription: ${role.description || "No description provided"}\n\nPermissions: ${role.permissions || "No permissions"}\n\nField Permissions: ${role.field_permissions || "No field permissions"}`
+  );
+};
+
+const handleDelete = async (id) => {
+  const confirmDelete = window.confirm("Are you sure you want to delete this role?");
+
+  if (!confirmDelete) return;
+
+  try {
+    await API.delete(`/roles/${id}`);
+    alert("Role deleted successfully");
+    fetchRoles();
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert("Error deleting role");
+  }
+};
 
   return (
    <div className="flex min-h-screen bg-[#F5F2EA]">
@@ -91,9 +111,13 @@ const fetchRoles = async () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex justify-end items-center gap-3 text-gray-400">
-                      <button className="hover:text-[#43624A] transition-colors" title="View">
-                        <Eye size={18} />
-                      </button>
+                     <button
+  onClick={() => handleView(role)}
+  className="hover:text-[#43624A] transition-colors"
+  title="View"
+>
+  <Eye size={18} />
+</button>
                       {!role.system && (
                         <>
                           <span className="text-gray-200">|</span>
@@ -101,9 +125,13 @@ const fetchRoles = async () => {
                             <Copy size={17} />
                           </button>
                           <span className="text-gray-200">|</span>
-                          <button className="hover:text-red-500 transition-colors" title="Delete">
-                            <Trash2 size={17} />
-                          </button>
+                          <button
+  onClick={() => handleDelete(role.id)}
+  className="hover:text-red-500 transition-colors"
+  title="Delete"
+>
+  <Trash2 size={17} />
+</button>
                         </>
                       )}
                     </div>
