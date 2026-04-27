@@ -23,77 +23,57 @@ const BuyerUserRolesPage = () => {
   };
 
   const formatData = (data) => {
-    if (!data) return "No data";
+  if (!data) return "No data";
 
-    let parsedData = data;
+  let parsedData = data;
 
-    if (typeof data === "string") {
-      try {
-        parsedData = JSON.parse(data);
-      } catch {
-        return data;
-      }
+  if (typeof data === "string") {
+    try {
+      parsedData = JSON.parse(data);
+    } catch {
+      return data;
     }
+  }
 
-    if (Array.isArray(parsedData)) {
-      return parsedData
-        .map((item, index) => {
-          if (typeof item === "object" && item !== null) {
-            const moduleName =
-              item.module ||
-              item.name ||
-              item.permission ||
-              item.menu ||
-              item.page ||
-              item.title ||
-              "Permission";
+  if (Array.isArray(parsedData)) {
+    return parsedData
+      .map((item, index) => {
+        if (typeof item === "object" && item !== null) {
+          const moduleName =
+            item.module ||
+            item.field ||
+            item.name ||
+            item.page ||
+            "Permission";
 
-            const actions = [];
+          let actions = [];
 
+          // ✅ your current saved format
+          if (Array.isArray(item.actions)) {
+            actions = item.actions;
+          } else {
+            // ✅ boolean format support
             if (item.manage) actions.push("Manage");
             if (item.view) actions.push("View");
             if (item.approve) actions.push("Approve");
             if (item.reveal) actions.push("Reveal");
-            if (item.create) actions.push("Create");
-            if (item.edit) actions.push("Edit");
-            if (item.delete) actions.push("Delete");
-
-            return `${index + 1}. ${moduleName}${
-              actions.length > 0 ? ` - ${actions.join(", ")}` : ""
-            }`;
+            if (item.invite) actions.push("Invite");
+            if (item.close) actions.push("Close");
+            if (item.manageCostCentres) actions.push("Manage Cost Centres");
           }
 
-          return `${index + 1}. ${item}`;
-        })
-        .join("\n");
-    }
+          return `${index + 1}. ${moduleName}${
+            actions.length > 0 ? ` - ${actions.join(", ")}` : ""
+          }`;
+        }
 
-    if (typeof parsedData === "object" && parsedData !== null) {
-      return Object.entries(parsedData)
-        .map(([key, value], index) => {
-          if (typeof value === "object" && value !== null) {
-            const actions = [];
+        return `${index + 1}. ${item}`;
+      })
+      .join("\n");
+  }
 
-            if (value.manage) actions.push("Manage");
-            if (value.view) actions.push("View");
-            if (value.approve) actions.push("Approve");
-            if (value.reveal) actions.push("Reveal");
-            if (value.create) actions.push("Create");
-            if (value.edit) actions.push("Edit");
-            if (value.delete) actions.push("Delete");
-
-            return `${index + 1}. ${key}${
-              actions.length > 0 ? ` - ${actions.join(", ")}` : ""
-            }`;
-          }
-
-          return `${index + 1}. ${key}: ${value}`;
-        })
-        .join("\n");
-    }
-
-    return parsedData;
-  };
+  return JSON.stringify(parsedData, null, 2);
+};
 
   const handleView = (role) => {
     alert(
