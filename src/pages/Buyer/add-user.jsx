@@ -177,6 +177,8 @@ const BuyerAddUserRole = () => {
       const payload = {
         name: roleName,
         description: roleDescription,
+         email,
+  password,
         permissions: selectedPermissions,
         fieldPermissions: selectedFieldPermissions,
       };
@@ -191,6 +193,8 @@ const BuyerAddUserRole = () => {
 
       setRoleName("");
       setRoleDescription("");
+      setEmail("");
+      setPassword("");
       setSelectedPermissions([]);
       setSelectedFieldPermissions([]);
     } catch (error) {
@@ -198,7 +202,8 @@ const BuyerAddUserRole = () => {
       toast.error("Failed to add role ❌");
     }
   };
-
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: colors.background }}>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -253,6 +258,27 @@ const BuyerAddUserRole = () => {
                     placeholder="Briefly describe this role's purpose"
                   />
                 </div>
+                <div>
+  <label className="block text-sm font-semibold mb-2">Email</label>
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#43624A]/20 outline-none transition-all"
+    placeholder="user@example.com"
+  />
+</div>
+
+<div>
+  <label className="block text-sm font-semibold mb-2">Password</label>
+  <input
+    type="text"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="w-full p-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#43624A]/20 outline-none transition-all"
+    placeholder="Temporary password"
+  />
+</div>
               </div>
 
               <div className="mb-10">
