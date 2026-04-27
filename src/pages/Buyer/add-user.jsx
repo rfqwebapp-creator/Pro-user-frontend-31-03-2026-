@@ -19,7 +19,8 @@ const BuyerAddUserRole = () => {
   const [selectedFieldPermissions, setSelectedFieldPermissions] = useState([]);
   const [roleName, setRoleName] = useState("");
   const [roleDescription, setRoleDescription] = useState("");
-
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
   const permissionsData = [
     { id: "pr", name: "Purchase Request", count: "0 / 3", subs: ["Manage", "View", "Approve"] },
     { id: "rfx", name: "RFX", count: "0 / 3", subs: ["Manage", "View", "Approve"] },
@@ -202,8 +203,7 @@ const BuyerAddUserRole = () => {
       toast.error("Failed to add role ❌");
     }
   };
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: colors.background }}>
       <ToastContainer position="top-right" autoClose={3000} />
