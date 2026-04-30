@@ -630,13 +630,27 @@ const fetchCostCenterSuggestions = async () => {
     console.error("FETCH COST CENTERS ERROR:", error);
   }
 };
+// const addCostCenter = (value) => {
+//   const cleanValue = value.trim();
+//   if (!cleanValue) return;
+
+//   if (!costCenters.map(c => c.toLowerCase()).includes(cleanValue.toLowerCase())) {
+//     setCostCenters([...costCenters, cleanValue]);
+//   }
+
+//   setCostCenterInput("");
+// };
+
 const addCostCenter = (value) => {
   const cleanValue = value.trim();
   if (!cleanValue) return;
 
-  if (!costCenters.map(c => c.toLowerCase()).includes(cleanValue.toLowerCase())) {
-    setCostCenters([...costCenters, cleanValue]);
-  }
+  setCostCenters(prev => {
+    if (prev.map(c => c.toLowerCase()).includes(cleanValue.toLowerCase())) {
+      return prev;
+    }
+    return [...prev, cleanValue];
+  });
 
   setCostCenterInput("");
 };
