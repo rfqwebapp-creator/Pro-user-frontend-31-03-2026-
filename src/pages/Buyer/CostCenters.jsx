@@ -15,29 +15,26 @@ const BuyerCostCenterApp = () => {
   const [isTreeView, setIsTreeView] = useState(true);
   const [costCenters, setCostCenters] = useState([]);
   const navigate = useNavigate();
+const fetchCostCenters = async () => {
+  try {
+    console.log("TOKEN:", localStorage.getItem("token")); // ✅ move here
 
-  // ✅ Fetch cost centers from rfqs.cost_centers JSON
-  const fetchCostCenters = async () => {
-    try {
-      const res = await API.get("/rfq/cost-centers/list");
+    const res = await API.get("/rfq/cost-centers/list");
 
-      if (res.data.success) {
-        setCostCenters(
-          (res.data.data || []).map((name, index) => ({
-            id: index + 1,
-            name,
-          }))
-        );
-      }
-    } catch (error) {
-      console.error("FETCH COST CENTERS ERROR:", error);
+    console.log("API RESPONSE:", res.data); // ✅ add this also
+
+    if (res.data.success) {
+      setCostCenters(
+        (res.data.data || []).map((name, index) => ({
+          id: index + 1,
+          name,
+        }))
+      );
     }
-  };
-
-  useEffect(() => {
-    fetchCostCenters();
-  }, []);
-
+  } catch (error) {
+    console.error("FETCH COST CENTERS ERROR:", error);
+  }
+};
   // ✅ Add new cost center
   const handleAddCostCenter = async () => {
     const name = prompt("Enter cost center name");
