@@ -622,12 +622,19 @@ useEffect(() => {
 
 const fetchCostCenterSuggestions = async () => {
   try {
+    const token = localStorage.getItem("token");
+    console.log("TOKEN IN API CALL:", token);
+
     const res = await API.get("/rfq/cost-centers/suggestions");
+
+    console.log("COST CENTER API RESPONSE:", res.data);
+
     if (res.data.success) {
       setCostCenterSuggestions(res.data.data || []);
+      console.log("SUGGESTIONS SET:", res.data.data);
     }
   } catch (error) {
-    console.error("FETCH COST CENTERS ERROR:", error);
+    console.error("FETCH COST CENTERS ERROR:", error.response?.data || error);
   }
 };
 // const addCostCenter = (value) => {
