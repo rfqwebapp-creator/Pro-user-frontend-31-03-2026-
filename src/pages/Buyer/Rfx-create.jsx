@@ -942,18 +942,33 @@ const removeCostCenter = (index) => {
 
   {/* RIGHT INPUT */}
   <div className="flex-1">
-    <input
-      type="text"
-      value={costCenterInput}
-      placeholder="Enter cost center"
-      onChange={(e) => {
-        setCostCenterInput(e.target.value);
-        if (costCenterSuggestions.includes(e.target.value)) {
-          addCostCenter(e.target.value);
-        }
-      }}
-      className="w-full border border-gray-300 rounded px-4 py-3"
-    />
+ <div className="relative">
+  <input
+    type="text"
+    value={costCenterInput}
+    placeholder="Enter cost center"
+    onChange={(e) => setCostCenterInput(e.target.value)}
+    className="w-full border border-gray-300 rounded px-4 py-3"
+  />
+
+  {costCenterInput && (
+    <div className="absolute z-50 w-full bg-white border border-gray-300 rounded mt-1 shadow">
+      {costCenterSuggestions
+        .filter((item) =>
+          item.toLowerCase().includes(costCenterInput.toLowerCase())
+        )
+        .map((item, index) => (
+          <div
+            key={index}
+            onClick={() => addCostCenter(item)}
+            className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
+          >
+            {item}
+          </div>
+        ))}
+    </div>
+  )}
+</div>
 
     <button
       type="button"
