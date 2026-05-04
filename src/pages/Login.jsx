@@ -8,6 +8,8 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
 
 //   const handleLogin = async (e) => {
 //     e.preventDefault();
@@ -151,24 +153,35 @@ const handleLogin = async (e) => {
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider mb-1 ml-1" style={{ color: "#43624A" }}>
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 transition-all"
-              style={{ 
-                borderColor: "#7A9C83", 
-                "--tw-ring-color": "#43624A" 
-              }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-        </div>
+<div>
+  <label className="block text-xs font-bold uppercase tracking-wider mb-1 ml-1" style={{ color: "#43624A" }}>
+    Password
+  </label>
+
+  <div className="relative">
+    <input
+      type={showPassword ? "text" : "password"}
+      placeholder="••••••••"
+      className="w-full p-3 pr-12 border rounded-xl focus:outline-none focus:ring-2 transition-all"
+      style={{ 
+        borderColor: "#7A9C83", 
+        "--tw-ring-color": "#43624A" 
+      }}
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+    />
+
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold"
+      style={{ color: "#43624A" }}
+    >
+      {showPassword ? "🙈" : "👁️"}
+    </button>
+  </div>
+</div>
 <div className="flex justify-end mt-2">
   <span
     onClick={() => navigate("/forgot-password")}
