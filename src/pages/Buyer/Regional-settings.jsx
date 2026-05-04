@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, Trash2, Plus } from "lucide-react";
 import BuyerSettingsSidebar from "./sidebar-settings";
 import moment from "moment-timezone";
-import API from "../api";
+import API from "../../api";
 
 const BuyerRegionSettings = () => {
   const getUserTZ = () => {
