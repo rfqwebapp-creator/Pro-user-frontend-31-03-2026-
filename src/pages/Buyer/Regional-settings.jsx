@@ -184,39 +184,36 @@ const BuyerRegionSettings = () => {
                 </div>
               </div>
 
-              {/* Primary Currency */}
-              <div>
-                <label className="block text-sm font-medium text-[#7A9C83] mb-2">
-                  Primary Currency
-                </label>
+{/* Primary Currency */}
+<div>
+  <label className="block text-sm font-medium text-[#7A9C83] mb-2">
+    Primary Currency
+  </label>
 
-                <div className="relative">
-                  <select
-                    value={primaryCurrency}
-                    onChange={(e) => setPrimaryCurrency(e.target.value)}
-                    className="w-full appearance-none border border-gray-200 rounded-lg p-3 bg-[#F5F2EA]/30 text-[#2A2A2A] focus:outline-none focus:ring-2 focus:ring-[#7A9C83]/20"
-                  >
-                    <option value="Bahraini Dinar (BHD)">
-                      Bahraini Dinar (BHD)
-                    </option>
-                    <option value="Indian Rupee (INR)">
-                      Indian Rupee (INR)
-                    </option>
-                    <option value="US Dollar (USD)">US Dollar (USD)</option>
-                    <option value="UAE Dirham (AED)">
-                      UAE Dirham (AED)
-                    </option>
-                    <option value="Saudi Riyal (SAR)">
-                      Saudi Riyal (SAR)
-                    </option>
-                  </select>
+  <div className="relative">
+    <select
+      value={primaryCurrency}
+      onChange={(e) => setPrimaryCurrency(e.target.value)}
+      className="w-full min-h-[48px] appearance-none border border-gray-200 rounded-lg px-4 py-3 pr-10 bg-[#F5F2EA]/30 text-[#2A2A2A] focus:outline-none focus:ring-2 focus:ring-[#7A9C83]/20 cursor-pointer"
+    >
+      <option value="Bahraini Dinar (BHD)">Bahraini Dinar (BHD)</option>
+      <option value="Indian Rupee (INR)">Indian Rupee (INR)</option>
+      <option value="US Dollar (USD)">US Dollar (USD)</option>
+      <option value="UAE Dirham (AED)">UAE Dirham (AED)</option>
+      <option value="Saudi Riyal (SAR)">Saudi Riyal (SAR)</option>
+      <option value="Euro (EUR)">Euro (EUR)</option>
+      <option value="British Pound (GBP)">British Pound (GBP)</option>
+      <option value="Kuwaiti Dinar (KWD)">Kuwaiti Dinar (KWD)</option>
+      <option value="Omani Rial (OMR)">Omani Rial (OMR)</option>
+      <option value="Qatari Riyal (QAR)">Qatari Riyal (QAR)</option>
+    </select>
 
-                  <ChevronDown
-                    className="absolute right-3 top-3.5 text-gray-400 pointer-events-none"
-                    size={18}
-                  />
-                </div>
-              </div>
+    <ChevronDown
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+      size={18}
+    />
+  </div>
+</div>
 
               {/* Applicable Tax */}
               <div className="space-y-3">
@@ -239,22 +236,21 @@ const BuyerRegionSettings = () => {
                       className="flex-grow w-full border border-gray-200 rounded-lg p-3 focus:outline-none focus:border-[#7A9C83]"
                     />
 
-                    <div className="flex w-full sm:w-32 border border-gray-200 rounded-lg overflow-hidden focus-within:border-[#7A9C83]">
-                      <input
-                        type="number"
-                        value={row.value}
-                        onChange={(e) =>
-                          updateTaxRow(row.id, "value", e.target.value)
-                        }
-                        placeholder="0"
-                        className="w-full p-3 focus:outline-none"
-                      />
+    <div className="flex w-full sm:w-44 border border-gray-200 rounded-lg overflow-hidden focus-within:border-[#7A9C83]">
+  <input
+    type="number"
+    value={row.value}
+    onChange={(e) =>
+      updateTaxRow(row.id, "value", e.target.value)
+    }
+    placeholder="0"
+    className="w-full min-w-0 px-4 py-3 focus:outline-none text-[#2A2A2A]"
+  />
 
-                      <span className="bg-[#F5F2EA] px-4 flex items-center text-[#2A2A2A] border-l border-gray-200">
-                        %
-                      </span>
-                    </div>
-
+  <span className="bg-[#F5F2EA] px-4 flex items-center text-[#2A2A2A] border-l border-gray-200">
+    %
+  </span>
+</div>
                     {taxRows.length > 1 && (
                       <button
                         type="button"
