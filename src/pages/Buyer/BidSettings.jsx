@@ -138,11 +138,13 @@
 
 
 
-
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import BuyerSettingsSidebar from "./sidebar-settings";
 
 const BuyerBidSettingsPage = () => {
+  const navigate = useNavigate();
+
   const colors = {
     dark: '#2A2A2A',
     primary: '#43624A',
@@ -172,20 +174,17 @@ const BuyerBidSettingsPage = () => {
   return (
     <div className="relative flex h-screen overflow-hidden" style={{ backgroundColor: colors.background }}>
 
-      {/* 🔵 BLURRED PAGE CONTENT */}
+      {/* BLURRED PAGE CONTENT */}
       <div className="flex w-full h-full blur-sm pointer-events-none select-none">
 
-        {/* Sidebar */}
         <BuyerSettingsSidebar />
 
-        {/* Main Content */}
         <main className="flex-1 h-full overflow-y-auto p-4 md:p-8 lg:p-12">
           
           <div className="mx-auto max-w-5xl bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             
             <div className="p-6 md:p-10 space-y-8">
 
-              {/* BID Section */}
               <section>
                 <h2 className="text-sm font-bold mb-4 tracking-wide" style={{ color: colors.dark }}>
                   BID
@@ -208,6 +207,7 @@ const BuyerBidSettingsPage = () => {
                           <div className="absolute w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.primary }}></div>
                         )}
                       </div>
+
                       <span className="ml-3 text-sm font-medium text-gray-600 group-hover:text-gray-900 transition-colors">
                         {option}
                       </span>
@@ -218,7 +218,6 @@ const BuyerBidSettingsPage = () => {
 
               <hr className="border-gray-100" />
 
-              {/* Minimum Required Authorizer */}
               <section className="max-w-xs">
                 <label className="block text-sm font-semibold mb-3" style={{ color: colors.dark }}>
                   Minimum Required Authorizer(s)
@@ -232,7 +231,6 @@ const BuyerBidSettingsPage = () => {
                 />
               </section>
 
-              {/* Authorizers List */}
               <section>
                 <div className="flex justify-between items-end mb-6">
                   <h2 className="text-2xl font-bold" style={{ color: colors.dark }}>
@@ -265,7 +263,6 @@ const BuyerBidSettingsPage = () => {
               </section>
             </div>
 
-            {/* Footer */}
             <div className="bg-gray-50 px-6 py-4 flex justify-end gap-4 border-t border-gray-200">
               <button className="px-6 py-2 rounded-lg font-semibold text-gray-600 hover:bg-gray-200 transition-colors border border-gray-300 bg-white">
                 Cancel
@@ -283,7 +280,7 @@ const BuyerBidSettingsPage = () => {
         </main>
       </div>
 
-      {/* 🔴 POPUP OVERLAY */}
+      {/* POPUP OVERLAY */}
       <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
         <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center border border-gray-200">
 
@@ -302,12 +299,23 @@ const BuyerBidSettingsPage = () => {
             to activate this segment/feature.
           </p>
 
-          <a
-            href="mailto:hello@procubid.com"
-            className="inline-flex justify-center px-6 py-2 rounded-lg text-white font-semibold bg-[#43624A] hover:opacity-90 transition"
-          >
-            Mail Now
-          </a>
+          <div className="flex gap-3 justify-center mt-4">
+
+            <button
+              onClick={() => navigate(-1)}
+              className="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition font-semibold"
+            >
+              Cancel
+            </button>
+
+            <a
+              href="mailto:hello@procubid.com"
+              className="px-6 py-2 rounded-lg text-white font-semibold bg-[#43624A] hover:opacity-90 transition"
+            >
+              Mail Now
+            </a>
+
+          </div>
 
         </div>
       </div>
