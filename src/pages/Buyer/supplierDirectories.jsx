@@ -632,43 +632,43 @@ const BuyerSupplierDirectory = () => {
       </div>
 
       {/* Popup Overlay */}
-      <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center border border-gray-200">
+     {/* Popup Overlay */}
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+  <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center border border-gray-200">
 
-          <h2 className="text-xl font-bold text-gray-800 mb-3">
-            Feature Locked 🔒
-          </h2>
+    <h2 className="text-xl font-bold text-gray-800 mb-3">
+      Feature Locked 🔒
+    </h2>
 
-          <p className="text-gray-600 text-sm leading-6 mb-6">
-            Kindly mail us to{" "}
-            <a
-              href="mailto:hello@procubid.com"
-              className="font-semibold text-[#43624A] underline"
-            >
-              hello@procubid.com
-            </a>{" "}
-            to activate this segment/feature.
-          </p>
+    <p className="text-gray-600 text-sm leading-6 mb-6">
+      Kindly mail us to{" "}
+      <a
+        href="mailto:hello@procubid.com"
+        className="font-semibold text-[#43624A] underline"
+      >
+        hello@procubid.com
+      </a>{" "}
+      to activate this segment/feature.
+    </p>
 
-          <div className="flex gap-3 justify-center mt-4">
-            <button
-              onClick={() => navigate(-1)}
-              className="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition font-semibold"
-            >
-              Cancel
-            </button>
+    <div className="flex gap-3 justify-center mt-4">
+      <button
+        onClick={() => navigate(-1)}
+        className="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition font-semibold"
+      >
+        Cancel
+      </button>
 
-            <a
-              href="mailto:hello@procubid.com"
-              className="px-6 py-2 rounded-lg text-white font-semibold bg-[#43624A] hover:opacity-90 transition"
-            >
-              Mail Now
-            </a>
-          </div>
+      <a
+        href="mailto:hello@procubid.com"
+        className="px-6 py-2 rounded-lg text-white font-semibold bg-[#43624A] hover:opacity-90 transition"
+      >
+        Mail Now
+      </a>
+    </div>
 
-        </div>
-      </div>
-
+  </div>
+</div>
     </div>
   );
 };
