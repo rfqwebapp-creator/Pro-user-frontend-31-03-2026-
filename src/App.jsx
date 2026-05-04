@@ -15,6 +15,7 @@ import MainFooter from "./pages/MAIN/footer";
 import Pricing from "./pages/MAIN/wallet";
 import AboutUs from "./pages/MAIN/AboutUs";
 import ForgotPassword from "./pages/MAIN/ForgotPassword";
+import BuyerMessages from "./pages//BuyerMessages";
 //-----------------------------MAIN HOME PAGE-- END----------------------------------------------------------------
 
 //-----------------------------BUYER-- START----------------------------------------------------------------
@@ -176,7 +177,6 @@ function BuyerLayout() {
   <Route path="others" element={<BuyerOthers />} />
   <Route path="add-company" element={<BuyerAddCompanyForm />} />
   <Route path="users" element={<BuyerUserManagement />} />
-
   <Route path="cost-centers" element={<BuyerCostCenterApp />} />
   <Route path="switch-costcenter" element={<BuyerCostCenterDashboard />} />
   <Route path="email-subscription" element={<BuyerEmailSubscription />} />
@@ -288,7 +288,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/terms" element={<TermsAndConditions />} />
-        
+          <Route path="/messages" element={<BuyerMessages />} />
+
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/about" element={<AboutUs />} />
