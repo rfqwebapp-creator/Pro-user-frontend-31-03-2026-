@@ -285,21 +285,26 @@ const fetchRegionSettings = async () => {
                       className="flex-grow w-full border border-gray-200 rounded-lg p-3 focus:outline-none focus:border-[#7A9C83]"
                     />
 
-                    <div className="flex w-full sm:w-44 border border-gray-200 rounded-lg overflow-hidden focus-within:border-[#7A9C83]">
-                      <input
-                        type="number"
-                        value={row.value}
-                        onChange={(e) =>
-                          updateTaxRow(row.id, "value", e.target.value)
-                        }
-                        placeholder="0"
-                        className="w-full min-w-0 px-4 py-3 focus:outline-none text-[#2A2A2A]"
-                      />
+                   <div className="flex w-full sm:w-52 border border-gray-200 rounded-lg overflow-hidden focus-within:border-[#7A9C83]">
+  <input
+    type="text"
+    inputMode="decimal"
+    value={row.value}
+    onChange={(e) => {
+      const value = e.target.value;
 
-                      <span className="bg-[#F5F2EA] px-4 flex items-center text-[#2A2A2A] border-l border-gray-200">
-                        %
-                      </span>
-                    </div>
+      if (/^\d*\.?\d*$/.test(value)) {
+        updateTaxRow(row.id, "value", value);
+      }
+    }}
+    placeholder="0"
+    className="w-full min-w-[70px] px-4 py-3 focus:outline-none text-[#2A2A2A]"
+  />
+
+  <span className="bg-[#F5F2EA] px-4 flex items-center text-[#2A2A2A] border-l border-gray-200">
+    %
+  </span>
+</div>
 
                     {taxRows.length > 1 && (
                       <button
