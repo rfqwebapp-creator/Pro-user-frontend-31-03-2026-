@@ -52,45 +52,42 @@ const BuyerRegionSettings = () => {
       )
     );
   };
+const fetchRegionSettings = async () => {
+  try {
+    const res = await API.get("/buyer-region-settings");
 
-  const fetchRegionSettings = async () => {
-    try {
-      const res = await API.get("/buyer-region-settings");
+    console.log("FETCH REGION SETTINGS RESPONSE:", res.data);
 
-      console.log("FETCH REGION SETTINGS RESPONSE:", res.data);
+    if (res.data.success && res.data.data) {
+      setSelectedTZ(res.data.data.time_zone || getUserTZ());
 
-      if (res.data.success && res.data.data) {
-        setSelectedTZ(res.data.data.time_zone || getUserTZ());
+      setPrimaryCurrency(
+        res.data.data.primary_currency || "Bahraini Dinar (BHD)"
+      );
 
-        setPrimaryCurrency(
-          res.data.data.primary_currency || "Bahraini Dinar (BHD)"
-        );
+      const taxesArray = parseTaxes(res.data.data.taxes);
 
-        if (Array.isArray(res.data.data.taxes)) {
-          const mappedTaxes = res.data.data.taxes.map((tax, index) => ({
-            id: tax.id || Date.now() + index,
-            name: tax.name || "",
-            value: String(tax.value || ""),
-          }));
+      const mappedTaxes = taxesArray.map((tax, index) => ({
+        id: tax.id || Date.now() + index,
+        name: tax.name || "",
+        value: String(tax.value || ""),
+      }));
 
-          console.log("LOADED TAXES:", mappedTaxes);
+      console.log("LOADED TAXES:", mappedTaxes);
 
-          setTaxRows(
-            mappedTaxes.length > 0
-              ? mappedTaxes
-              : [{ id: Date.now(), name: "", value: "" }]
-          );
-        } else {
-          setTaxRows([{ id: Date.now(), name: "", value: "" }]);
-        }
-      } else {
-        setTaxRows([{ id: Date.now(), name: "VAT", value: "10" }]);
-      }
-    } catch (error) {
-      console.log("FETCH REGION SETTINGS ERROR:", error);
+      setTaxRows(
+        mappedTaxes.length > 0
+          ? mappedTaxes
+          : [{ id: Date.now(), name: "", value: "" }]
+      );
+    } else {
       setTaxRows([{ id: Date.now(), name: "VAT", value: "10" }]);
     }
-  };
+  } catch (error) {
+    console.log("FETCH REGION SETTINGS ERROR:", error);
+    setTaxRows([{ id: Date.now(), name: "VAT", value: "10" }]);
+  }
+};
 
   const handleSave = async () => {
     try {
