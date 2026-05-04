@@ -52,6 +52,18 @@ const BuyerRegionSettings = () => {
       )
     );
   };
+  const parseTaxes = (taxes) => {
+  if (!taxes) return [];
+
+  if (Array.isArray(taxes)) return taxes;
+
+  try {
+    return JSON.parse(taxes);
+  } catch (error) {
+    console.log("TAX PARSE ERROR:", error);
+    return [];
+  }
+};
 const fetchRegionSettings = async () => {
   try {
     const res = await API.get("/buyer-region-settings");
