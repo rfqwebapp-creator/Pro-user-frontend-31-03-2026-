@@ -89,8 +89,8 @@ export default function BuyerSettingsSidebar() {
 // { label: "Supplier Types", path: "/buyer/supplier-types" },
 { label: "Supplier Directory", path: "/buyer/supplierDirectories" },
 { label: "Email Subscription", path: "/buyer/email-subscription" },
-{ label: "Supplier Questionnaire", path: "/buyer/supplier-questionnaire" },
-{ label: "Questionnaire Responses", path: "/buyer/questionnaire-response" }
+// { label: "Supplier Questionnaire", path: "/buyer/supplier-questionnaire" },
+// { label: "Questionnaire Responses", path: "/buyer/questionnaire-response" }
           ]}
         />
         
