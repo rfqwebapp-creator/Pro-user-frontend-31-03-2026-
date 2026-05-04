@@ -186,7 +186,7 @@ export default function BuyerCreatePurchaseOrder() {
             className="flex items-center gap-2  text-[#43624A] font-medium mb-6"
           >
             <ArrowLeft size={18} />
-            BACK
+            BACKeeeessss
           </button>
 
           <div className="bg-white rounded-xl shadow p-8 space-y-10">
