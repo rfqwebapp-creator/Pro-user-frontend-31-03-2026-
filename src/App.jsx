@@ -47,7 +47,6 @@ import BuyerOthers from "./pages/Buyer/others";
 import BuyerAddCompanyForm from "./pages/Buyer/add-company";
 import BuyerUserManagement from "./pages/Buyer/Users";
 import BuyerCostCenterApp from "./pages/Buyer/CostCenters";
-import BuyerSupplierTypesTable from "./pages/Buyer/supplierTypes";
 import BuyerCostCenterDashboard from "./pages/Buyer/switch-costcenter";
 import BuyerEmailSubscription from "./pages/Buyer/email";
 import BuyerSupplierDashboard from "./pages/Buyer/supplier-questionnire";
