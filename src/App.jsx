@@ -178,7 +178,6 @@ function BuyerLayout() {
   <Route path="users" element={<BuyerUserManagement />} />
 
   <Route path="cost-centers" element={<BuyerCostCenterApp />} />
-  <Route path="supplier-types" element={<BuyerSupplierTypesTable />} />
   <Route path="switch-costcenter" element={<BuyerCostCenterDashboard />} />
   <Route path="email-subscription" element={<BuyerEmailSubscription />} />
   <Route path="supplier-questionnaire" element={<BuyerSupplierDashboard />} />
