@@ -242,7 +242,7 @@ const BuyerEmailSubscription = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <div>
               <h1 className="text-2xl font-bold text-[#2A2A2A]">
-                Email Subscription
+                Email Subscriptions
               </h1>
               <p className="text-sm text-gray-500 mt-1">
                 Select cost centers to subscribe to email
