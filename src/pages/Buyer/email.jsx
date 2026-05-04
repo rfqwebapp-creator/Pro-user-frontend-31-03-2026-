@@ -7,7 +7,7 @@ import {
   Maximize2,
 } from "lucide-react";
 import BuyerSettingsSidebar from "./sidebar-settings";
-import API from "../api";
+import API from "../../api";
 
 const CostCenterModal = ({
   isOpen,
