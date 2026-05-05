@@ -216,8 +216,7 @@ const BasicInfoView = ({ colors }) => (
         <button className="text-sm font-semibold hover:underline" style={{ color: colors.primary }}>
           Upload Your photo
         </button>
-        <p className="text-xs text-gray-500 mt-1">Photos help your teammates recognize you in Procural</p>
-      </div>
+       </div>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

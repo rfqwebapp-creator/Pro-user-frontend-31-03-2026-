@@ -1586,31 +1586,46 @@
             {currentStep === 1 && renderRFQDetails()}
             {currentStep === 2 && renderReviewAndSubmit()}
 
-            <div className="p-6 flex justify-end gap-3 border-t flex-wrap">
+            <div className="p-6 flex justify-between gap-3 border-t flex-wrap">
               <button
                 type="button"
-                className="px-6 py-2 border rounded"
+                onClick={() => navigate(-1)}
+                className="px-6 py-2 border rounded flex items-center gap-2"
                 style={{
                   color: colors.deepGreen,
                   borderColor: colors.deepGreen,
                 }}
               >
-                Cancel
+                <ChevronLeft size={18} />
+                Back
               </button>
 
-            <button
-    type="button"
-    onClick={handleSaveDraft}
-    className="px-6 py-2 border rounded"
-    style={{
-      color: colors.deepGreen,
-      borderColor: colors.deepGreen,
-    }}
-  >
-    Save Draft
-  </button>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => navigate(-1)}
+                  className="px-6 py-2 border rounded"
+                  style={{
+                    color: colors.deepGreen,
+                    borderColor: colors.deepGreen,
+                  }}
+                >
+                  Cancel
+                </button>
 
-              {currentStep < 2 ? (
+                <button
+                  type="button"
+                  onClick={handleSaveDraft}
+                  className="px-6 py-2 border rounded"
+                  style={{
+                    color: colors.deepGreen,
+                    borderColor: colors.deepGreen,
+                  }}
+                >
+                  Save Draft
+                </button>
+
+                {currentStep < 2 ? (
                 <button
                   type="button"
                   onClick={handleSaveNext}
@@ -1630,6 +1645,7 @@
                   Submit RFX
                 </button>
               )}
+              </div>
             </div>
           </div>
         </main>
