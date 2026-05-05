@@ -669,16 +669,7 @@
 
     const renderStepHeader = () => {
       return (
-        <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="flex items-center gap-1 font-bold text-sm uppercase tracking-wide"
-            style={{ color: colors.deepGreen }}
-          >
-            <ChevronLeft size={20} /> Back
-          </button>
-
+        <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-center">
           <div className="flex items-center grow justify-center max-w-3xl">
             {steps.map((step, i, arr) => (
               <React.Fragment key={step}>
@@ -713,8 +704,6 @@
               </React.Fragment>
             ))}
           </div>
-
-          <div className="w-20" />
         </header>
       );
     };
