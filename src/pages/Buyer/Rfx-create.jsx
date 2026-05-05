@@ -1586,21 +1586,23 @@
             {currentStep === 1 && renderRFQDetails()}
             {currentStep === 2 && renderReviewAndSubmit()}
 
-            <div className="p-6 flex justify-between gap-3 border-t flex-wrap">
-              <button
-                type="button"
-                onClick={() => navigate(-1)}
-                className="px-6 py-2 border rounded flex items-center gap-2"
-                style={{
-                  color: colors.deepGreen,
-                  borderColor: colors.deepGreen,
-                }}
-              >
-                <ChevronLeft size={18} />
-                Back
-              </button>
+            <div className="p-6 flex gap-3 border-t flex-wrap">
+              {currentStep > 0 && (
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="px-6 py-2 border rounded flex items-center gap-2"
+                  style={{
+                    color: colors.deepGreen,
+                    borderColor: colors.deepGreen,
+                  }}
+                >
+                  <ChevronLeft size={18} />
+                  Back
+                </button>
+              )}
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 ml-auto">
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
@@ -1626,25 +1628,25 @@
                 </button>
 
                 {currentStep < 2 ? (
-                <button
-                  type="button"
-                  onClick={handleSaveNext}
-                  className="px-6 py-2 text-white rounded flex items-center gap-2"
-                  style={{ backgroundColor: colors.deepGreen }}
-                >
-                  <ArrowRight size={18} />
-                  Save & Next
-                </button>
-              ) : (
-                <button
-                  type="button"
-                onClick={openSubmitPopup}
-                  className="px-6 py-2 text-white rounded flex items-center gap-2"
-                  style={{ backgroundColor: colors.deepGreen }}
-                >
-                  Submit RFX
-                </button>
-              )}
+                  <button
+                    type="button"
+                    onClick={handleSaveNext}
+                    className="px-6 py-2 text-white rounded flex items-center gap-2"
+                    style={{ backgroundColor: colors.deepGreen }}
+                  >
+                    <ArrowRight size={18} />
+                    Save & Next
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={openSubmitPopup}
+                    className="px-6 py-2 text-white rounded flex items-center gap-2"
+                    style={{ backgroundColor: colors.deepGreen }}
+                  >
+                    Submit RFX
+                  </button>
+                )}
               </div>
             </div>
           </div>
