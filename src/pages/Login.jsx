@@ -191,6 +191,8 @@ const handleLogin = async (e) => {
     Forgot Password?
   </span>
 </div>
+        </div>
+
         <button
           type="submit"
           disabled={loading}
