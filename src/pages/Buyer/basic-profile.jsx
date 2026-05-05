@@ -108,13 +108,16 @@ const BasicInfoView = ({ colors }) => (
     <div>
       <h3 className="text-lg font-semibold mb-6" style={{ color: colors.dark }}>Personal Information</h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Row 1 */}
         <FormField label="First Name" defaultValue="rosita" colors={colors} />
         <FormField label="Last Name" defaultValue="evora" colors={colors} />
+
+        {/* Row 2 */}
         <FormField label="Designation" placeholder="Enter your designation" colors={colors} />
 
         {/* Phone Number Field */}
-        <div className="lg:col-span-1">
+        <div>
           <label className="text-sm font-semibold text-gray-700 mb-2 block">Phone Number</label>
           <div className="flex gap-2">
             <select className="p-3 border border-gray-300 rounded-lg bg-white text-sm font-medium w-24 focus:outline-none focus:border-[#43624A] transition-colors">
@@ -128,6 +131,7 @@ const BasicInfoView = ({ colors }) => (
           </div>
         </div>
 
+        {/* Row 3 */}
         {/* Company Field */}
         <FormField 
           label="Company" 
@@ -137,7 +141,7 @@ const BasicInfoView = ({ colors }) => (
         />
 
         {/* Email Field */}
-        <div className="lg:col-span-1">
+        <div>
           <div className="flex justify-between items-center mb-2">
             <label className="text-sm font-semibold text-gray-700">Email</label>
             <span className="text-xs bg-emerald-600 text-white px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Verified</span>
