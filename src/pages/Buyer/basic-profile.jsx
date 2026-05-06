@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BuyerSettingsSidebar from "./sidebar-settings";
-import API from "../api";
+import API from "../../api";
 
 const BuyerProfileBasic = () => {
   const [activeTab, setActiveTab] = useState("Basic Info");
