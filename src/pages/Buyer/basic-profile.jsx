@@ -55,10 +55,21 @@ const BuyerProfileBasic = () => {
           profile_photo: res.data.data.profile_photo || "",
         });
       }
-    } catch (error) {
-      console.error("❌ Fetch profile error:", error);
-      alert(error.response?.data?.message || "Failed to fetch profile");
-    } finally {
+   } catch (error) {
+  console.error("❌ Fetch profile error:", error);
+
+  // optional fallback
+  setForm({
+    firstName: "",
+    lastName: "",
+    designation: "",
+    phone_country_code: "+973",
+    phone: "",
+    companyName: "",
+    email: "",
+    profile_photo: "",
+  });
+} finally {
       setLoading(false);
     }
   };
