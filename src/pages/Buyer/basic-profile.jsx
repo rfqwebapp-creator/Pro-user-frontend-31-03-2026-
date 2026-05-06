@@ -216,3 +216,6 @@ const FormField = ({ label, defaultValue = "", placeholder = "", type = "text", 
 );
 
 export default BuyerProfileBasic;
+
+
+ 
