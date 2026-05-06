@@ -118,14 +118,15 @@ const BuyerProfileBasic = () => {
       setSaving(true);
 
       const res = await API.put("/buyer/profile", {
-        firstName: form.firstName,
-        lastName: form.lastName,
-        designation: form.designation,
-        phone_country_code: form.phone_country_code,
-        phone: form.phone,
-        email: form.email,
-        profile_photo: form.profile_photo,
-      });
+  firstName: form.firstName,
+  lastName: form.lastName,
+  designation: form.designation,
+  phone_country_code: form.phone_country_code,
+  phone: form.phone,
+  companyName: form.companyName,
+  email: form.email,
+  profile_photo: form.profile_photo,
+});
 
       if (res.data.success) {
         alert("Profile updated successfully");
@@ -416,13 +417,14 @@ const BasicInfoView = ({ colors, form, handleChange, handleImageUpload }) => {
             </div>
           </div>
 
-          <FormField
-            label="Company"
-            name="companyName"
-            value={form.companyName}
-            disabled
-            colors={colors}
-          />
+         <FormField
+  label="Company"
+  name="companyName"
+  value={form.companyName}
+  onChange={handleChange}
+  placeholder="Enter company name"
+  colors={colors}
+/>
 
           <div>
             <div className="flex justify-between items-center mb-2">
