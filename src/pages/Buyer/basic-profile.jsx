@@ -65,14 +65,38 @@ const BuyerProfileBasic = () => {
 
   const handleBasicChange = (e) => {
     const { name, value } = e.target;
+
     setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload only image files");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setForm((prev) => ({
+        ...prev,
+        profile_photo: reader.result,
+      }));
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   const handlePasswordChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setPasswordForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -86,6 +110,11 @@ const BuyerProfileBasic = () => {
         return;
       }
 
+      if (!form.email.trim()) {
+        alert("Company email is required");
+        return;
+      }
+
       setSaving(true);
 
       const res = await API.put("/buyer/profile", {
@@ -94,11 +123,13 @@ const BuyerProfileBasic = () => {
         designation: form.designation,
         phone_country_code: form.phone_country_code,
         phone: form.phone,
+        email: form.email,
         profile_photo: form.profile_photo,
       });
 
       if (res.data.success) {
         alert("Profile updated successfully");
+        setActiveTab("Basic Info");
         fetchProfile();
       }
     } catch (error) {
@@ -143,6 +174,8 @@ const BuyerProfileBasic = () => {
           confirmPassword: "",
           signOutAllSessions: false,
         });
+
+        setActiveTab("Security");
       }
     } catch (error) {
       console.error("❌ Update password error:", error);
@@ -225,6 +258,7 @@ const BuyerProfileBasic = () => {
                     colors={colors}
                     form={form}
                     handleChange={handleBasicChange}
+                    handleImageUpload={handleImageUpload}
                   />
                 )}
 
@@ -265,7 +299,7 @@ const BuyerProfileBasic = () => {
   );
 };
 
-const BasicInfoView = ({ colors, form, handleChange }) => {
+const BasicInfoView = ({ colors, form, handleChange, handleImageUpload }) => {
   return (
     <div className="animate-fadeIn">
       <div className="mb-12 pb-8 border-b border-gray-100">
@@ -294,17 +328,24 @@ const BasicInfoView = ({ colors, form, handleChange }) => {
             </h3>
 
             <p className="text-sm text-gray-500 mb-4">
-              Update your profile picture to personalize your account
+              Upload your profile picture to personalize your account
             </p>
 
             <input
-              type="text"
-              name="profile_photo"
-              value={form.profile_photo}
-              onChange={handleChange}
-              placeholder="Paste profile photo URL"
-              className="w-full sm:w-96 p-3 border border-gray-300 rounded-lg outline-none focus:border-[#43624A] focus:ring-1 focus:ring-[#43624A]"
+              type="file"
+              id="profileUpload"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
             />
+
+            <label
+              htmlFor="profileUpload"
+              className="inline-block px-5 py-2 rounded-lg text-sm font-semibold text-white cursor-pointer shadow-md hover:shadow-lg active:scale-95 transition-all"
+              style={{ backgroundColor: colors.primary }}
+            >
+              Upload Image
+            </label>
           </div>
         </div>
       </div>
@@ -386,7 +427,7 @@ const BasicInfoView = ({ colors, form, handleChange }) => {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-semibold text-gray-700">
-                Email
+                Company Email
               </label>
 
               <span className="text-xs bg-emerald-600 text-white px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
@@ -398,8 +439,9 @@ const BasicInfoView = ({ colors, form, handleChange }) => {
               type="email"
               name="email"
               value={form.email}
-              disabled
-              className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
+              onChange={handleChange}
+              placeholder="Enter company email"
+              className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-[#43624A] focus:ring-1 focus:ring-[#43624A] transition-all bg-white"
             />
           </div>
         </div>
