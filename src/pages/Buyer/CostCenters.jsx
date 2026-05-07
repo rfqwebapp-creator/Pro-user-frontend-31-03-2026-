@@ -17,11 +17,11 @@ const BuyerCostCenterApp = () => {
   const navigate = useNavigate();
 const fetchCostCenters = async () => {
   try {
-    console.log("TOKEN:", localStorage.getItem("token")); // ✅ move here
+    console.log("TOKEN:", localStorage.getItem("token"));
 
     const res = await API.get("/rfq/cost-centers/list");
 
-    console.log("API RESPONSE:", res.data); // ✅ add this also
+    console.log("API RESPONSE:", res.data);
 
     if (res.data.success) {
       setCostCenters(
@@ -35,6 +35,11 @@ const fetchCostCenters = async () => {
     console.error("FETCH COST CENTERS ERROR:", error);
   }
 };
+
+// ✅ ADD THIS
+useEffect(() => {
+  fetchCostCenters();
+}, []);
   // ✅ Add new cost center
   const handleAddCostCenter = async () => {
     const name = prompt("Enter cost center name");
