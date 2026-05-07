@@ -256,10 +256,6 @@
 //   );
 // };
 
-export default BuyerPOApprovalWorkflow;
-
-
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ShieldCheck } from "lucide-react";
