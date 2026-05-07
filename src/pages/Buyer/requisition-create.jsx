@@ -142,7 +142,7 @@
 //   </div>
 // );
 
-// export default BuyerPurchaseRequestForm;
+export default BuyerPurchaseRequestForm;
 
 
 

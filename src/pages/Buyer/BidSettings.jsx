@@ -133,7 +133,7 @@
 //   );
 // };
 
-// export default BuyerBidSettingsPage;
+export default BuyerBidSettingsPage;
 
 
 

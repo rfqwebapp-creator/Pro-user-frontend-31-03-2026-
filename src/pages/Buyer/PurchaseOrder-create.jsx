@@ -2,7 +2,7 @@
 // import { Search, Plus, ArrowLeft } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
 // import BuyerPurchaseOrderExtras from "./PurchaseOrder-create2";
-// export default function BuyerCreatePurchaseOrder() {
+export default function BuyerCreatePurchaseOrder() {
 
 // const navigate = useNavigate();
 

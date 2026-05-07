@@ -310,7 +310,7 @@
 //   );
 // };
 
-// export default BuyerSupplierDirectory;
+export default BuyerSupplierDirectory;
 
 
 
