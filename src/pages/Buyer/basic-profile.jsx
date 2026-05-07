@@ -18,6 +18,8 @@ const BuyerProfileBasic = () => {
     profile_photo: "",
   });
 
+  const [profilePhotoFile, setProfilePhotoFile] = useState(null);
+
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -93,16 +95,14 @@ const BuyerProfileBasic = () => {
       return;
     }
 
-    const reader = new FileReader();
+    setProfilePhotoFile(file);
 
-    reader.onloadend = () => {
-      setForm((prev) => ({
-        ...prev,
-        profile_photo: reader.result,
-      }));
-    };
+    const previewUrl = URL.createObjectURL(file);
 
-    reader.readAsDataURL(file);
+    setForm((prev) => ({
+      ...prev,
+      profile_photo: previewUrl,
+    }));
   };
 
   const handlePasswordChange = (e) => {
@@ -128,19 +128,28 @@ const BuyerProfileBasic = () => {
 
       setSaving(true);
 
-      const res = await API.put("/buyer/profile", {
-  firstName: form.firstName,
-  lastName: form.lastName,
-  designation: form.designation,
-  phone_country_code: form.phone_country_code,
-  phone: form.phone,
-  companyName: form.companyName,
-  email: form.email,
-  profile_photo: form.profile_photo,
-});
+      const formData = new FormData();
+      formData.append("firstName", form.firstName);
+      formData.append("lastName", form.lastName);
+      formData.append("designation", form.designation);
+      formData.append("phone_country_code", form.phone_country_code);
+      formData.append("phone", form.phone);
+      formData.append("companyName", form.companyName);
+      formData.append("email", form.email);
+
+      if (profilePhotoFile) {
+        formData.append("profile_photo", profilePhotoFile);
+      }
+
+      const res = await API.put("/buyer/profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.data.success) {
         alert("Profile updated successfully");
+        setProfilePhotoFile(null);
         setActiveTab("Basic Info");
         fetchProfile();
       }
@@ -199,6 +208,7 @@ const BuyerProfileBasic = () => {
 
   const handleCancel = () => {
     if (activeTab === "Basic Info") {
+      setProfilePhotoFile(null);
       fetchProfile();
     } else {
       setPasswordForm({
@@ -322,7 +332,13 @@ const BasicInfoView = ({ colors, form, handleChange, handleImageUpload }) => {
           >
             {form.profile_photo ? (
               <img
-                src={form.profile_photo}
+                src={
+                  form.profile_photo.startsWith("http")
+                    ? form.profile_photo
+                    : form.profile_photo.startsWith("blob:")
+                    ? form.profile_photo
+                    : `https://api.procubid.com${form.profile_photo}`
+                }
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
