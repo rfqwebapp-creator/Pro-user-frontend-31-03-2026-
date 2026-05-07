@@ -331,17 +331,17 @@ const BasicInfoView = ({ colors, form, handleChange, handleImageUpload }) => {
             style={{ backgroundColor: colors.secondary }}
           >
             {form.profile_photo ? (
-              <img
-                src={
-                  form.profile_photo.startsWith("http")
-                    ? form.profile_photo
-                    : form.profile_photo.startsWith("blob:")
-                    ? form.profile_photo
-                    : `https://api.procubid.com${form.profile_photo}`
-                }
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
+             <img
+  src={
+    form.profile_photo?.startsWith("blob:")
+      ? form.profile_photo
+      : form.profile_photo?.startsWith("http")
+      ? form.profile_photo
+      : `https://api.procubid.com${form.profile_photo}`
+  }
+  alt="Profile"
+  className="w-full h-full object-cover"
+/>
             ) : (
               <span>👤</span>
             )}
