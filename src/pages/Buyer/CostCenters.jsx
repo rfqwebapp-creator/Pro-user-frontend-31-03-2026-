@@ -95,11 +95,7 @@ useEffect(() => {
     }
   };
 
-  // 🔹 Handle Switch
-  const handleSwitch = () => {
-    setIsTreeView(!isTreeView);
-    navigate("/switch-costcenter");
-  };
+  
 
   const ActionButtons = ({ item }) => (
     <div className="flex items-center gap-2 mr-3 text-[#2A2A2A]">
@@ -133,9 +129,7 @@ useEffect(() => {
             </h1>
 
             <div className="flex flex-wrap gap-3">
-              <button className="text-[#43624A] font-medium text-sm hover:underline">
-                Show Deleted/Inactive Items
-              </button>
+              
 
               <button
                 onClick={handleAddCostCenter}
@@ -145,13 +139,7 @@ useEffect(() => {
                 Add a Cost Center
               </button>
 
-              <button
-                onClick={() => navigate("/buyer/bulk-costcenter")}
-                className="flex items-center gap-2 bg-white border-2 border-[#43624A] text-[#43624A] px-4 py-2 rounded-md hover:bg-[#43624A] hover:text-white transition-colors text-sm font-semibold"
-              >
-                <Upload size={18} />
-                Bulk Upload
-              </button>
+             
             </div>
           </div>
 
@@ -171,32 +159,7 @@ useEffect(() => {
               </p>
             </div>
 
-            {/* Right Section */}
-            <div className="lg:col-span-8">
-              {/* Switch */}
-              <div className="flex items-center gap-3 mb-6">
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={isTreeView}
-                    onChange={handleSwitch}
-                  />
-
-                  <div
-                    className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full
-                    peer peer-checked:after:translate-x-full peer-checked:after:border-white
-                    after:content-[''] after:absolute after:top-[2px] after:left-[2px]
-                    after:bg-white after:border-gray-300 after:border after:rounded-full
-                    after:h-5 after:w-5 after:transition-all peer-checked:bg-[#7A9C83]"
-                  ></div>
-                </label>
-
-                <span className="text-sm font-medium text-[#2A2A2A]">
-                  Switch View
-                </span>
-              </div>
-
+             
               {/* Cost Center List */}
               <div className="space-y-3">
                 {costCenters.length === 0 ? (
