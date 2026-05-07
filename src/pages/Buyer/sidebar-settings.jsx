@@ -13,6 +13,10 @@ export default function BuyerPointOfContact() {
 
   const [loading, setLoading] = useState(false);
 
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const fetchContacts = async () => {
     try {
       const res = await axios.get(`${API}/buyer/points-contact`, {
@@ -30,6 +34,10 @@ export default function BuyerPointOfContact() {
     }
   };
 
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -42,6 +50,21 @@ export default function BuyerPointOfContact() {
   };
 
   const handleSave = async () => {
+    if (!formData.primary_contact_email || !formData.billing_contact_email) {
+      alert("Please enter both contact emails");
+      return;
+    }
+
+    if (!isValidEmail(formData.primary_contact_email)) {
+      alert("Please enter a valid primary contact email");
+      return;
+    }
+
+    if (!isValidEmail(formData.billing_contact_email)) {
+      alert("Please enter a valid billing contact email");
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -59,10 +82,6 @@ export default function BuyerPointOfContact() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchContacts();
-  }, []);
 
   return (
     <div className="flex min-h-screen bg-[#F5F2EA]">
@@ -124,7 +143,8 @@ export default function BuyerPointOfContact() {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="px-6 py-2 border border-gray-300 rounded-md text-[#2A2A2A] hover:bg-gray-50 transition"
+                  disabled={loading}
+                  className="px-6 py-2 border border-gray-300 rounded-md text-[#2A2A2A] hover:bg-gray-50 transition disabled:opacity-60"
                 >
                   Cancel
                 </button>
