@@ -159,7 +159,8 @@ useEffect(() => {
               </p>
             </div>
 
-             
+            {/* Right Section */}
+            <div className="lg:col-span-8">
               {/* Cost Center List */}
               <div className="space-y-3">
                 {costCenters.length === 0 ? (
