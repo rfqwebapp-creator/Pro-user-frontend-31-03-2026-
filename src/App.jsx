@@ -33,7 +33,7 @@ import BuyerCreatePurchaseOrder from "./pages/Buyer/PurchaseOrder-create";
 import BuyerPurchaseOrderVIEW from "./pages/Buyer/PurchaseOder-View";
 import BuyerRFXcreate from "./pages/Buyer/Rfx-create";
 import BuyerRFQView from "./pages/Buyer/RFX-view";
-import BuyerSupplierDirectories from "./pages/Buyer/supplierDirectories";
+// import BuyerSupplierDirectories from "./pages/Buyer/supplierDirectories";
 import BuyerAddSupplierForm from "./pages/Buyer/AddSupplier";
 // import BuyerCatalogPage from "./pages/Buyer/catlogLibrary";
 // import BuyerAddItemForm from "./pages/Buyer/addCatalog";
@@ -160,7 +160,7 @@ function BuyerLayout() {
   <Route path="rfx-create/:id" element={<BuyerRFXcreate />} />
   <Route path="view-rfx" element={<BuyerRFQView />} />
 
-  <Route path="supplierDirectories" element={<BuyerSupplierDirectories />} />
+  {/* <Route path="supplierDirectories" element={<h1>Supplier Test Page</h1>} /> */}
   <Route path="add-supplier" element={<BuyerAddSupplierForm />} />
 
   {/* <Route path="catlog-Library" element={<BuyerCatalogPage />} />

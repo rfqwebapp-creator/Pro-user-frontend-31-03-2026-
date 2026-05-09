@@ -53,41 +53,27 @@ const isHome = location.pathname === "/buyer/home";
     navigate("/");
   };
 
-  // Handle navigation
-  const handleNavigation = (path) => {
-    navigate(path);
+  const handleNavigation = (path, event) => {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  if (!path) {
+    console.warn("Navigation path missing");
+    return;
+  }
+
+  if (location.pathname === path) {
     setOpenDropdown(null);
     setIsMobileMenuOpen(false);
-  };
+    return;
+  }
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdown(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Toggle dropdown on click (for mobile/tablet)
-  const toggleDropdown = (dropdownName) => {
-    setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
-  };
-
-  // Close mobile menu when window resizes to desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsMobileMenuOpen(false);
-        setOpenDropdown(null);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  setOpenDropdown(null);
+  setIsMobileMenuOpen(false);
+  navigate(path);
+};
   // Shared utility classes for dropdown consistency
   const dropdownPanelStyle = "invisible absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100 z-50";
   const dropdownPanelStyleMobile = "mt-2 w-full bg-gray-50 rounded-lg p-2 space-y-1";
@@ -174,11 +160,12 @@ const isHome = location.pathname === "/buyer/home";
     return (
       <div className={cardStyle}>
         {item.items.map((subItem, idx) => (
-          <button 
-            key={idx} 
-            className={itemButtonStyle}
-            onClick={() => subItem.path && handleNavigation(subItem.path)}
-          >
+        <button 
+  key={idx}
+  type="button"
+  className={itemButtonStyle}
+  onClick={(e) => handleNavigation(subItem.path, e)}
+>
             <div className={iconContainerStyle}>
               <subItem.icon size={24} color={primaryGreen} strokeWidth={1.5} className="sm:size-7" />
             </div>
@@ -287,14 +274,15 @@ const isHome = location.pathname === "/buyer/home";
             {openDropdown === item.name && !item.isNotification && (
               <div className={dropdownPanelStyleMobile}>
                 {item.items.map((sub, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => handleNavigation(sub.path)}
-                    className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-600 hover:text-[#43624A]"
-                  >
-                    <sub.icon size={16} />
-                    {sub.label}
-                  </button>
+              <button 
+  key={i}
+  type="button"
+  onClick={(e) => handleNavigation(sub.path, e)}
+  className="flex items-center gap-3 w-full px-4 py-2 text-sm text-gray-600 hover:text-[#43624A]"
+>
+  <sub.icon size={16} />
+  {sub.label}
+</button>
                 ))}
               </div>
             )}
@@ -409,7 +397,7 @@ const isHome = location.pathname === "/buyer/home";
         {/* Hover Menu Box */}
         <div className="absolute top-full right-0 w-48 bg-white shadow-xl rounded-b-xl border border-gray-100 py-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 z-[60]">
           <button
-            onClick={() => navigate("/profile-basic")}
+            onClick={() => navigate("/buyer/profile-basic")}
             className="flex items-center w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <User size={18} className="mr-3 text-gray-400" />

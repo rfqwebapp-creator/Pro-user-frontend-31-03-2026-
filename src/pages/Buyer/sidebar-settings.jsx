@@ -1,167 +1,166 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import BuyerSettingsSidebar from "./sidebar-settings";
+import React, { useState } from "react";
+import { ChevronUp, Users, Settings, Grid, Hexagon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-export default function BuyerPointOfContact() {
-  const API = import.meta.env.VITE_API_BASE_URL;
-  const token = localStorage.getItem("token");
+export default function BuyerSettingsSidebar() {
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    primary_contact_email: "",
-    billing_contact_email: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const fetchContacts = async () => {
-    try {
-      const res = await axios.get(`${API}/buyer/points-contact`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setFormData({
-        primary_contact_email: res.data.primary_contact_email || "",
-        billing_contact_email: res.data.billing_contact_email || "",
-      });
-    } catch (error) {
-      console.error("Fetch contacts error:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleCancel = () => {
-    fetchContacts();
-  };
-
-  const handleSave = async () => {
-    if (!formData.primary_contact_email || !formData.billing_contact_email) {
-      alert("Please enter both contact emails");
-      return;
-    }
-
-    if (!isValidEmail(formData.primary_contact_email)) {
-      alert("Please enter a valid primary contact email");
-      return;
-    }
-
-    if (!isValidEmail(formData.billing_contact_email)) {
-      alert("Please enter a valid billing contact email");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      await axios.post(`${API}/buyer/points-contact`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      alert("Points of contact saved successfully");
-    } catch (error) {
-      console.error("Save contacts error:", error);
-      alert("Failed to save points of contact");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // State management for all dropdown sections
+  const [openAccount, setOpenAccount] = useState(false);
+  const [openUsers, setOpenUsers] = useState(false);
+  const [openMasterData, setOpenMasterData] = useState(false);
+  const [openDefault, setOpenDefault] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#F5F2EA]">
-      <BuyerSettingsSidebar />
+    <aside className="w-80 h-screen bg-[#3D523E] p-6 text-white font-sans overflow-y-auto custom-scrollbar">
+      {/* Sidebar Label */}
+      <p className="text-[10px] font-bold text-gray-300 mb-6 tracking-[0.2em]">
+        SETTINGS
+      </p>
 
-      <main className="flex-1 p-10">
-        <div className="max-w-3xl bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-          <h1 className="text-2xl font-bold text-[#2A2A2A] mb-6">
-            Points of Contact
-          </h1>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <p className="text-[#2A2A2A] text-sm leading-relaxed opacity-80">
-              Points of Contact are people that have access to your account's
-              configurations. Different contacts will be able to manage and can
-              receive updates related to usage, billing and renewals.
-              <br />
-              <br />
-              For enabling or disabling app-specific permissions, you can manage
-              users and roles on the{" "}
-              <span className="text-[#43624A] font-bold cursor-pointer underline">
-                Users & Teams
-              </span>{" "}
-              page.
-            </p>
-
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-semibold text-[#2A2A2A] mb-2">
-                  Primary contact email
-                </label>
-
-                <input
-                  type="email"
-                  name="primary_contact_email"
-                  value={formData.primary_contact_email}
-                  onChange={handleChange}
-                  placeholder="Enter primary contact email"
-                  className="w-full p-3 border border-gray-200 rounded-md text-[#2A2A2A] bg-white focus:ring-2 focus:ring-[#7A9C83] outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#2A2A2A] mb-2">
-                  Billing contact email
-                </label>
-
-                <input
-                  type="email"
-                  name="billing_contact_email"
-                  value={formData.billing_contact_email}
-                  onChange={handleChange}
-                  placeholder="Enter billing contact email"
-                  className="w-full p-3 border border-gray-200 rounded-md text-[#2A2A2A] bg-white focus:ring-2 focus:ring-[#7A9C83] outline-none"
-                />
-              </div>
-
-              <div className="flex gap-4 pt-4">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  disabled={loading}
-                  className="px-6 py-2 border border-gray-300 rounded-md text-[#2A2A2A] hover:bg-gray-50 transition disabled:opacity-60"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  disabled={loading}
-                  className="px-6 py-2 bg-[#43624A] text-white rounded-md hover:bg-[#3D523E] transition shadow-md disabled:opacity-60"
-                >
-                  {loading ? "Saving..." : "Save"}
-                </button>
-              </div>
+      {/* 1. Account Settings Section */}
+      <div className="mb-4">
+        <div className={`rounded-xl overflow-hidden transition-all ${openAccount ? 'bg-[#F5F2EA] shadow-lg' : ''}`}>
+          <div
+            onClick={() => setOpenAccount(!openAccount)}
+            className={`flex items-center justify-between px-4 py-3 cursor-pointer transition-colors
+              ${openAccount ? 'bg-[#8CA88E] text-white' : 'text-gray-200 hover:bg-[#4A634B]'}`}
+          >
+            <div className="flex items-center gap-3">
+              <Hexagon size={20} className="opacity-80" />
+              <span className="font-semibold text-base">Account Settings</span>
             </div>
+            <ChevronUp 
+              size={18} 
+              className={`transition-transform duration-300 ${openAccount ? '' : 'rotate-180'}`} 
+            />
           </div>
+
+          {openAccount && (
+            <div className="flex flex-col py-3 px-4 space-y-3">
+              {[
+  { label: "Company Information", path: "/buyer/company-information" },
+  { label: "Profile Information", path: "/buyer/profile-basic" },
+  { label: "Region Settings", path: "/buyer/regional-settings" },
+  { label: "Points of Contact", path: "/buyer/points-contact" },
+  { label: "Others", path: "/buyer/others" },
+  { label: "Add Company", path: "/buyer/add-company" }
+].map((item) => (
+                <button
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  className={`text-left text-[15px] transition-colors
+                    ${item.label === "Region Settings" ? "text-[#43624A] font-bold" : "text-[#6B715E] hover:text-[#43624A]"}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-      </main>
+      </div>
+
+      {/* Navigation Menu */}
+      <nav className="space-y-2">
+        {/* 2. Users & Teams */}
+        <MenuItem 
+          icon={<Users size={20} />} 
+          label="Users & Teams" 
+          isOpen={openUsers}
+          onClick={() => setOpenUsers(!openUsers)}
+          navigate={navigate}
+          children={[
+          { label: "User Roles", path: "/buyer/user-teams" },
+{ label: "Add User Roles", path: "/buyer/add-user" },
+{ label: "Users", path: "/buyer/users" }
+          ]}
+        />
+
+        {/* 3. Master Data Management (From Image 1) */}
+        <MenuItem 
+          icon={<Grid size={20} />} 
+          label="Master Data Management" 
+          isOpen={openMasterData}
+          onClick={() => setOpenMasterData(!openMasterData)}
+          navigate={navigate}
+          children={[
+          { label: "Cost Centers", path: "/buyer/cost-centers" },
+// { label: "Catalog", path: "/buyer/catlog-Library" },
+// { label: "Supplier Types", path: "/buyer/supplier-types" },
+{ label: "Supplier Directory", path: "/buyer/supplierDirectories" },
+{ label: "Email Subscription", path: "/buyer/email-subscription" },
+// { label: "Supplier Questionnaire", path: "/buyer/supplier-questionnaire" },
+// { label: "Questionnaire Responses", path: "/buyer/questionnaire-response" }
+          ]}
+        />
+        
+        {/* 4. Default (From Image 2) */}
+        <MenuItem 
+          icon={<Settings size={20} />} 
+          label="Default" 
+          isOpen={openDefault}
+          onClick={() => setOpenDefault(!openDefault)}
+          navigate={navigate}
+          children={[
+            { label: "BID Settings", path: "/buyer/bid-settings" },
+{ label: "Purchase Order Defaults", path: "/buyer/purchase-order-default" },
+{ label: "Purchase Order Approval Workflow", path: "/buyer/purchase-order-workflow" }
+          ]}
+        />
+      </nav>
+    </aside>
+  );
+}
+
+/**
+ * Reusable MenuItem Component
+ * Handles both single links and dropdowns with sub-items
+ */
+function MenuItem({ icon, label, onClick, isOpen, children, navigate }) {
+  const hasChildren = children && children.length > 0;
+
+  return (
+    <div className={`relative transition-all ${hasChildren && isOpen ? 'bg-white/5 rounded-xl pb-2' : ''}`}>
+      {/* Blue Active Bar (matches your images) */}
+      {hasChildren && isOpen && (
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-l-md" />
+      )}
+
+      <div
+        onClick={onClick}
+        className={`flex items-center justify-between px-4 py-4 cursor-pointer transition-all group
+          ${hasChildren && isOpen ? 'text-blue-400' : 'text-gray-100 hover:bg-[#4A634B] rounded-xl'}`}
+      >
+        <div className="flex items-center gap-4">
+          <span className={`transition-opacity ${isOpen ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'}`}>
+            {icon}
+          </span>
+          <span className="text-[15px] font-medium">{label}</span>
+        </div>
+        
+        {hasChildren && (
+          <ChevronUp 
+            size={18} 
+            className={`transition-transform duration-300 ${isOpen ? '' : 'rotate-180'}`} 
+          />
+        )}
+      </div>
+
+      {/* Sub-menu Items */}
+      {hasChildren && isOpen && (
+        <div className="flex flex-col py-2 px-4 space-y-4 ml-10">
+          {children.map((child) => (
+            <button
+              key={child.path}
+              onClick={() => navigate(child.path)}
+              className={`text-left text-[14px] transition-colors font-medium
+                ${child.active ? 'text-blue-500' : 'text-gray-300 hover:text-white'}`}
+            >
+              {child.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
