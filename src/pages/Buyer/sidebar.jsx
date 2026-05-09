@@ -29,7 +29,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: Home, label: 'Home' },
+    { icon: Home, label: 'Homeeee' },
     // { icon: LayoutGrid, label: 'Purchase Request' },
     { icon: FileText, label: 'Create RFQ/RFP' },
     { icon: Users, label: 'RFQ/RFP Status' },
